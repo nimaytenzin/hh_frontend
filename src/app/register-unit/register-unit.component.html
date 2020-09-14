@@ -1,0 +1,390 @@
+<mat-toolbar>
+  <span>Register Unit</span>
+  <span class="menu-spacer"></span>
+</mat-toolbar>
+<div class="form-wraper" style="text-align:center">
+  <div class="form-container card" >
+    <div class="form-body">
+
+
+          <!-- Start of Multi unit Form-->  
+          <form [formGroup]="multiUnitForm">
+
+            <mat-form-field class="justifier">
+              <mat-label>Unit ID</mat-label>
+              <input matInput type="text" name="multiUnitId" formControlName="multiUnitIdControl" required min="0" [readonly]="disableForm" required autofocus>
+            </mat-form-field>
+      
+            <mat-form-field class="justifier">
+              <mat-label>Occupancy Status</mat-label>
+              <mat-select name="occupancyStatus" formControlName="occupancyStatusControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+                <mat-option *ngFor="let occupancyStatus of occupancyStatus" [value]="occupancyStatus.id">
+                  {{occupancyStatus.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      
+            <mat-form-field class="justifier">
+              <mat-label>Floor Level</mat-label>
+              <mat-select name="floorLevel" formControlName="floorLevelControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+                <mat-option *ngFor="let floorLevel of floorLevel" [value]="floorLevel.id">
+                  {{floorLevel.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      
+            <mat-form-field class="justifier">
+              <mat-label>Ownership</mat-label>
+              <mat-select name="unitOwnership" formControlName="unitOwnershipControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+                <mat-option *ngFor="let unitOwnership of unitOwnership" [value]="unitOwnership.id">
+                  {{unitOwnership.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      
+            <mat-form-field class="justifier">
+              <mat-label>Rent</mat-label>
+              <input matInput type="text" name="rent" formControlName="rentControl" required min="0" [readonly]="disableForm" required autofocus>
+            </mat-form-field>
+      
+            <mat-form-field class="justifier">
+              <mat-label>Use</mat-label>
+              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+                <mat-option *ngFor="let unitUse of multiUnitUse" [value]="unitUse.id">
+                  {{unitUse.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      
+            <mat-form-field class="justifier">
+              <mat-label>Remarks</mat-label>
+              <input matInput type="text" name="multiUnitRemarks" formControlName="multiUnitRemarksControl" required min="0" [readonly]="disableForm" required autofocus>
+            </mat-form-field>
+      
+          </form>
+          <!-- End of Multi unit Form-->
+
+
+
+          
+          <!-- Start of Residents unit form-->
+    <form [formGroup]="residentForm" *ngIf ="displayResidentForm">
+
+      <h4>Residential Detail Form</h4>
+      <mat-form-field class="justifier">
+        <mat-label>Name of the Head of Household</mat-label>
+        <input matInput type="text" name="headHousehold" formControlName="headHouseholdControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      <mat-form-field class="justifier">
+        <mat-label>Contact number</mat-label>
+        <input matInput type="text" name="contactNumberHead" formControlName="contactNumberHeadControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      <mat-form-field class="justifier">
+        <mat-label>Nationality</mat-label>
+        <mat-select name="nationality" formControlName="nationalityControl" [readonly]="disableForm" required>
+          <mat-option *ngFor="let nationality of nationality" [value]="nationality.id">
+            {{nationality.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="justifier">
+        <mat-label>Religion</mat-label>
+        <mat-select name="religion" formControlName="religionControl" [readonly]="disableForm" required>
+          <mat-option *ngFor="let religion of religion" [value]="religion.id">
+            {{religion.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <h4>Gender by Age</h4>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Male 6-17</mat-label>
+          <input matInput type="text" name="male617" formControlName="male617Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Female 6-17</mat-label>
+          <input matInput type="text" name="female617" formControlName="female617Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Male 18-24</mat-label>
+          <input matInput type="text" name="male1824" formControlName="male1824Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Female 18-24</mat-label>
+          <input matInput type="text" name="female1824" formControlName="female1824Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+      
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Male 25-59</mat-label>
+          <input matInput type="text" name="male2559" formControlName="male2559Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Female 25-59</mat-label>
+          <input matInput type="text" name="female2559" formControlName="female2559Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+      <div>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Male above 60</mat-label>
+          <input matInput type="text" name="male60" formControlName="male60Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Female above 60</mat-label>
+          <input matInput type="text" name="female60" formControlName="female60Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+      
+      <!-- resident occupation-->
+
+      <h4>Gender by Occupation</h4>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Armed Force Male</mat-label>
+          <input matInput type="text" name="armedMale" formControlName="armedMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Armed Force Female</mat-label>
+          <input matInput type="text" name="armedFemale" formControlName="armedFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Civil Servant Male</mat-label>
+          <input matInput type="text" name="civilMale" formControlName="civilMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Civil Servant Female</mat-label>
+          <input matInput type="text" name="civilFemale" formControlName="civilFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+
+      <div>
+            <mat-form-field appearance="outline" style="width:50%;">
+              <mat-label>Farmer Male</mat-label>
+              <input matInput type="text" name="farmerMale" formControlName="farmerMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width:50%;">
+              <mat-label>Farmer Female</mat-label>
+              <input matInput type="text" name="farmerFemale" formControlName="farmerFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+            </mat-form-field>
+      </div>
+     
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>House husband</mat-label>
+          <input matInput type="text" name="houseWife" formControlName="houseWifeControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>House wife</mat-label>
+          <input matInput type="text" name="houseWife" formControlName="houseWifeControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Job Seeker Male</mat-label>
+          <input matInput type="text" name="jobSeekerMale" formControlName="jobSeekerMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Job Seeker Female</mat-label>
+          <input matInput type="text" name="jobSeekerFemale" formControlName="jobSeekerFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Monk</mat-label>
+          <input matInput type="text" name="monk" formControlName="monkControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Nun</mat-label>
+          <input matInput type="text" name="nun" formControlName="nunControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Private Employee Male</mat-label>
+          <input matInput type="text" name="privateEmployeeMale" formControlName="privateEmployeeMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Private Employee Female</mat-label>
+          <input matInput type="text" name="privateEmployeeFemale" formControlName="privateEmployeeFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Retiree Male</mat-label>
+          <input matInput type="text" name="retireeMale" formControlName="retireeMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Retiree Female</mat-label>
+          <input matInput type="text" name="retireeFemale" formControlName="retireeFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Corporate Male</mat-label>
+          <input matInput type="text" name="corporateMale" formControlName="corporateMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Corporate Female</mat-label>
+          <input matInput type="text" name="corporateFemale" formControlName="corporateFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Student Male</mat-label>
+        <input matInput type="text" name="studentMale" formControlName="studentMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Student Female</mat-label>
+        <input matInput type="text" name="studentFemale" formControlName="studentFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Others Male</mat-label>
+        <input matInput type="text" name="othersMale" formControlName="othersMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Others Female</mat-label>
+        <input matInput type="text" name="othersFemale" formControlName="othersFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      </div>
+
+      <mat-form-field class="justifier">
+        <mat-label>Family Income</mat-label>
+        <input matInput type="text" name="familyIncome" formControlName="familyIncomeControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      <mat-form-field class="justifier">
+        <mat-label>Number of Differently Abled</mat-label>
+        <input matInput type="text" name="differentlyAbled" formControlName="differentlyAbledControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      <!-- resident -Transportation- number of vehicles-->
+
+      <div>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Number of Electric Car</mat-label>
+        <input matInput type="text" name="electricCar" formControlName="electricCarControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Number of Hybrid Car</mat-label>
+        <input matInput type="text" name="hybridCar" formControlName="hybridCarControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Number of Taxi</mat-label>
+        <input matInput type="text" name="taxi" formControlName="taxiControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Number of Other Vehicle</mat-label>
+        <input matInput type="text" name="otherVehicle" formControlName="otherVehicleControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+      </div>
+
+
+      <!-- resident- Transportation- parking-->
+     
+      <mat-form-field class="justifier">
+        <mat-label>Parking</mat-label>
+        <mat-select name="resParking" formControlName="resParkingControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-option *ngFor="let resParking of resParking" [value]="resParking.id">
+            {{resParking.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width:50%;">
+        <mat-label>Work-place</mat-label>
+        <input matInput type="text" name="otherVehicle" formControlName="workplace" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+      <!-- resident-Transportation- Use of Public buses-->
+     
+      <mat-form-field class="justifier">
+        <mat-label>Usage of Public Bus transport</mat-label>
+        <mat-select name="busTransport" formControlName="busTransportControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-option *ngFor="let busTransport of busTransport" [value]="busTransport.id">
+            {{busTransport.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- resident -Transportation- Use of Taxis-->
+     
+      <mat-form-field class="justifier">
+        <mat-label>Usage of Taxi</mat-label>
+        <mat-select name="taxiTransport" formControlName="taxiTransportControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-option *ngFor="let taxiTransport of taxiTransport" [value]="taxiTransport.id">
+            {{taxiTransport.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- resident-own land in Thimphu-->
+     
+      <mat-form-field class="justifier">
+        <mat-label>Own Land in Thimphu</mat-label>
+        <mat-select name="ownLand" formControlName="ownLandControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-option *ngFor="let ownLand of ownLand" [value]="ownLand.id">
+            {{ownLand.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- resident own house in Thimphu-->
+     
+      <mat-form-field class="justifier">
+        <mat-label>Own House in Thimphu</mat-label>
+        <mat-select name="ownHouse" formControlName="ownHouseControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-option *ngFor="let ownHouse of ownHouse" [value]="ownHouse.id">
+            {{ownHouse.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- resident- remarks-->
+
+      <mat-form-field class="justifier">
+        <mat-label>Remarks</mat-label>
+        <input matInput type="text" name="residentRemarks" formControlName="residentRemarksControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+    </form>
+    
+<!-- End of Resident Form--> 
+  
+    </div>
+    <div class="form-footer">
+      <button mat-raised-button class="btn custom-btn" (click)="submit()">
+        <mat-icon>note_add</mat-icon> Submit
+      </button>
+    </div>
+  </div>
+</div>
