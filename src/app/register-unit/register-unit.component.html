@@ -63,10 +63,21 @@
       
           </form>
           <!-- End of Multi unit Form-->
+    
+    <form [formGroup]="shopForm" *ngIf = "displayShopForm">
+      <h4>Shops Detail Form</h4>
+      <mat-form-field class="justifier">
+        <mat-label>Name of the shop</mat-label>
+        <input matInput type="text" name="shopName" formControlName="shopNameControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+      <mat-form-field class="justifier">
+        <mat-label>Contact number </mat-label>
+        <input matInput type="text" name="shopContact" formControlName="shopContactControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+    
+    </form>
 
-
-
-          
+         
           <!-- Start of Residents unit form-->
     <form [formGroup]="residentForm" *ngIf ="displayResidentForm">
 
@@ -80,6 +91,9 @@
         <mat-label>Contact number</mat-label>
         <input matInput type="text" name="contactNumberHead" formControlName="contactNumberHeadControl" required min="0" [readonly]="disableForm" required autofocus>
       </mat-form-field>
+      
+
+      <div>
 
       <mat-form-field class="justifier">
         <mat-label>Nationality</mat-label>
@@ -89,6 +103,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field class="justifier">
+        <mat-label>Nationality Remarks</mat-label>
+        <input matInput type="text" name="nationalityRemarks" formControlName="nationalityRemarksControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+    </div>
 
       <mat-form-field class="justifier">
         <mat-label>Religion</mat-label>
@@ -100,6 +119,16 @@
       </mat-form-field>
 
       <h4>Gender by Age</h4>
+      <div>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Male below 6</mat-label>
+          <input matInput type="text" name="maleBelow6" formControlName="maleBelow6Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:50%;">
+          <mat-label>Female below 6</mat-label>
+          <input matInput type="text" name="femaleBelow6" formControlName="femaleBelow6Control" required min="0" [readonly]="disableForm" required autofocus>
+        </mat-form-field>
+      </div>
       <div>
         <mat-form-field appearance="outline" style="width:50%;">
           <mat-label>Male 6-17</mat-label>
@@ -272,9 +301,14 @@
 
       </div>
 
+      
       <mat-form-field class="justifier">
-        <mat-label>Family Income</mat-label>
-        <input matInput type="text" name="familyIncome" formControlName="familyIncomeControl" required min="0" [readonly]="disableForm" required autofocus>
+        <mat-label>Household Monthly Income</mat-label>
+        <mat-select name="familyIncome" formControlName="familyIncomeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-option *ngFor="let householdIncome of householdIncome" [value]="householdIncome.id">
+            {{householdIncome.name}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field class="justifier">
@@ -322,9 +356,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" style="width:50%;">
-        <mat-label>Work-place</mat-label>
+        <mat-label>Work-place & School</mat-label>
         <input matInput type="text" name="otherVehicle" formControlName="workplace" required min="0" [readonly]="disableForm" required autofocus>
       </mat-form-field>
+      
       <!-- resident-Transportation- Use of Public buses-->
      
       <mat-form-field class="justifier">
@@ -338,15 +373,6 @@
 
       <!-- resident -Transportation- Use of Taxis-->
      
-      <mat-form-field class="justifier">
-        <mat-label>Usage of Taxi</mat-label>
-        <mat-select name="taxiTransport" formControlName="taxiTransportControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
-          <mat-option *ngFor="let taxiTransport of taxiTransport" [value]="taxiTransport.id">
-            {{taxiTransport.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
       <!-- resident-own land in Thimphu-->
      
       <mat-form-field class="justifier">

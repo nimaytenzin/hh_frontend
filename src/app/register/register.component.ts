@@ -9,16 +9,15 @@ interface OwnershipType {
   id: string;
   name: string;
 }
+
 export class Building{
     building_id: number;
     nameOfTheBuilding:string;
     nameOfTheBuildingOwner:string;
     contactNumberBuilding:string;
-    ownershipType:string;
     associativePosition:string;
     existancyStatus: string;
     yearOfConstruction:string;
-    yearOfRenovation:string;
     numberOfFloors:string;
     attic:string;
     basement:string;
@@ -149,6 +148,7 @@ export class RegisterComponent implements OnInit {
     {id:'2', name:"Family Owned"},
     {id:'3', name:"Joint Owned"},
   ];
+
   associativePosition: AssociativePosition[]=[
     {id:'1', name:"Main"},
     {id:'2', name:"Ancillary"},
@@ -211,6 +211,7 @@ export class RegisterComponent implements OnInit {
   lift:Lift[]=[
     {id:'1', name:"Yes"},
     {id:'2', name:"No"},
+    {id:'3', name:"Provisions"},
   ];
   sewerTreatment:SewerTreatment[]=[
     {id:'1', name:"Individual Septic Tank"},
@@ -221,6 +222,7 @@ export class RegisterComponent implements OnInit {
   wasteCollection:WasteCollection[]=[
     {id:'1', name:"Thromde"},
     {id:'2', name:"Private"},
+    {id:'3', name:"Others"},
   ];
   
   waterSupply:WaterSupply[]=[
@@ -228,6 +230,8 @@ export class RegisterComponent implements OnInit {
     {id:'2', name:"Royal Water Supply"},
     {id:'3', name:"Private Individual"},
     {id:'4', name:"Private Community"},
+    {id:'5', name:"Others"},
+
   ];
   buildingUse: BuildingUse[] = [
     {id:'1', name:"Residential"},
@@ -240,8 +244,21 @@ export class RegisterComponent implements OnInit {
     {id:'8', name:"Others"},
   ];
   parking:Parking[]=[
-    {id:'1', name:"Yes"},
-    {id:'2', name:"No"},
+    {id:'1', name:"Designated Onstreet"},
+    {id:'2', name:"Un-designated Onstreet"},
+    {id:'3', name:"Offstreet"},
+    {id:'4', name:"Private Parking"}
+  ];
+  numberOfFloors:Parking[]=[
+    {id:'1', name:"G"},
+    {id:'2', name:"G+1"},
+    {id:'3', name:"G+2"},
+    {id:'4', name:"G+3"},
+    {id:'5', name:"G+4"},
+    {id:'6', name:"G+5"},
+    {id:'7', name:"G+6"},
+    {id:'8', name:"G+7"},
+
   ];
  
   constructor(
@@ -281,11 +298,9 @@ export class RegisterComponent implements OnInit {
       nameOfTheBuildingControl:[],
       nameOfTheBuildingOwnerControl:[],
       contactNumberBuildingControl:[],
-      ownershipTypeControl:[],
       associativePositionControl:[],
       existancyStatusControl:[],
       yearOfConstructionControl:[],
-      yearOfRenovationControl:[],
       numberOfFloorsControl:[],
       atticControl:[],
       basementControl:[],
@@ -312,6 +327,7 @@ export class RegisterComponent implements OnInit {
         schoolStaffFemaleControl:[],
         studentsMaleControl:[],
         studentsFemaleControl:[],
+        vehicleNumberControl:[]
         });
     this.institutionForm = this.fb.group({
       instituteNameControl:[],
@@ -332,11 +348,9 @@ export class RegisterComponent implements OnInit {
     this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
     this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
     this.building.contactNumberBuilding=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
-    this.building.ownershipType=this.buildingForm.get('ownershipTypeControl').value;
     this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
     this.building.existancyStatus=this.buildingForm.get('existancyStatusControl').value;
     this.building.yearOfConstruction=this.buildingForm.get('yearOfConstructionControl').value;
-    this.building.yearOfRenovation=this.buildingForm.get('yearOfRenovationControl').value;
     this.building.numberOfFloors=this.buildingForm.get('numberOfFloorsControl').value;
     this.building.attic=this.buildingForm.get('atticControl').value;
     this.building.basement=this.buildingForm.get('basementControl').value;

@@ -10,7 +10,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { MapComponent } from './map/map.component';
 import { RegisterUnitComponent } from './register-unit/register-unit.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
-
+import { RegisterAtmComponent } from './register-atm/register-atm.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -24,7 +24,9 @@ const routes: Routes = [
   // {path: 'changepassword', component: ChangePasswordComponent, canActivate: [RouteGuard]},
   {path: 'map', component: MapComponent },
   {path: 'camera',component: UploadImageComponent},
+  {path: 'atm', component: RegisterAtmComponent},
   {path: '**', component: ErrorComponent},
+  
 ];
 
 @NgModule({

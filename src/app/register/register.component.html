@@ -24,15 +24,7 @@
           <input matInput type="text" name="contactNumberBuilding" formControlName="contactNumberBuildingControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
 
-          <mat-form-field class="justifier">
-          <mat-label>Ownership Type</mat-label>
-          <mat-select name="ownershipType" formControlName="ownershipTypeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
-            <mat-option *ngFor="let item of ownership" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
+          
         <mat-form-field class="justifier">
           <mat-label>Associative Position</mat-label>
           <mat-select name="associativePosition" formControlName="associativePositionControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
@@ -55,16 +47,17 @@
           <mat-label>Year of Construction</mat-label>
           <input matInput type="text" name="yearOfConstruction" formControlName="yearOfConstructionControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Year of Renovation</mat-label>
-          <input matInput type="text" name="yearOfRenovation" formControlName="yearOfRenovationControl" required min="0" [readonly]="disableForm" required autofocus>
-        </mat-form-field>
-
+        
+        
         <mat-form-field class="justifier">
           <mat-label>Number of Floors</mat-label>
-          <input matInput type="text" name="numberOfFloors" formControlName="numberOfFloorsControl" required min="0" [readonly]="disableForm" required autofocus>
+          <mat-select name="numberOfFloors" formControlName="numberOfFloorsControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let floors of numberOfFloors" [value]="floors.id">
+              {{floors.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
+        
 
         <mat-form-field class="justifier">
           <mat-label>Attic</mat-label>
@@ -229,7 +222,8 @@
     <mat-label>Year of Establishment</mat-label>
     <input matInput type="text" name="schoolEstablishmentYear" formControlName="schoolEstablishmentYearControl" required min="0" [readonly]="disableForm" required autofocus>
   </mat-form-field>
-
+  
+  <div>
   <mat-form-field class="justifier">
     <mat-label>Number of Staffs Male</mat-label>
     <input matInput type="text" name="schoolStaffMale" formControlName="schoolStaffMaleControl" required min="0" [readonly]="disableForm" required autofocus>
@@ -239,7 +233,9 @@
     <mat-label>Number of Staffs Female</mat-label>
     <input matInput type="text" name="schoolStaffFemale" formControlName="schoolStaffFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
   </mat-form-field>
+</div>
 
+  <div>
   <mat-form-field class="justifier">
     <mat-label>Number of Students Male</mat-label>
     <input matInput type="text" name="studentsMale" formControlName="studentsMaleControl" required min="0" [readonly]="disableForm" required autofocus>
@@ -249,6 +245,12 @@
     <mat-label>Number of Students Female</mat-label>
     <input matInput type="text" name="studentsFemale" formControlName="studentsFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
   </mat-form-field>
+</div>
+  
+<mat-form-field class="justifier">
+    <mat-label>Number of Vehicles</mat-label>
+    <input matInput type="text" name="schoolVehicleNumber" formControlName="schoolVehicleNumberControl" required min="0" [readonly]="disableForm" required autofocus>
+</mat-form-field>
 
 </form>
 <!-- End of School Form-->

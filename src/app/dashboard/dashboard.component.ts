@@ -5,6 +5,7 @@ import { DataService } from '../service/data.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SoundService } from '../service/sound.service';
 
+
 export class Qrcode {
   qr_code_id: number;
   sub_zone_id: number;
@@ -53,6 +54,10 @@ export class DashboardComponent implements OnInit {
 
   goback(){
     this.router.navigate(['map']);
+  }
+
+  gotoatm(){
+    this.router.navigate(['atm'])
   }
 
   update() {

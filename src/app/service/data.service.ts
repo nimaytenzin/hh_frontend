@@ -126,6 +126,14 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+
+  postAtm(item){
+    return this.http
+      .post<any>(`${this.API_URL}/create-atm`,item,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
   uploadImg(item){
     return this.http
       .post<any>(`${this.API_URL}/upload-img`,item,this.httpOptions)

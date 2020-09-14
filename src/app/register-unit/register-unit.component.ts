@@ -78,7 +78,10 @@ export class Resident{
   headHousehold:string;
   contactNumberHead:string;
   nationality:string;
+  nationalityRemarks:string;
   religion:string;
+  maleBelow6:string;
+  femaleBelow6:string;
   male617:string;
   female617:string;
   male1824:string;
@@ -122,6 +125,7 @@ export class Resident{
   residentRemark:string;
 }
 
+
 @Component({
   selector: 'app-register-unit',
   templateUrl: './register-unit.component.html',
@@ -131,6 +135,7 @@ export class Resident{
 export class RegisterUnitComponent implements OnInit {
   multiUnitForm: FormGroup;
   residentForm: FormGroup;
+  shopForm: FormGroup;
   showScanner = false;
   buildingId: number;
   qrId: string;
@@ -151,6 +156,7 @@ export class RegisterUnitComponent implements OnInit {
   displayCamera = false;
   showOtherType = false;
   displayResidentForm = false;
+  displayShopForm = false;
 
 //Multi Units
 occupancyStatus: Occupancy[]=[
@@ -179,52 +185,52 @@ multiUnitUse:UnitUse[]=[
   {id:'1', name:"Agricultural Shed"},
   {id:'2', name:"Animal Shelter"},
   {id:'3', name:"Art Gallery"},
-  {id:'4', name:"ATM"},
-  {id:'5', name:"Auditorium"},
-  {id:'6', name:"Bakery"},
-  {id:'7', name:"Bank"},
-  {id:'8', name:"Bar"},
-  {id:'9', name:"Butter Lamp Room"},
-  {id:'10', name:"Car Showroom"},
-  {id:'11', name:"Carwash"},
-  {id:'12', name:"Check Post"},
-  {id:'13', name:"Chhukhor Mani"},
-  {id:'14', name:"Clothing Shop"},
-  {id:'15', name:"Cobler"},
-  {id:'16', name:"Commercial/Residents"},
-  {id:'17', name:"Community Center"},
-  {id:'18', name:"Conferenced Hall"},
-  {id:'19', name:"Cottage Industry"},
-  {id:'20', name:"Dairy Shop"},
-  {id:'21', name:"Daycare Center"},
-  {id:'22', name:"Drayang"},
-  {id:'23', name:"Dry Cleaning/Laundry Room"},
-  {id:'24', name:"Electronics/Repair Shop"},
-  {id:'25', name:"Fire Station"},
-  {id:'26', name:"Furniture Showroom"},
-  {id:'27', name:"Game Parlour"},
-  {id:'28', name:"Garage"},
-  {id:'29', name:"General Shop"},
-  {id:'30', name:"Godown/Store"},
-  {id:'31', name:"Gold/BlackSmith"},
-  {id:'32', name:"Grocery Shop"},
-  {id:'33', name:"Gym"},
-  {id:'34', name:"Handicraft"},
-  {id:'35', name:"Hardware Shop"},
-  {id:'36', name:"Hot Stone Bath"},
-  {id:'37', name:"Internet Cafe"},
-  {id:'38', name:"Library"},
-  {id:'39', name:"Market Shed"},
-  {id:'40', name:"Meat Shop"},
-  {id:'41', name:"Mess"},
-  {id:'42', name:"Mill"},
-  {id:'43', name:"Museum"},
-  {id:'44', name:"Music Studio"},
-  {id:'45', name:"Night Club"},
-  {id:'46', name:"Office"},
-  {id:'47', name:"Pan Shop"},
-  {id:'48', name:"Parking"},
-  {id:'49', name:"Petrol Pump"},
+  {id:'4', name:"Auditorium"},
+  {id:'5', name:"Bakery"},
+  {id:'6', name:"Bank"},
+  {id:'7', name:"Bar"},
+  {id:'8', name:"Butter Lamp Room"},
+  {id:'9', name:"Car Showroom"},
+  {id:'10', name:"Carwash"},
+  {id:'11', name:"Check Post"},
+  {id:'12', name:"Chhukhor Mani"},
+  {id:'13', name:"Clothing Shop"},
+  {id:'14', name:"Cobler"},
+  {id:'15', name:"Commercial/Residents"},
+  {id:'16', name:"Community Center"},
+  {id:'17', name:"Conferenced Hall"},
+  {id:'18', name:"Cottage Industry"},
+  {id:'19', name:"Dairy Shop"},
+  {id:'20', name:"Daycare Center"},
+  {id:'21', name:"Drayang"},
+  {id:'22', name:"Dry Cleaning/Laundry Room"},
+  {id:'23', name:"Electronics/Repair Shop"},
+  {id:'24', name:"Fire Station"},
+  {id:'25', name:"Furniture Showroom"},
+  {id:'26', name:"Game Parlour"},
+  {id:'27', name:"Garage"},
+  {id:'28', name:"General Shop"},
+  {id:'29', name:"Godown/Store"},
+  {id:'30', name:"Gold/BlackSmith"},
+  {id:'31', name:"Grocery Shop"},
+  {id:'32', name:"Gym"},
+  {id:'33', name:"Handicraft"},
+  {id:'34', name:"Hardware Shop"},
+  {id:'35', name:"Hot Stone Bath"},
+  {id:'36', name:"Internet Cafe"},
+  {id:'37', name:"Library"},
+  {id:'38', name:"Market Shed"},
+  {id:'39', name:"Meat Shop"},
+  {id:'40', name:"Mess"},
+  {id:'41', name:"Mill"},
+  {id:'42', name:"Museum"},
+  {id:'43', name:"Music Studio"},
+  {id:'44', name:"Night Club"},
+  {id:'45', name:"Office"},
+  {id:'46', name:"Pan Shop"},
+  {id:'47', name:"Parking"},
+  {id:'48', name:"Petrol Pump"},
+  {id:'49', name:"Pharmacy"},
   {id:'50', name:"Photo Studio"},
   {id:'51', name:"Police Station"},
   {id:'52', name:"Public Toilet"},
@@ -250,7 +256,8 @@ multiUnitUse:UnitUse[]=[
   {id:'72', name:"Toilet"},
   {id:'73', name:"Vegetable Shop"},
   {id:'74', name:"Workshop"},
-  {id:'75', name:"Others"},
+  {id:'75', name:"WineShop"},
+  {id:'76', name:"Others"},
 ];
 
 //reidential
@@ -266,10 +273,15 @@ busTransport:BusTransport[]=[
   {id:'2', name:"No"},
 ];
 
-taxiTransport:TaxiTransport[]=[
-  {id:'1', name:"Yes"},
-  {id:'2', name:"No"},
-];
+householdIncome:BusTransport[]=[
+  {id:'1', name:"Below 10,000"},
+  {id:'2', name:"10,000 - 20,000"},
+  {id:'2', name:"20,000 - 30,000"},
+  {id:'2', name:"30,000 - 40,000"},
+  {id:'2', name:"40,000 - 50,000"},
+  {id:'2', name:"Above 50,000"},
+
+]
 
 ownLand:OwnLand[]=[
   {id:'1', name:"Yes"},
@@ -285,7 +297,6 @@ religion:Religion[] =[
   {id:'1', name:"Buddhism"},
   {id:'2', name:"Hinduism"},
   {id:'3', name:"Christianity"},
-  {id:'4', name:"Lovism"},
   {id:'5', name:"Other"},
 ];
 
@@ -293,6 +304,7 @@ nationality:Nationality[] =[
   {id:'1', name:"Bhutanese"},
   {id:'2', name:"Non-Bhutanese"},
 ];
+//
 
 constructor(
   private fb: FormBuilder,
@@ -315,8 +327,10 @@ changeDiff($event){
   if($event.value === "56"){
     this.displayResidentForm=true;
     this.unitUse=="Residential";
+  } else if($event.value === "19" || $event.value === "31" || $event.value === "49" || $event.value === "73" || $event.value === "74"){
+    this.displayShopForm =true;
   }
-}
+};
 
  // control
 reactiveForms() {
@@ -336,6 +350,8 @@ reactiveForms() {
     contactNumberHeadControl:[],
     nationalityControl:[],
     religionControl:[],
+    maleBelow6Control:[],
+    femaleBelow6Control:[],
     male617Control:[],
     female617Control:[],
     male1824Control:[],
@@ -378,6 +394,13 @@ reactiveForms() {
     ownLandControl:[],
     ownHouseControl:[],
     residentRemarksControl:[],
+    shopNameControl:[],
+    shopContactControl:[],   
+
+    });
+    this.shopForm = this.fb.group({
+      shopNameControl:[],
+      shopContactControl:[],
     });
     
   }
