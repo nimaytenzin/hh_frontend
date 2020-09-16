@@ -112,6 +112,13 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+  postCompelte(strid){
+    return this.http
+      .get<any>(`${this.API_URL}/markcomplete/${strid}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
   postShop(item){
     return this.http
       .post<any>(`${this.API_URL}/create-shop`,item,this.httpOptions)
