@@ -95,15 +95,15 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
+               
         <mat-form-field class="justifier">
           <mat-label>Material Type</mat-label>
-          <mat-select name="materialType" formControlName="materialTypeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
-            <mat-option *ngFor="let materialType of materialType" [value]="materialType.id">
-              {{materialType.name}}
-            </mat-option>
+          <mat-select [formControl]="materialTypeControl" multiple>
+            <mat-option *ngFor="let item of materialType" [value]="materialType">{{item}}</mat-option>
           </mat-select>
         </mat-form-field>
+
+
 
         <mat-form-field class="justifier">
           <mat-label>Roof Type</mat-label>
@@ -170,13 +170,10 @@
           <input matInput type="text" name="wetWasteCollection" formControlName="wetWasteCollectionControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
 
-        
         <mat-form-field class="justifier">
           <mat-label>Water Supply</mat-label>
-          <mat-select name="waterSupply" formControlName="waterSupplyControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
-            <mat-option *ngFor="let waterSupply of waterSupply" [value]="waterSupply.id">
-              {{waterSupply.name}}
-            </mat-option>
+          <mat-select [formControl]="waterSupplyControl" multiple>
+            <mat-option *ngFor="let item of waterSupply" [value]="waterSupply">{{item}}</mat-option>
           </mat-select>
         </mat-form-field>
 

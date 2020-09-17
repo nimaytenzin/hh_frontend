@@ -178,18 +178,9 @@ export class RegisterComponent implements OnInit {
     {id:'3', name:"Composite"},
     {id:'4', name:"Others"},
   ];
-  materialType:MaterialType[]=[
-    {id:'1', name:"Brick Masonry"},
-    {id:'2', name:"ACC Block"},
-    {id:'3', name:"Rammed Earth"},
-    {id:'4', name:"Steel"},
-    {id:'5', name:"Hollow Block"},
-    {id:'6', name:"Stabilized Mud Block"},
-    {id:'7', name:"Stone Masonry"},
-    {id:'8', name:"Reinforced Concrete"},
-    {id:'9', name:"Timbers"},
-    {id:'10', name:"Others"},
-  ];
+  
+  materialType: string[] = ['Brick Masonry', 'ACC Block', 'Rammed Earth', 'Steel', 'Hollow Block', 'Stabilized Mud Block','Stone Masonry','Reinforced Concrete','Timbers','others'];
+  
   roofType: RoofType[]=[
     {id:'1', name:"Gable"},
     {id:'2', name:"Gable with Jamthog"},
@@ -215,7 +206,7 @@ export class RegisterComponent implements OnInit {
   ];
   sewerTreatment:SewerTreatment[]=[
     {id:'1', name:"Individual Septic Tank"},
-    {id:'2', name:"Communal Septic Tank"},
+    {id:'2', name:"Combined Septic Tank"},
     {id:'3', name:"Sewerage"},
     {id:'4', name:"Others"},
   ];
@@ -225,14 +216,7 @@ export class RegisterComponent implements OnInit {
     {id:'3', name:"Others"},
   ];
   
-  waterSupply:WaterSupply[]=[
-    {id:'1', name:"Thromde"},
-    {id:'2', name:"Royal Water Supply"},
-    {id:'3', name:"Private Individual"},
-    {id:'4', name:"Private Community"},
-    {id:'5', name:"Others"},
-
-  ];
+  waterSupply: string[] = ['Thromde', 'Royal Water Supply', 'Private Individual', 'Private Community', 'Others'];
   buildingUse: BuildingUse[] = [
     {id:'1', name:"Residential"},
     {id:'2', name:"Commercial"},
