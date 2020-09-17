@@ -149,7 +149,7 @@ export class DataService {
       );
   }
 
-  postAtms(items){
+  postAtm(items){
     return this.http
       .post(`${this.API_URL}/create-bulk-atm`,items,this.httpOptions)
       .pipe(

@@ -345,13 +345,15 @@ export class MapComponent implements OnInit {
 
     // this.http.get(`https://outpassdashboard.desuung.org.bt/api/buildings?sub_zone_id=${zoneId}`).subscribe((json: any) => {
 
-    this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
+    // this.http.get(`${this.API_URL}/str-json/${zoneId}`).subscribe((json: any) => {
+
+    this.http.get(`${this.API_URL}/get-buildings-json/${zoneId}`).subscribe((json: any) => {
       this.json = json;
       console.log(json);
       const geoJson = L.geoJSON(this.json, {
         onEachFeature: (feature, layer) => {
             layer.on('click', (e) => {
-              this.buildingId = feature.properties.structure_id;
+              this.buildingId = feature.properties.building_id;
               this.router.navigate(['dashboard', this.buildingId]);
               // this.router.navigate(['dashboard'])
               this.snackBar.open('Building number ' + this.buildingId + ' was successfully selected', '', {
