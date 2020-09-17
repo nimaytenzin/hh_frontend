@@ -312,6 +312,7 @@ export class RegisterComponent implements OnInit {
     this.buildingForm = this.fb.group({
       nameOfTheBuildingControl:[],
       buildingOwnershipControl:[],
+      nameOfTheBuildingOwnerControler:[],
       contactNumberBuildingControl:[],
       approvedDrawingsControl:[],
       occupancyCertificateControl:[],
