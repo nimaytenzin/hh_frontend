@@ -312,7 +312,7 @@ export class RegisterComponent implements OnInit {
     this.buildingForm = this.fb.group({
       nameOfTheBuildingControl:[],
       buildingOwnershipControl:[],
-      nameOfTheBuildingOwnerControler:[],
+      nameOfTheBuildingOwnerControl:[],
       contactNumberBuildingControl:[],
       approvedDrawingsControl:[],
       occupancyCertificateControl:[],
@@ -374,7 +374,7 @@ export class RegisterComponent implements OnInit {
     this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
     this.building.buildingOwnership=this.buildingForm.get('buildingOwnershipControl').value;
     this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
-    this.building.contactNumberBuilding=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
+    this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuildingControl').value;
     this.building.approvedDrawing=this.buildingForm.get('approvedDrawingControl').value;
     this.building.occupancyCertificate=this.buildingForm.get('occupancyCertificateControl').value;
     this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
