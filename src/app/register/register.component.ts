@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NumberValueAccessor } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { DataService } from '../service/data.service';
@@ -11,6 +11,7 @@ interface OwnershipType {
 }
 
 export class Building{
+    user_id: number;
     building_id: number;
     nameOfTheBuilding:string;
     nameOfTheBuildingOwner:string;
@@ -172,7 +173,7 @@ export class RegisterComponent implements OnInit {
     {id:'2', name:"Traditional"},
     {id:'3', name:"Composite"},
   ];
-  structureType:StructureType []=[
+  structureType : StructureType []=[
     {id:'1', name:"Framed"},
     {id:'2', name:"Load Bearing"},
     {id:'3', name:"Composite"},
@@ -329,6 +330,7 @@ export class RegisterComponent implements OnInit {
   registerBuilding(){
     // this.building.building_id=Number(sessionStorage.getItem('buildingId'));
     this.building.building_id=Number(sessionStorage.getItem('buildingId'));
+    this.building.user_id = Number(sessionStorage.getItem('userId'));
     this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
     this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
     this.building.contactNumberBuilding=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
