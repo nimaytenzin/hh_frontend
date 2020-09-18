@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('userId', response.data.id);
         localStorage.setItem('loginId', loginId);
         this.router.navigate(['selectzone']);
-        this.snackBar.open('Welcome Desuup ' + response.data.username, '', {
+        this.snackBar.open('Welcome ' + response.data.username, '', {
           duration: 5000,
           verticalPosition: 'bottom',
           panelClass: ['success-snackbar']
