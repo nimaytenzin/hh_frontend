@@ -10,13 +10,22 @@
        <form [formGroup]="buildingForm">
                
         <mat-form-field class="justifier">
-          <mat-label>Name of the Building</mat-label>
-          <input matInput type="text" name="nameOfTheBuilding" formControlName="nameOfTheBuildingControl" required min="0" [readonly]="disableForm" required autofocus>
+          <mat-label>Name of the Building(optional)</mat-label>
+          <input matInput type="text" name="nameOfTheBuilding" formControlName="nameOfTheBuildingControl" autofocus>
+        </mat-form-field>
+
+        <mat-form-field class="justifier">
+          <mat-label>Ownership Type</mat-label>
+          <mat-select name="buildingOwnership" formControlName="buildingOwnershipControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let ownership of buildingOwnership" [value]="ownership.id">
+              {{ownership.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Name of the Building Owner</mat-label>
-          <input matInput type="text" name="nameOfTheBuildingOwner" formControlName="nameOfTheBuildingOwnerControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="nameOfTheBuildingOwner" formControlName="nameOfTheBuildingControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">
@@ -24,7 +33,27 @@
           <input matInput type="text" name="contactNumberBuilding" formControlName="contactNumberBuildingControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
 
-          
+        <mat-form-field class="justifier">
+          <mat-label>Approved Drawings</mat-label>
+          <mat-select name="approvedDrawing" formControlName="approvedDrawingsControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let item of approvedDrawing" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="justifier">
+          <mat-label>Occupancy Certificate</mat-label>
+          <mat-select name="occupancyCertificate" formControlName="occupancyCertificateControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let item of occupancyCertificate" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+
         <mat-form-field class="justifier">
           <mat-label>Associative Position</mat-label>
           <mat-select name="associativePosition" formControlName="associativePositionControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
@@ -47,40 +76,63 @@
           <mat-label>Year of Construction</mat-label>
           <input matInput type="text" name="yearOfConstruction" formControlName="yearOfConstructionControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
-        
-        
-        <mat-form-field class="justifier">
-          <mat-label>Number of Floors</mat-label>
-          <mat-select name="numberOfFloors" formControlName="numberOfFloorsControl" [readonly]="disableForm" required>
-            <mat-option *ngFor="let floors of numberOfFloors" [value]="floors.id">
-              {{floors.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        
 
         <mat-form-field class="justifier">
-          <mat-label>Attic</mat-label>
-          <mat-select name="attic" formControlName="atticControl" [readonly]="disableForm" required>
-            <mat-option *ngFor="let attic of attic" [value]="attic.id">
-              {{attic.name}}
-            </mat-option>
-          </mat-select>
+          <mat-label>Year of Renovation</mat-label>
+          <input matInput type="text" name="yearOfRenovation" formControlName="yearOfRenovationControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
-
-
+                
         <mat-form-field class="justifier">
           <mat-label>Basement</mat-label>
-          <mat-select name="basement" formControlName="basementControl" [readonly]="disableForm" required>
+          <mat-select name="basement" formControlName="basementControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let basement of basement" [value]="basement.id">
               {{basement.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field class="justifier">
+          <mat-label>Stilt</mat-label>
+          <mat-select name="stilt" formControlName="stiltControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let item of stilt" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field class="justifier">
+          <mat-label>Attic</mat-label>
+          <mat-select name="attic" formControlName="atticControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let item of attic" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field class="justifier">
+          <mat-label>Jamthog</mat-label>
+          <mat-select name="jamthog" formControlName="jamthogControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let item of jamthog" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="justifier">
+          <mat-label>Number of Floors</mat-label>
+          <mat-select name="numberOfFloors" formControlName="numberOfFloorsControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+            <mat-option *ngFor="let floors of numberOfFloors" [value]="floors.id">
+              {{floors.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+                
         
         <mat-form-field class="justifier">
           <mat-label>Building style</mat-label>
-          <mat-select name="buildingStyle" formControlName="buildingStyleControl" [readonly]="disableForm" required>
+          <mat-select name="buildingStyle" formControlName="buildingStyleControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let buildingStyle of buildingStyle" [value]="buildingStyle.id">
               {{buildingStyle.name}}
             </mat-option>
@@ -89,25 +141,24 @@
 
         <mat-form-field class="justifier">
           <mat-label>Structure Type</mat-label>
-          <mat-select formControlName="structureTypeControl" required>
+          <mat-select name="structureType" formControlName="structureTypeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let structureType of structureType" [value]="structureType.id">
               {{structureType.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-               
+
         <mat-form-field class="justifier">
           <mat-label>Material Type</mat-label>
-          <mat-select formControlName="materialTypeControl" multiple>
-            <mat-option *ngFor="let item of materialType" [value]="materialType">{{item}}</mat-option>
+          <mat-select  multiple (selectionChange)="selectMaterial($event)">
+            <mat-option *ngFor="let item of materialType" [value]="item.name">{{item.name}}</mat-option>
           </mat-select>
         </mat-form-field>
-
-
+  
 
         <mat-form-field class="justifier">
           <mat-label>Roof Type</mat-label>
-          <mat-select name="roofType" formControlName="roofTypeControl"[readonly]="disableForm" required>
+          <mat-select name="roofType" formControlName="roofTypeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let roofType of roofType" [value]="roofType.id">
               {{roofType.name}}
             </mat-option>
@@ -116,7 +167,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Roofing Material</mat-label>
-          <mat-select name="roofingMaterial" formControlName="roofingMaterialControl" [readonly]="disableForm" required>
+          <mat-select name="roofingMaterial" formControlName="roofingMaterialControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let roofingMaterial of roofingMaterial" [value]="roofingMaterial.id">
               {{roofingMaterial.name}}
             </mat-option>
@@ -126,7 +177,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Emergency exit(fire)</mat-label>
-          <mat-select name="emergencyExit" formControlName="emergencyExitControl" [readonly]="disableForm" required>
+          <mat-select name="emergencyExit" formControlName="emergencyExitControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let emergencyExit of emergencyExit" [value]="emergencyExit.id">
               {{emergencyExit.name}}
             </mat-option>
@@ -135,7 +186,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Lift</mat-label>
-          <mat-select name="lift" formControlName="liftControl" [readonly]="disableForm" required>
+          <mat-select name="lift" formControlName="liftControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let lift of lift" [value]="lift.id">
               {{lift.name}}
             </mat-option>
@@ -144,7 +195,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Sewer Treatment</mat-label>
-          <mat-select name="sewerTreatment" formControlName="sewerTreatmentControl" [readonly]="disableForm" required>
+          <mat-select name="sewerTreatment" formControlName="sewerTreatmentControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let sewerTreatment of sewerTreatment" [value]="sewerTreatment.id">
               {{sewerTreatment.name}}
             </mat-option>
@@ -153,7 +204,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Waste collection</mat-label>
-          <mat-select name="wasteCollection" formControlName="wasteCollectionControl" [readonly]="disableForm" required>
+          <mat-select name="wasteCollection" formControlName="wasteCollectionControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let wasteCollection of wasteCollection" [value]="wasteCollection.id">
               {{wasteCollection.name}}
             </mat-option>
@@ -170,30 +221,26 @@
           <input matInput type="text" name="wetWasteCollection" formControlName="wetWasteCollectionControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
 
+        
         <mat-form-field class="justifier">
           <mat-label>Water Supply</mat-label>
-          <mat-select formControlName="waterSupplyControl" multiple>
-            <mat-option *ngFor="let item of waterSupply" [value]="waterSupply">{{item}}</mat-option>
+          <mat-select  multiple (selectionChange)="selectWatersupply($event)">
+            <mat-option *ngFor="let item of waterSupply" [value]="item.name">{{item.name}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Buiding Use</mat-label>
-          <mat-select name="buildingUse" formControlName="buildingUseControl" (selectionChange)="changeDiff($event)" [readonly]="disableForm" required>
+          <mat-select name="buildingUse" formControlName="buildingUseControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
             <mat-option *ngFor="let buildingUse of buildingUse" [value]="buildingUse.id">
               {{buildingUse.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-
         <mat-form-field class="justifier">
-          <mat-label>Parking</mat-label>
-          <mat-select name="parking" formControlName="parkingControl" [readonly]="disableForm" required>
-            <mat-option *ngFor="let parking of parking" [value]="parking.id">
-              {{parking.name}}
-            </mat-option>
-          </mat-select>
+          <mat-label>Number of Onsite Parkings</mat-label>
+          <input matInput type="text" name="parking" formControlName="parkingControl" required min="0" [readonly]="disableForm" required autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">

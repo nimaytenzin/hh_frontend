@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NumberValueAccessor } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { DataService } from '../service/data.service';
@@ -11,16 +11,21 @@ interface OwnershipType {
 }
 
 export class Building{
-    user_id: number;
     building_id: number;
     nameOfTheBuilding:string;
+    buildingOwnership:string;
     nameOfTheBuildingOwner:string;
     contactNumberBuilding:string;
+    approvedDrawing:string;
+    occupancyCertificate:string;
     associativePosition:string;
     existancyStatus: string;
     yearOfConstruction:string;
+    yearOfRenovation:string;
     numberOfFloors:string;
     attic:string;
+    stilt:string;
+    jamthog:string;
     basement:string;
     buildingStyle:string;
     structureType:string;
@@ -144,10 +149,18 @@ export class RegisterComponent implements OnInit {
   
   //i have added from here
   
-  ownership:OwnershipType[]=[
-    {id:'1', name:"Single Owned"},
-    {id:'2', name:"Family Owned"},
-    {id:'3', name:"Joint Owned"},
+  buildingOwnership:OwnershipType[]=[
+    {id:'1', name:"Singly Owned"},
+    {id:'2', name:"Jointly Owned"},
+  ];
+
+  approvedDrawing:OwnershipType[]=[
+    {id:'1', name:"Yes"},
+    {id:'2', name:"No"},
+  ];
+  occupancyCertificate:OwnershipType[]=[
+    {id:'1', name:"Yes"},
+    {id:'2', name:"No"},
   ];
 
   associativePosition: AssociativePosition[]=[
@@ -161,39 +174,68 @@ export class RegisterComponent implements OnInit {
     {id:'4', name:"Abandoned"},
   ];
   attic:Attic []=[
-    {id:'1', name:"Yes"},
-    {id:'2', name:"No"},
+    {id:'1', name:"0"},
+    {id:'2', name:"1"},
+    {id:'3', name:"2"},
+  ];
+
+  stilt: Attic[]=[
+    {id:'1', name:"0"},
+    {id:'2', name:"1"},
+    {id:'3', name:"2"},
+   ];
+  jamthog: Attic[]=[
+    {id:'1', name:"0"},
+    {id:'2', name:"1"},
+    {id:'3', name:"2"},
   ];
   basement:Basement[]=[
-    {id:'1', name:"Yes"},
-    {id:'2', name:"No"},
+    {id:'1', name:"0"},
+    {id:'2', name:"1"},
+    {id:'3', name:"2"},
   ];
   buildingStyle:BuildingStyle []=[
     {id:'1', name:"Contemporary"},
     {id:'2', name:"Traditional"},
     {id:'3', name:"Composite"},
   ];
-  structureType : StructureType []=[
+  structureType:StructureType []=[
     {id:'1', name:"Framed"},
     {id:'2', name:"Load Bearing"},
     {id:'3', name:"Composite"},
     {id:'4', name:"Others"},
   ];
-  
-  materialType: string[] = ['Brick Masonry', 'ACC Block', 'Rammed Earth', 'Steel', 'Hollow Block', 'Stabilized Mud Block','Stone Masonry','Reinforced Concrete','Timbers','others'];
-  
+
+  materialType:StructureType []=[
+    {id:'1', name:"Brick Masonry"},
+    {id:'2', name:"ACC Block"},
+    {id:'3', name:"Rammed Earth"},
+    {id:'4', name:"Steel"},
+    {id:'5', name:"Concrete Block"},
+    {id:'6', name:"Stabilized Mud Block"},
+    {id:'7', name:"Stone Masonry"},
+    {id:'8', name:"Reinforced Concrete"},
+    {id:'9', name:"Timbers"},
+    {id:'10', name:"Others"}
+  ];
+  waterSupply:WaterSupply[]=[
+    {id:'1', name:"Thromde"},
+    {id:'2', name:"Royal Water Supply"},
+    {id:'3', name:"Private Individual"},
+    {id:'4', name:"Private Community"},
+    {id:'5', name:"Others"}
+  ];
+
   roofType: RoofType[]=[
     {id:'1', name:"Gable"},
-    {id:'2', name:"Gable with Jamthog"},
-    {id:'3', name:"Hipped"},
-    {id:'4', name:"Hipped with Jamthog"},
+    {id:'2', name:"Hipped"},
+    {id:'3', name:"Composite"},
+    {id:'4', name:"Others"},
   ];
   roofingMaterial:RoofingMaterial[]=[
     {id:'1', name:"CGI"},
-    {id:'2', name:"Fibre Glass"},
+    {id:'2', name:"Wooden Shingles"},
     {id:'3', name:"Slate"},
-    {id:'4', name:"Tiles"},
-    {id:'5', name:"Wooden Shingle"},
     {id:'6', name:"Others"},
   ];
   emergencyExit:EmergencyExit[]=[
@@ -203,30 +245,33 @@ export class RegisterComponent implements OnInit {
   lift:Lift[]=[
     {id:'1', name:"Yes"},
     {id:'2', name:"No"},
-    {id:'3', name:"Provisions"},
+    {id:'3', name:"Provision Provided"},
   ];
   sewerTreatment:SewerTreatment[]=[
     {id:'1', name:"Individual Septic Tank"},
     {id:'2', name:"Combined Septic Tank"},
-    {id:'3', name:"Sewerage"},
-    {id:'4', name:"Others"},
+    {id:'3', name:"Thromde Sewerage Network"},
+    {id:'4', name:"Pit Latrine"},
+    {id:'5', name:"Others"},
   ];
   wasteCollection:WasteCollection[]=[
     {id:'1', name:"Thromde"},
-    {id:'2', name:"Private"},
-    {id:'3', name:"Others"},
+    {id:'2', name:"Dzongkhag"},
+    {id:'2', name:"Private Company"},
+    {id:'3', name:"Individual"},
   ];
-  
-  waterSupply: string[] = ['Thromde', 'Royal Water Supply', 'Private Individual', 'Private Community', 'Others'];
-  buildingUse: BuildingUse[] = [
+   buildingUse: BuildingUse[] = [
     {id:'1', name:"Residential"},
     {id:'2', name:"Commercial"},
-    {id:'3', name:"Mixed User"},
+    {id:'3', name:"Mixed Use"},
     {id:'4', name:"Institution"},
     {id:'5', name:"School"},
     {id:'6', name:"Religious"},
     {id:'7', name:"Hospital"},
-    {id:'8', name:"Others"},
+    {id:'8', name:"Workshop"},
+    {id:'9', name:"Sawmill"},
+    {id:'10', name:"Industry"},
+    {id:'11', name:"Others"},
   ];
   parking:Parking[]=[
     {id:'1', name:"Designated Onstreet"},
@@ -280,14 +325,20 @@ export class RegisterComponent implements OnInit {
 
    reactiveForms() {
     this.buildingForm = this.fb.group({
+      buildingOwnershipControl:[],
       nameOfTheBuildingControl:[],
-      nameOfTheBuildingOwnerControl:[],
+      nameOwnerControl:[],
       contactNumberBuildingControl:[],
+      approvedDrawingsControl:[],
+      occupancyCertificateControl:[],
       associativePositionControl:[],
       existancyStatusControl:[],
       yearOfConstructionControl:[],
+      yearOfRenovationControl:[],
       numberOfFloorsControl:[],
       atticControl:[],
+      stiltControl:[],
+      jamthogControl:[],
       basementControl:[],
       buildingStyleControl:[],
       structureTypeControl:[],
@@ -330,16 +381,21 @@ export class RegisterComponent implements OnInit {
   registerBuilding(){
     // this.building.building_id=Number(sessionStorage.getItem('buildingId'));
     this.building.building_id=Number(sessionStorage.getItem('buildingId'));
-    this.building.user_id = Number(sessionStorage.getItem('userId'));
     this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
+    this.building.buildingOwnership=this.buildingForm.get('buildingOwnershipControl').value;
     this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
-    this.building.contactNumberBuilding=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
+    this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuilding').value;
+    this.building.approvedDrawing=this.buildingForm.get('approvedDrawingControl').value;
+    this.building.occupancyCertificate=this.buildingForm.get('occupancyCertificateControl').value;
     this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
     this.building.existancyStatus=this.buildingForm.get('existancyStatusControl').value;
     this.building.yearOfConstruction=this.buildingForm.get('yearOfConstructionControl').value;
+    this.building.yearOfRenovation=this.buildingForm.get('yearOfRenovationControl').value;
     this.building.numberOfFloors=this.buildingForm.get('numberOfFloorsControl').value;
     this.building.attic=this.buildingForm.get('atticControl').value;
-    this.building.basement=this.buildingForm.get('basementControl').value;
+    this.building.stilt=this.buildingForm.get('stiltControl').value;
+    this.building.jamthog=this.buildingForm.get('atticControl').value;
+    this.building.basement=this.buildingForm.get('jamthogControl').value;
     this.building.buildingStyle=this.buildingForm.get('buildingStyleControl').value;
     this.building.structureType=this.buildingForm.get('structureTypeControl').value;
     this.building.materialType=this.buildingForm.get('materialTypeControl').value;
