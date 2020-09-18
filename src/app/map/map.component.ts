@@ -21,7 +21,7 @@ export class Building {
 export class MapComponent implements OnInit {
 
   API_URL = environment.API_URL;
-  BASE_URL = environment.BASE_URl; 
+  BASE_URL = environment.BASE_URL; 
 
 
   latitude: number;
