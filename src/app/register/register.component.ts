@@ -321,6 +321,8 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  selectMaterial($event){}
+  selectWatersupply($event){}
    // control
 
    reactiveForms() {
