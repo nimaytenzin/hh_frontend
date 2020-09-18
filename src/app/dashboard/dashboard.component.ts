@@ -67,6 +67,34 @@ export class DashboardComponent implements OnInit {
   // unit(){
   //   this.router.navigate([])
   // }
+  markcomplete(){
+    const confirmDialog = this.dialog.open(ConfirmDialogComponent,{
+      data:{
+        title: "Confirm Mark Complete",
+        message: "Are you sure you want to mark building as complete?"
+      }
+    });
+    confirmDialog.afterClosed().subscribe(result=>{
+      if(result == true){
+        this.dataService.postCompletion(sessionStorage.getItem('buildingId')).subscribe(response=>{
+          if(response['success'] === "true"){
+              this.router.navigate(['map']);
+              this.snackBar.open('building Marked Complete' , '', {
+                duration: 3000,
+                verticalPosition: 'top',
+                panelClass: ['success-snackbar']
+              });
+          }else{
+              this.snackBar.open('Could not mark Complete' , '', {
+                duration: 3000,
+                verticalPosition: 'top',
+                panelClass: ['success-snackbar']
+              });
+          }
+        })   
+      }
+    });
+  }
 
   regHouse(){
     this.router.navigate(['building']);

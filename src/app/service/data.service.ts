@@ -144,7 +144,14 @@ export class DataService {
 
   postCompletion(buildingId) {
     return this.http
-      .post(`${this.API_URL}/mark-building-completed/${buildingId}`, '', this.httpOptions)
+      .get(`${this.API_URL}/markComplete/${buildingId}`,  this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  postProgress(bid){
+    return this.http
+      .get(`${this.API_URL}/markProgress/${bid}`,  this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );

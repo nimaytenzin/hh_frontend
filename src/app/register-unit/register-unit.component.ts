@@ -70,6 +70,7 @@ export class Unit{
   unitOwnership:string;
   rent:string;
   unitUse:string;
+  user_id:number;
   remarks:string;
 }
 export class Resident{
@@ -440,6 +441,7 @@ reactiveForms() {
   registerUnit(){
     this.unit.building_id=Number(sessionStorage.getItem('buildingId'));
     this.unit.unitNumber = this.multiUnitForm.get('multiUnitIdControl').value;
+    this.unit.user_id = 1;
     this.dataService.postUnit(this.unit).subscribe(response=>{
       if(response.success === "true"){
         this.unitId = response.data.id
