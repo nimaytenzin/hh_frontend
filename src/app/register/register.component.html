@@ -16,7 +16,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Ownership Type</mat-label>
-          <mat-select name="buildingOwnership" formControlName="buildingOwnershipControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="buildingOwnership" formControlName="buildingOwnershipControl" [readonly]="disableForm" required>
             <mat-option *ngFor="let ownership of buildingOwnership" [value]="ownership.id">
               {{ownership.name}}
             </mat-option>
@@ -25,17 +25,17 @@
 
         <mat-form-field class="justifier">
           <mat-label>Name of the Building Owner</mat-label>
-          <input matInput type="text" name="nameOfTheBuildingOwner" formControlName="nameOfTheBuildingControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="nameOfTheBuildingOwner" formControlName="nameOfTheBuildingControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Contact Number</mat-label>
-          <input matInput type="text" name="contactNumberBuilding" formControlName="contactNumberBuildingControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="contactNumberBuilding" formControlName="contactNumberBuildingControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Approved Drawings</mat-label>
-          <mat-select name="approvedDrawing" formControlName="approvedDrawingsControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="approvedDrawing" formControlName="approvedDrawingsControl" [readonly]="disableForm" >
             <mat-option *ngFor="let item of approvedDrawing" [value]="item.id">
               {{item.name}}
             </mat-option>
@@ -44,7 +44,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Occupancy Certificate</mat-label>
-          <mat-select name="occupancyCertificate" formControlName="occupancyCertificateControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="occupancyCertificate" formControlName="occupancyCertificateControl" [readonly]="disableForm" >
             <mat-option *ngFor="let item of occupancyCertificate" [value]="item.id">
               {{item.name}}
             </mat-option>
@@ -56,7 +56,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Associative Position</mat-label>
-          <mat-select name="associativePosition" formControlName="associativePositionControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="associativePosition" formControlName="associativePositionControl" [readonly]="disableForm" >
             <mat-option *ngFor="let associativePosition of associativePosition" [value]="associativePosition.id">
               {{associativePosition.name}}
             </mat-option>
@@ -65,7 +65,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Existancy Status</mat-label>
-          <mat-select name="existancyStatus" formControlName="existancyStatusControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="existancyStatus" formControlName="existancyStatusControl" [readonly]="disableForm" >
             <mat-option *ngFor="let existancyStatus of existancyStatus" [value]="existancyStatus.id">
               {{existancyStatus.name}}
             </mat-option>
@@ -74,17 +74,17 @@
 
         <mat-form-field class="justifier">
           <mat-label>Year of Construction</mat-label>
-          <input matInput type="text" name="yearOfConstruction" formControlName="yearOfConstructionControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="yearOfConstruction" formControlName="yearOfConstructionControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Year of Renovation</mat-label>
-          <input matInput type="text" name="yearOfRenovation" formControlName="yearOfRenovationControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="yearOfRenovation" formControlName="yearOfRenovationControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
                 
         <mat-form-field class="justifier">
           <mat-label>Basement</mat-label>
-          <mat-select name="basement" formControlName="basementControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="basement" formControlName="basementControl" [readonly]="disableForm" >
             <mat-option *ngFor="let basement of basement" [value]="basement.id">
               {{basement.name}}
             </mat-option>
@@ -93,7 +93,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Stilt</mat-label>
-          <mat-select name="stilt" formControlName="stiltControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="stilt" formControlName="stiltControl" [readonly]="disableForm" >
             <mat-option *ngFor="let item of stilt" [value]="item.id">
               {{item.name}}
             </mat-option>
@@ -103,7 +103,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Attic</mat-label>
-          <mat-select name="attic" formControlName="atticControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="attic" formControlName="atticControl" [readonly]="disableForm" >
             <mat-option *ngFor="let item of attic" [value]="item.id">
               {{item.name}}
             </mat-option>
@@ -113,7 +113,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Jamthog</mat-label>
-          <mat-select name="jamthog" formControlName="jamthogControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="jamthog" formControlName="jamthogControl" [readonly]="disableForm" >
             <mat-option *ngFor="let item of jamthog" [value]="item.id">
               {{item.name}}
             </mat-option>
@@ -122,7 +122,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Number of Floors</mat-label>
-          <mat-select name="numberOfFloors" formControlName="numberOfFloorsControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="numberOfFloors" formControlName="numberOfFloorsControl" [readonly]="disableForm" >
             <mat-option *ngFor="let floors of numberOfFloors" [value]="floors.id">
               {{floors.name}}
             </mat-option>
@@ -132,7 +132,7 @@
         
         <mat-form-field class="justifier">
           <mat-label>Building style</mat-label>
-          <mat-select name="buildingStyle" formControlName="buildingStyleControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="buildingStyle" formControlName="buildingStyleControl"[readonly]="disableForm" >
             <mat-option *ngFor="let buildingStyle of buildingStyle" [value]="buildingStyle.id">
               {{buildingStyle.name}}
             </mat-option>
@@ -141,7 +141,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Structure Type</mat-label>
-          <mat-select name="structureType" formControlName="structureTypeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="structureType" formControlName="structureTypeControl"[readonly]="disableForm" >
             <mat-option *ngFor="let structureType of structureType" [value]="structureType.id">
               {{structureType.name}}
             </mat-option>
@@ -158,7 +158,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Roof Type</mat-label>
-          <mat-select name="roofType" formControlName="roofTypeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="roofType" formControlName="roofTypeControl"[readonly]="disableForm" >
             <mat-option *ngFor="let roofType of roofType" [value]="roofType.id">
               {{roofType.name}}
             </mat-option>
@@ -167,7 +167,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Roofing Material</mat-label>
-          <mat-select name="roofingMaterial" formControlName="roofingMaterialControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="roofingMaterial" formControlName="roofingMaterialControl" [readonly]="disableForm" >
             <mat-option *ngFor="let roofingMaterial of roofingMaterial" [value]="roofingMaterial.id">
               {{roofingMaterial.name}}
             </mat-option>
@@ -177,7 +177,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Emergency exit(fire)</mat-label>
-          <mat-select name="emergencyExit" formControlName="emergencyExitControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="emergencyExit" formControlName="emergencyExitControl" [readonly]="disableForm" >
             <mat-option *ngFor="let emergencyExit of emergencyExit" [value]="emergencyExit.id">
               {{emergencyExit.name}}
             </mat-option>
@@ -186,7 +186,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Lift</mat-label>
-          <mat-select name="lift" formControlName="liftControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="lift" formControlName="liftControl" [readonly]="disableForm" >
             <mat-option *ngFor="let lift of lift" [value]="lift.id">
               {{lift.name}}
             </mat-option>
@@ -195,7 +195,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Sewer Treatment</mat-label>
-          <mat-select name="sewerTreatment" formControlName="sewerTreatmentControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="sewerTreatment" formControlName="sewerTreatmentControl" [readonly]="disableForm" >
             <mat-option *ngFor="let sewerTreatment of sewerTreatment" [value]="sewerTreatment.id">
               {{sewerTreatment.name}}
             </mat-option>
@@ -204,7 +204,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Waste collection</mat-label>
-          <mat-select name="wasteCollection" formControlName="wasteCollectionControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="wasteCollection" formControlName="wasteCollectionControl" [readonly]="disableForm" >
             <mat-option *ngFor="let wasteCollection of wasteCollection" [value]="wasteCollection.id">
               {{wasteCollection.name}}
             </mat-option>
@@ -213,12 +213,12 @@
 
         <mat-form-field class="justifier">
           <mat-label>Dry Waste Collection in a week</mat-label>
-          <input matInput type="text" name="dryWasteCollection" formControlName="dryWasteCollectionControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="dryWasteCollection" formControlName="dryWasteCollectionControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Wet Waste Collection in a week</mat-label>
-          <input matInput type="text" name="wetWasteCollection" formControlName="wetWasteCollectionControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="wetWasteCollection" formControlName="wetWasteCollectionControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
 
         
@@ -231,7 +231,7 @@
 
         <mat-form-field class="justifier">
           <mat-label>Buiding Use</mat-label>
-          <mat-select name="buildingUse" formControlName="buildingUseControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+          <mat-select name="buildingUse" formControlName="buildingUseControl" [readonly]="disableForm" >
             <mat-option *ngFor="let buildingUse of buildingUse" [value]="buildingUse.id">
               {{buildingUse.name}}
             </mat-option>
@@ -240,12 +240,12 @@
 
         <mat-form-field class="justifier">
           <mat-label>Number of Onsite Parkings</mat-label>
-          <input matInput type="text" name="parking" formControlName="parkingControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="parking" formControlName="parkingControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Remarks</mat-label>
-          <input matInput type="text" name="buildingRemarks" formControlName="buildingRemarksControl" required min="0" [readonly]="disableForm" required autofocus>
+          <input matInput type="text" name="buildingRemarks" formControlName="buildingRemarksControl" required min="0" [readonly]="disableForm" autofocus>
         </mat-form-field>
                    
     </form>
@@ -259,41 +259,41 @@
    <h4>School Form</h4>
   <mat-form-field class="justifier">
     <mat-label>Name of School</mat-label>
-    <input matInput type="text" name="schoolName" formControlName="schoolNameControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="schoolName" formControlName="schoolNameControl" required min="0" [readonly]="disableForm" autofocus>
   </mat-form-field>
 
   <mat-form-field class="justifier">
     <mat-label>Year of Establishment</mat-label>
-    <input matInput type="text" name="schoolEstablishmentYear" formControlName="schoolEstablishmentYearControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="schoolEstablishmentYear" formControlName="schoolEstablishmentYearControl" required min="0" [readonly]="disableForm" autofocus>
   </mat-form-field>
   
   <div>
   <mat-form-field class="justifier">
     <mat-label>Number of Staffs Male</mat-label>
-    <input matInput type="text" name="schoolStaffMale" formControlName="schoolStaffMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="schoolStaffMale" formControlName="schoolStaffMaleControl" required min="0" [readonly]="disableForm" autofocus>
   </mat-form-field>
 
   <mat-form-field class="justifier">
     <mat-label>Number of Staffs Female</mat-label>
-    <input matInput type="text" name="schoolStaffFemale" formControlName="schoolStaffFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="schoolStaffFemale" formControlName="schoolStaffFemaleControl" required min="0" [readonly]="disableForm" autofocus>
   </mat-form-field>
 </div>
 
   <div>
   <mat-form-field class="justifier">
     <mat-label>Number of Students Male</mat-label>
-    <input matInput type="text" name="studentsMale" formControlName="studentsMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="studentsMale" formControlName="studentsMaleControl" required min="0" [readonly]="disableForm" autofocus>
   </mat-form-field>
 
   <mat-form-field class="justifier">
     <mat-label>Number of Students Female</mat-label>
-    <input matInput type="text" name="studentsFemale" formControlName="studentsFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="studentsFemale" formControlName="studentsFemaleControl" required min="0" [readonly]="disableForm" autofocus>
   </mat-form-field>
 </div>
   
 <mat-form-field class="justifier">
     <mat-label>Number of Vehicles</mat-label>
-    <input matInput type="text" name="schoolVehicleNumber" formControlName="schoolVehicleNumberControl" required min="0" [readonly]="disableForm" required autofocus>
+    <input matInput type="text" name="schoolVehicleNumber" formControlName="schoolVehicleNumberControl" required min="0" [readonly]="disableForm" autofocus>
 </mat-form-field>
 
 </form>
@@ -305,28 +305,28 @@
     <h4>Institution Form</h4>
       <mat-form-field class="justifier">
         <mat-label>Name of Institution</mat-label>
-        <input matInput type="text" name="instituteName" formControlName="instituteNameControl" required min="0" [readonly]="disableForm" required autofocus>
+        <input matInput type="text" name="instituteName" formControlName="instituteNameControl" required min="0" [readonly]="disableForm" autofocus>
       </mat-form-field>
 
       <mat-form-field class="justifier">
         <mat-label>Year of Establishment</mat-label>
-        <input matInput type="text" name="instituteEstablishmentYear" formControlName="instituteEstablishmentYearControl" required min="0" [readonly]="disableForm" required autofocus>
+        <input matInput type="text" name="instituteEstablishmentYear" formControlName="instituteEstablishmentYearControl" required min="0" [readonly]="disableForm" autofocus>
       </mat-form-field>
 
       <mat-form-field class="justifier">
         <mat-label>Number of Staffs Male</mat-label>
-        <input matInput type="text" name="instituteStaffMale" formControlName="institueStaffMaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        <input matInput type="text" name="instituteStaffMale" formControlName="institueStaffMaleControl" required min="0" [readonly]="disableForm" autofocus>
       </mat-form-field>
 
       <mat-form-field class="justifier">
         <mat-label>Number of Staffs Female</mat-label>
-        <input matInput type="text" name="instituteStaffFemale" formControlName="instituteStaffFemaleControl" required min="0" [readonly]="disableForm" required autofocus>
+        <input matInput type="text" name="instituteStaffFemale" formControlName="instituteStaffFemaleControl" required min="0" [readonly]="disableForm" autofocus>
       </mat-form-field>
 
       
       <mat-form-field class="justifier">
         <mat-label>Number of vehicle</mat-label>
-        <input matInput type="text" name="instituteVehicle" formControlName="instituteVehicleControl" required min="0" [readonly]="disableForm" required autofocus>
+        <input matInput type="text" name="instituteVehicle" formControlName="instituteVehicleControl" required min="0" [readonly]="disableForm" autofocus>
       </mat-form-field>
 
     </form>

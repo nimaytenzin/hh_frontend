@@ -231,15 +231,17 @@ export class MapComponent implements OnInit {
   renderMap() {
     var sat = L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
       maxZoom: 20,
-      minZoom: 13,
+      minZoom: 9,
     });
     var osm = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       maxZoom: 20,
-      minZoom: 13,
+      minZoom: 9,
     });
     this.map = L.map('map',{
       center:[27.4712,89.64191],
       zoom: 13,
+      maxZoom:20,
+      minZoom:9,
       layers: [sat]
     });
     var baseMaps = {

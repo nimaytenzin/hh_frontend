@@ -408,7 +408,7 @@ reactiveForms() {
 
 
   submit(){
-    // this.router.navigate(['dashboard']);
+    // this.router.navigate(['dashboard',this.buildingId]);
     this.registerUnit();
   }
   registerResident(unitid){
@@ -445,16 +445,27 @@ reactiveForms() {
     this.dataService.postUnit(this.unit).subscribe(response=>{
       if(response.success === "true"){
         this.unitId = response.data.id
-        if(this.unitUse === "Residential"){
-          this.registerResident(this.unitId)
-        }else{
-          this.snackBar.open('Registration complete', '', {
-            duration: 5000,
-            verticalPosition: 'bottom',
-            panelClass: ['success-snackbar']
-          });
-          this.router.navigate(['dashboard',this.buildingId])
-        }
+        this.dataService.postProgress(this.buildingId).subscribe(response=>{
+          if(response['success']=="true"){
+            this.snackBar.open('Building marked in progress', '', {
+              duration: 1000,
+              verticalPosition: 'bottom',
+              panelClass: ['error-snackbar']
+            });
+          }
+        })
+
+        this.router.navigate(['dashboard',this.buildingId]);
+        // if(this.unitUse === "Residential"){
+        //   this.registerResident(this.unitId)
+        // }else{
+        //   this.snackBar.open('Registration complete', '', {
+        //     duration: 5000,
+        //     verticalPosition: 'bottom',
+        //     panelClass: ['success-snackbar']
+        //   });
+        //   this.router.navigate(['dashboard',this.buildingId])
+        // }
       }else if (response.success === "false"){
         this.snackBar.open('Cannot register unit', '', {
           duration: 5000,

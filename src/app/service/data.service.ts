@@ -166,7 +166,7 @@ export class DataService {
   }
   postNewBuilding(item) {
     return this.http
-      .post<any>(`${this.API_URL}/buildings`, item, this.httpOptions)
+      .post<any>(`${this.API_URL}/create-str`, item, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );

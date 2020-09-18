@@ -17,7 +17,7 @@
       
             <mat-form-field class="justifier">
               <mat-label>Occupancy Status</mat-label>
-              <mat-select name="occupancyStatus" formControlName="occupancyStatusControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+              <mat-select name="occupancyStatus" formControlName="occupancyStatusControl" [readonly]="disableForm" required>
                 <mat-option *ngFor="let occupancyStatus of occupancyStatus" [value]="occupancyStatus.id">
                   {{occupancyStatus.name}}
                 </mat-option>
@@ -26,7 +26,7 @@
       
             <mat-form-field class="justifier">
               <mat-label>Floor Level</mat-label>
-              <mat-select name="floorLevel" formControlName="floorLevelControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+              <mat-select name="floorLevel" formControlName="floorLevelControl" [readonly]="disableForm" required>
                 <mat-option *ngFor="let floorLevel of floorLevel" [value]="floorLevel.id">
                   {{floorLevel.name}}
                 </mat-option>
@@ -35,7 +35,7 @@
       
             <mat-form-field class="justifier">
               <mat-label>Ownership</mat-label>
-              <mat-select name="unitOwnership" formControlName="unitOwnershipControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+              <mat-select name="unitOwnership" formControlName="unitOwnershipControl" [readonly]="disableForm" required>
                 <mat-option *ngFor="let unitOwnership of unitOwnership" [value]="unitOwnership.id">
                   {{unitOwnership.name}}
                 </mat-option>
@@ -49,7 +49,7 @@
       
             <mat-form-field class="justifier">
               <mat-label>Use</mat-label>
-              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" [readonly]="disableForm" required>
                 <mat-option *ngFor="let unitUse of multiUnitUse" [value]="unitUse.id">
                   {{unitUse.name}}
                 </mat-option>
@@ -304,7 +304,7 @@
       
       <mat-form-field class="justifier">
         <mat-label>Household Monthly Income</mat-label>
-        <mat-select name="familyIncome" formControlName="familyIncomeControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+        <mat-select name="familyIncome" formControlName="familyIncomeControl" [readonly]="disableForm" required>
           <mat-option *ngFor="let householdIncome of householdIncome" [value]="householdIncome.id">
             {{householdIncome.name}}
           </mat-option>
@@ -348,7 +348,7 @@
      
       <mat-form-field class="justifier">
         <mat-label>Parking</mat-label>
-        <mat-select name="resParking" formControlName="resParkingControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+        <mat-select name="resParking" formControlName="resParkingControl" [readonly]="disableForm" required>
           <mat-option *ngFor="let resParking of resParking" [value]="resParking.id">
             {{resParking.name}}
           </mat-option>
@@ -364,7 +364,7 @@
      
       <mat-form-field class="justifier">
         <mat-label>Usage of Public Bus transport</mat-label>
-        <mat-select name="busTransport" formControlName="busTransportControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+        <mat-select name="busTransport" formControlName="busTransportControl" [readonly]="disableForm" required>
           <mat-option *ngFor="let busTransport of busTransport" [value]="busTransport.id">
             {{busTransport.name}}
           </mat-option>
@@ -377,7 +377,7 @@
      
       <mat-form-field class="justifier">
         <mat-label>Own Land in Thimphu</mat-label>
-        <mat-select name="ownLand" formControlName="ownLandControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+        <mat-select name="ownLand" formControlName="ownLandControl" [readonly]="disableForm" required>
           <mat-option *ngFor="let ownLand of ownLand" [value]="ownLand.id">
             {{ownLand.name}}
           </mat-option>
@@ -388,7 +388,7 @@
      
       <mat-form-field class="justifier">
         <mat-label>Own House in Thimphu</mat-label>
-        <mat-select name="ownHouse" formControlName="ownHouseControl" (selectionChange)="changeDiff($event)"[readonly]="disableForm" required>
+        <mat-select name="ownHouse" formControlName="ownHouseControl" [readonly]="disableForm" required>
           <mat-option *ngFor="let ownHouse of ownHouse" [value]="ownHouse.id">
             {{ownHouse.name}}
           </mat-option>

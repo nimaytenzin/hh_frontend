@@ -321,8 +321,16 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  selectMaterial($event){}
-  selectWatersupply($event){}
+  selectMaterial($event){
+    let materialtypedata = [];
+    materialtypedata = $event.source.value;
+    this.building.materialType = materialtypedata.toString();
+  }
+  selectWatersupply($event){
+    let watersuplydata =[];
+    watersuplydata = $event.source.value;
+    this.building.waterSupply = watersuplydata.toString();
+  }
    // control
 
    reactiveForms() {
@@ -378,7 +386,8 @@ export class RegisterComponent implements OnInit {
 
 
   submit(){
-    this.registerBuilding();
+    // this.registerBuilding();
+    this.router.navigate(['dashboard',this.buildingId]);
   }
   registerBuilding(){
     // this.building.building_id=Number(sessionStorage.getItem('buildingId'));
