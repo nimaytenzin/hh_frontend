@@ -49,7 +49,7 @@
       
             <mat-form-field class="justifier">
               <mat-label>Use</mat-label>
-              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" [readonly]="disableForm" required>
+              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" (selectionChange)="changeDiff($event)" [readonly]="disableForm" required>
                 <mat-option *ngFor="let unitUse of multiUnitUse" [value]="unitUse.id">
                   {{unitUse.name}}
                 </mat-option>
@@ -90,6 +90,11 @@
       <mat-form-field class="justifier">
         <mat-label>Contact number</mat-label>
         <input matInput type="text" name="contactNumberHead" formControlName="contactNumberHeadControl" required min="0" [readonly]="disableForm" required autofocus>
+      </mat-form-field>
+
+      <mat-form-field class="justifier">
+        <mat-label>CID/Work Permit No. of Head of Household</mat-label>
+        <input matInput type="text"  formControlName="cidControl" required min="0" [readonly]="disableForm" required autofocus>
       </mat-form-field>
       
 

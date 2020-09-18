@@ -349,6 +349,7 @@ reactiveForms() {
   this.residentForm = this.fb.group({
     headHouseholdControl:[],
     contactNumberHeadControl:[],
+    cidControl:[],
     nationalityControl:[],
     religionControl:[],
     maleBelow6Control:[],
