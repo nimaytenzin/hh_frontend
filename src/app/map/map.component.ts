@@ -391,7 +391,7 @@ export class MapComponent implements OnInit {
           if (sessionStorage.getItem('transactionType') === 'registration') {
             this.router.navigate(['register', this.buildingId]);
           } else {
-            this.router.navigate(['update-household', this.buildingId]);
+            this.router.navigate(['dashboard', this.buildingId]);
           }
         });
       }else{
