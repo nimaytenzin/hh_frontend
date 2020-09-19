@@ -9,9 +9,29 @@ interface OwnershipType {
   id: string;
   name: string;
 }
+export class School{
+  structure_id:number;
+  user_id:number;
+  schoolName:string;
+  schoolEstablishmentYear:string;
+  schoolStaffMale:string;
+  schoolStaffFemale:string;
+  studentsMale:string;
+  studentsFemale:string;
+  vehicles:string;
+}
 
+export class Institution{
+  structure_id:number;
+  user_id:number;
+  instituteName:string;
+  instituteEstablishmentYear:string;
+  instituteStaffMale:string;
+  instituteStaffFemale:string;
+  instituteVehicle:string;
+}
 export class Building{
-    building_id: number;
+    structure_id: number;
     nameOfTheBuilding:string;
     buildingOwnership:string;
     nameOfTheBuildingOwner:string;
@@ -42,6 +62,7 @@ export class Building{
     buildingUse:string;
     parking:string;
     buildingRemarksstring:String;
+    user_id:number;
 }
 
 interface AssociativePosition {
@@ -139,6 +160,8 @@ export class RegisterComponent implements OnInit {
   longitude: number;
   accuracy: number;
   building: Building;
+  institute: Institution;
+  school: School;
 
   disableForm = false;
   displayForm = true;
@@ -220,7 +243,7 @@ export class RegisterComponent implements OnInit {
   ];
   waterSupply:WaterSupply[]=[
     {id:'1', name:"Thromde"},
-    {id:'2', name:"Royal Water Supply"},
+    {id:'2', name:"Rural Water Supply"},
     {id:'3', name:"Private Individual"},
     {id:'4', name:"Private Community"},
     {id:'5', name:"Others"}
@@ -236,6 +259,7 @@ export class RegisterComponent implements OnInit {
     {id:'1', name:"CGI"},
     {id:'2', name:"Wooden Shingles"},
     {id:'3', name:"Slate"},
+    {id:'4', name:"Composite"},
     {id:'6', name:"Others"},
   ];
   emergencyExit:EmergencyExit[]=[
@@ -301,10 +325,22 @@ export class RegisterComponent implements OnInit {
 
   ) {
     this.building = new Building();
+    this.institute = new Institution();
+    this.school = new School();
   }
 
   ngOnInit() {
     this.buildingId = Number(sessionStorage.getItem('buildingId'));
+    this.dataService.getBuildingInfo(this.buildingId).subscribe(resp=>{
+      if(resp['success']=="true"){
+        this.snackBar.open('Building registration already complete', '', {
+          duration: 5000,
+          verticalPosition: 'bottom',
+          panelClass: ['success-snackbar']
+        });
+        this.router.navigate(['dashboard',this.buildingId])
+      }
+    })
     this.reactiveForms();
   }
 
@@ -386,17 +422,16 @@ export class RegisterComponent implements OnInit {
 
 
   submit(){
-    // this.registerBuilding();
-    this.router.navigate(['dashboard',this.buildingId]);
+    this.registerBuilding();
+    // this.router.navigate(['dashboard',this.buildingId]);
   }
   registerBuilding(){
-    // this.building.building_id=Number(sessionStorage.getItem('buildingId'));
-    this.building.building_id=Number(sessionStorage.getItem('buildingId'));
+    this.building.structure_id =Number(sessionStorage.getItem('buildingId'));
     this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
     this.building.buildingOwnership=this.buildingForm.get('buildingOwnershipControl').value;
-    this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOfTheBuildingOwnerControl').value;
-    this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuilding').value;
-    this.building.approvedDrawing=this.buildingForm.get('approvedDrawingControl').value;
+    this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOwnerControl').value;
+    this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuildingControl').value;
+    this.building.approvedDrawing=this.buildingForm.get('approvedDrawingsControl').value;
     this.building.occupancyCertificate=this.buildingForm.get('occupancyCertificateControl').value;
     this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
     this.building.existancyStatus=this.buildingForm.get('existancyStatusControl').value;
@@ -409,7 +444,6 @@ export class RegisterComponent implements OnInit {
     this.building.basement=this.buildingForm.get('jamthogControl').value;
     this.building.buildingStyle=this.buildingForm.get('buildingStyleControl').value;
     this.building.structureType=this.buildingForm.get('structureTypeControl').value;
-    this.building.materialType=this.buildingForm.get('materialTypeControl').value;
     this.building.roofType=this.buildingForm.get('roofTypeControl').value;
     this.building.roofingMaterial=this.buildingForm.get('roofingMaterialControl').value;
     this.building.emergencyExit=this.buildingForm.get('emergencyExitControl').value;
@@ -418,20 +452,26 @@ export class RegisterComponent implements OnInit {
     this.building.wasteCollection=this.buildingForm.get('wasteCollectionControl').value;
     this.building.dryWasteCollection=this.buildingForm.get('dryWasteCollectionControl').value;
     this.building.wetWasteCollection=this.buildingForm.get('wetWasteCollectionControl').value;
-    this.building.waterSupply=this.buildingForm.get('waterSupplyControl').value;
     this.building.buildingUse=this.buildingForm.get('buildingUseControl').value;
     this.building.parking=this.buildingForm.get('parkingControl').value;
     this.building.buildingRemarksstring=this.buildingForm.get('buildingRemarksControl').value;
+    this.building.user_id = Number(sessionStorage.getItem('userId'));
 
     this.dataService.postBuilding(this.building).subscribe(response=>{
       console.log(response.status);
       if(response.success === "true"){
-        this.router.navigate(['dashboard',this.buildingId]);
-        this.snackBar.open('Building Registration Complete', '', {
-          duration: 5000,
-          verticalPosition: 'bottom',
-          panelClass: ['success-snackbar']
-        });
+        if(this.building.buildingUse === "4"){
+          this.registerInstitute();
+        }else if(this.building.buildingUse === "5"){
+          this.registerSchool();
+        }else{
+          this.snackBar.open('Registration complete', '', {
+            duration: 5000,
+            verticalPosition: 'bottom',
+            panelClass: ['success-snackbar']
+          });
+          this.router.navigate(['dashboard',this.buildingId])
+        }
       }else if(response.success === "false"){
         this.snackBar.open('Could not register Household'+response.msg, '', {
           duration: 5000,
@@ -440,6 +480,70 @@ export class RegisterComponent implements OnInit {
         });
       }else{
         this.snackBar.open('Error registering Building', '', {
+          duration: 5000,
+          verticalPosition: 'bottom',
+          panelClass: ['error-snackbar']
+        });
+      }
+    })
+  }
+  registerSchool(){
+        this.school.structure_id = Number(sessionStorage.getItem('buildingId'));
+        this.school.user_id = Number(sessionStorage.getItem('userId'));
+        this.school.schoolName =this.schoolForm.get('schoolNameControl').value;
+        this.school.schoolEstablishmentYear =this.schoolForm.get('schoolEstablishmentYearControl').value;
+        this.school.schoolStaffMale =this.schoolForm.get('schoolStaffMaleControl').value;
+        this.school.schoolStaffFemale=this.schoolForm.get('schoolStaffFemaleControl').value;
+        this.school.studentsMale=this.schoolForm.get('studentsMaleControl').value;
+        this.school.studentsFemale=this.schoolForm.get('studentsFemaleControl').value;
+        this.school.vehicles=this.schoolForm.get('vehicleNumberControl').value;
+        this.dataService.postSchool(this.school).subscribe(response=>{
+          if(response.success === "true"){
+            this.snackBar.open('Registration complete', '', {
+              duration: 5000,
+              verticalPosition: 'bottom',
+              panelClass: ['success-snackbar']
+            });
+            this.router.navigate(['dashboard',this.buildingId])
+          }else if (response.success === "false"){
+            this.snackBar.open('Cannot register unit', '', {
+              duration: 5000,
+              verticalPosition: 'bottom',
+              panelClass: ['error-snackbar']
+            });
+          }else if(response.success === "error"){
+            this.snackBar.open('Error Registering unit', '', {
+              duration: 5000,
+              verticalPosition: 'bottom',
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
+  }
+  registerInstitute(){
+    this.institute.structure_id = Number(sessionStorage.getItem('buildingId'));
+    this.institute.user_id = Number(sessionStorage.getItem('userId'));
+    this.institute.instituteName = this.institutionForm.get('instituteNameControl').value;
+    this.institute.instituteEstablishmentYear = this.institutionForm.get('instituteEstablishmentYearControl').value;
+    this.institute.instituteStaffMale= this.institutionForm.get('institueStaffMaleControl').value;
+    this.institute.instituteStaffFemale= this.institutionForm.get('instituteStaffFemaleControl').value;
+    this.institute.instituteVehicle= this.institutionForm.get('instituteVehicleControl').value;
+    this.dataService.postInstitute(this.institute).subscribe(response=>{
+       if(response.success === "true"){
+        this.snackBar.open('Registration complete', '', {
+          duration: 5000,
+          verticalPosition: 'bottom',
+          panelClass: ['success-snackbar']
+        });
+        this.router.navigate(['dashboard',this.buildingId])
+      }else if (response.success === "false"){
+        this.snackBar.open('Cannot register unit', '', {
+          duration: 5000,
+          verticalPosition: 'bottom',
+          panelClass: ['error-snackbar']
+        });
+      }else if(response.success === "error"){
+        this.snackBar.open('Error Registering unit', '', {
           duration: 5000,
           verticalPosition: 'bottom',
           panelClass: ['error-snackbar']

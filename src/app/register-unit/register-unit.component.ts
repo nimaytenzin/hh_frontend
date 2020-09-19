@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { DataService } from '../service/data.service';
@@ -63,26 +63,38 @@ interface Nationality{
 }
 
 export class Unit{
-  building_id:number;
+  structure_id:number;
   unitNumber:string;
+  unitName:string;
   occupancyStatus:string;
   floorLevel:string;
   unitOwnership:string;
   rent:string;
   unitUse:string;
-  user_id:number;
   remarks:string;
+  contact:string;
+  user_id:number;
 }
 export class Resident{
   unit_id:number;
   building_id:number;
   headHousehold:string;
   contactNumberHead:string;
-  nationality:string;
+  cid:string;
+  bhutaneseNationals:string;
+  nonBhutaneseNationals
   nationalityRemarks:string;
-  religion:string;
-  maleBelow6:string;
-  femaleBelow6:string;
+  buddhistMale:string;
+  buddhistFemale:string;
+  hindumMale:string;
+  hindumFemale:string;
+  christianMale:string;
+  christianFemale:string;
+  otherMaleR:string;
+  otherFemaleR:string;
+
+  maleBelow5:string;
+  femaleBelow5:string;
   male617:string;
   female617:string;
   male1824:string;
@@ -97,6 +109,7 @@ export class Resident{
   civilFemale:string;
   farmerMale:string;
   farmerFemale:string;
+  houseHusband:string;
   houseWife:string;
   jobSeekerMale:string;
   jobSeekerFemale:string;
@@ -119,8 +132,8 @@ export class Resident{
   taxi:string;
   otherVehicle:string;
   resParking:string;
+  workPlaceSchool:string;
   busTransport:string;
-  taxiTransport:string;
   ownLand:string;
   ownHouse:string;
   residentRemark:string;
@@ -136,7 +149,7 @@ export class Resident{
 export class RegisterUnitComponent implements OnInit {
   multiUnitForm: FormGroup;
   residentForm: FormGroup;
-  shopForm: FormGroup;
+  contactForm: FormGroup;
   showScanner = false;
   buildingId: number;
   qrId: string;
@@ -158,6 +171,7 @@ export class RegisterUnitComponent implements OnInit {
   showOtherType = false;
   displayResidentForm = false;
   displayShopForm = false;
+  displayOtherUse = false;
 
 //Multi Units
 occupancyStatus: Occupancy[]=[
@@ -183,6 +197,7 @@ unitOwnership:UnitOwnership[]=[
   {id:'2', name:"Rented"},  
 ];
 multiUnitUse:UnitUse[]=[
+  {id:'56', name:"Residential"},
   {id:'1', name:"Agricultural Shed"},
   {id:'2', name:"Animal Shelter"},
   {id:'3', name:"Art Gallery"},
@@ -190,14 +205,12 @@ multiUnitUse:UnitUse[]=[
   {id:'5', name:"Bakery"},
   {id:'6', name:"Bank"},
   {id:'7', name:"Bar"},
-  {id:'8', name:"Butter Lamp Room"},
   {id:'9', name:"Car Showroom"},
   {id:'10', name:"Carwash"},
   {id:'11', name:"Check Post"},
   {id:'12', name:"Chhukhor Mani"},
   {id:'13', name:"Clothing Shop"},
   {id:'14', name:"Cobler"},
-  {id:'15', name:"Commercial/Residents"},
   {id:'16', name:"Community Center"},
   {id:'17', name:"Conferenced Hall"},
   {id:'18', name:"Cottage Industry"},
@@ -237,11 +250,8 @@ multiUnitUse:UnitUse[]=[
   {id:'52', name:"Public Toilet"},
   {id:'53', name:"Religious"},
   {id:'54', name:"Religious Item Shop"},
-  {id:'55', name:"Religious/Residential"},
-  {id:'56', name:"Residential"},
   {id:'57', name:"Resort/Hotel"},
   {id:'58', name:"Restaurant"},
-  {id:'59', name:"Royal Water Supply"},
   {id:'60', name:"Salon/Barber Shop"},
   {id:'61', name:"Sawmill"},
   {id:'62', name:"Scrap Yard"},
@@ -263,10 +273,9 @@ multiUnitUse:UnitUse[]=[
 
 //reidential
 resParking:Parking[]=[
-  {id:'1', name:"Designated Onstreet"},
-  {id:'2', name:"Un-designated Onstreet"},
-  {id:'3', name:"Offstreet"},
-  {id:'4', name:"Private Parking"},
+  {id:'1', name:"Designated"},
+  {id:'2', name:"Un-designated"},
+  {id:'3', name:"Private"},
 ]
 
 busTransport:BusTransport[]=[
@@ -307,6 +316,7 @@ nationality:Nationality[] =[
 ];
 //
 
+
 constructor(
   private fb: FormBuilder,
   private route: ActivatedRoute,
@@ -316,6 +326,7 @@ constructor(
   private snackBar: MatSnackBar
 ) {
   this.unit = new Unit();
+  this.resident = new Resident();
 }
 
 ngOnInit() {
@@ -325,11 +336,15 @@ ngOnInit() {
 
 changeDiff($event){
   this.displayResidentForm = false;
-  if($event.value === "56"){
+  this.displayShopForm = false;
+  this.displayOtherUse = false;
+  if($event.value === "Residential"){
     this.displayResidentForm=true;
-    this.unitUse=="Residential";
-  } else if($event.value === "19" || $event.value === "31" || $event.value === "49" || $event.value === "73" || $event.value === "74"){
-    this.displayShopForm =true;
+  }else if($event.value === "Others"){
+    this.displayOtherUse =true;
+    this.displayShopForm = true;
+  }else{ 
+    this.displayShopForm = true;
   }
 };
 
@@ -337,21 +352,30 @@ changeDiff($event){
 reactiveForms() {
   this.multiUnitForm = this.fb.group({
     multiUnitIdControl:[],
+    unitNameControl:[],
     occupancyStatusControl:[],
     floorLevelControl:[],
     unitOwnershipControl:[],
     rentControl:[],
-    unitUseControl:[],
-    multiUnitRemarks:[],
     multiUnitUseControl:[],
+    otherUseRemarkControl:[],
     multiUnitRemarksControl:[]
   });
   this.residentForm = this.fb.group({
     headHouseholdControl:[],
     contactNumberHeadControl:[],
     cidControl:[],
-    nationalityControl:[],
-    religionControl:[],
+    bhutaneseNationalsControl:[],
+    nonBhutaneseNationalsControl:[],
+    nationalityRemarksControl:[],
+    buddhismMaleControl:[],
+    buddhismFemaleControl:[],
+    hinduismMaleControl:[],
+    hinduismFemaleControl:[],
+    christianityMaleControl:[],
+    christianityFemaleControl:[],
+    otherMaleRControl:[],
+    otherFemaleRControl:[],
     maleBelow6Control:[],
     femaleBelow6Control:[],
     male617Control:[],
@@ -362,12 +386,14 @@ reactiveForms() {
     female2559Control:[],
     male60Control:[],
     female60Control:[],
+
     armedMaleControl:[],
     armedFemaleControl:[],
     civilMaleControl:[],
     civilFemaleControl:[],
     farmerMaleControl:[],
     farmerFemaleControl:[],
+    houseHusbandControl:[],
     houseWifeControl:[],
     jobSeekerMaleControl:[],
     jobSeekerFemaleControl:[],
@@ -390,32 +416,93 @@ reactiveForms() {
     taxiControl:[],
     resParkingControl:[],
     otherVehicleControl:[],
-    parkingControl:[],
     busTransportControl:[],
-    taxiTransportControl:[],
     ownLandControl:[],
+    workPlaceSchoolControl:[],
     ownHouseControl:[],
     residentRemarksControl:[],
-    shopNameControl:[],
-    shopContactControl:[],   
-
     });
-    this.shopForm = this.fb.group({
-      shopNameControl:[],
-      shopContactControl:[],
-    });
+  this.contactForm= this.fb.group({
+      contactControl:[],
+  });
     
-  }
+}
 
 
   submit(){
-    // this.router.navigate(['dashboard',this.buildingId]);
+    // this.router.navigate(['dashboard']);
     this.registerUnit();
+    // this.snackBar.open('Unit Registration Complete', '', {
+    //   duration: 5000,
+    //   verticalPosition: 'bottom',
+    //   panelClass: ['success-snackbar']
+    // });
+    // this.router.navigate(['dashboard',this.buildingId]);
   }
   registerResident(unitid){
     this.resident.unit_id = unitid;
     this.resident.building_id = Number(sessionStorage.getItem('buildingId'));
     this.resident.headHousehold = this.residentForm.get('headHouseholdControl').value;
+    this.resident.contactNumberHead = this.residentForm.get('contactNumberHeadControl').value;
+    this.resident.cid = this.residentForm.get('cidControl').value;
+    this.resident.bhutaneseNationals = this.residentForm.get('bhutaneseNationalsControl').value;
+    this.resident.nonBhutaneseNationals= this.residentForm.get('nonBhutaneseNationalsControl').value;
+    this.resident.nationalityRemarks = this.residentForm.get('nationalityRemarksControl').value;
+    this.resident.buddhistMale = this.residentForm.get('buddhismMaleControl').value;
+    this.resident.buddhistFemale = this.residentForm.get('buddhismFemaleControl').value;
+    this.resident.hindumMale = this.residentForm.get('hinduismMaleControl').value;
+    this.resident.hindumFemale = this.residentForm.get('hinduismFemaleControl').value;
+    this.resident.christianMale = this.residentForm.get('christianityMaleControl').value;
+    this.resident.christianFemale = this.residentForm.get('christianityFemaleControl').value;
+    this.resident.otherMaleR = this.residentForm.get('otherMaleRControl').value;
+    this.resident.otherFemaleR = this.residentForm.get('otherFemaleRControl').value;
+    this.resident.maleBelow5 = this.residentForm.get('maleBelow6Control').value;
+    this.resident.femaleBelow5 = this.residentForm.get('femaleBelow6Control').value;
+    this.resident.male617 = this.residentForm.get('male617Control').value;
+    this.resident.female617 = this.residentForm.get('female617Control').value;
+    this.resident.male1824 =  this.residentForm.get('male1824Control').value;
+    this.resident.female1824 = this.residentForm.get('female1824Control').value;
+    this.resident.male2559 = this.residentForm.get('male2559Control').value;
+    this.resident.female2559 = this.residentForm.get('female2559Control').value;
+    this.resident.male60 = this.residentForm.get('male60Control').value;
+    this.resident.female60 = this.residentForm.get('female60Control').value;
+
+   
+    this.resident.armedMale = this.residentForm.get("armedMaleControl").value;
+    this.resident.armedFemale = this.residentForm.get("armedFemaleControl").value;
+    this.resident.civilMale = this.residentForm.get("civilMaleControl").value;
+    this.resident.civilFemale = this.residentForm.get("civilFemaleControl").value;
+    this.resident.farmerMale = this.residentForm.get("farmerMaleControl").value;
+    this.resident.farmerFemale = this.residentForm.get("farmerFemaleControl").value;
+    this.resident.houseHusband = this.residentForm.get("houseHusbandControl").value;
+    this.resident.houseWife = this.residentForm.get("houseWifeControl").value;
+    this.resident.jobSeekerMale = this.residentForm.get("jobSeekerMaleControl").value;
+    this.resident.jobSeekerFemale = this.residentForm.get("jobSeekerFemaleControl").value;
+    this.resident.monk = this.residentForm.get("monkControl").value;
+    this.resident.nun = this.residentForm.get("nunControl").value;
+    this.resident.privateEmployeeMale = this.residentForm.get("privateEmployeeMaleControl").value;
+    this.resident.privateEmployeeFemale = this.residentForm.get("privateEmployeeFemaleControl").value;
+    this.resident.retireeMale = this.residentForm.get("retireeMaleControl").value;
+    this.resident.retireeFemale = this.residentForm.get("retireeFemaleControl").value;
+    this.resident.corporateMale = this.residentForm.get("corporateMaleControl").value;
+    this.resident.corporateFemale = this.residentForm.get("corporateFemaleControl").value;
+    this.resident.studentMale = this.residentForm.get("studentMaleControl").value;
+    this.resident.studentFemale = this.residentForm.get("studentFemaleControl").value;
+    this.resident.othersMale = this.residentForm.get("othersMaleControl").value;
+    this.resident.othersFemale = this.residentForm.get("othersFemaleControl").value;
+    this.resident.familyIncome = this.residentForm.get("familyIncomeControl").value;
+    this.resident.differentlyAbled = this.residentForm.get("differentlyAbledControl").value;
+    this.resident.electricCar = this.residentForm.get("electricCarControl").value;
+    this.resident.hybridCar = this.residentForm.get("hybridCarControl").value;
+    this.resident.taxi = this.residentForm.get("taxiControl").value;
+    this.resident.resParking = this.residentForm.get("resParkingControl").value;
+    this.resident.otherVehicle = this.residentForm.get("otherVehicleControl").value;
+    this.resident.busTransport = this.residentForm.get("busTransportControl").value;
+    this.resident.ownLand = this.residentForm.get("ownLandControl").value;
+    this.resident.workPlaceSchool = this.residentForm.get("workPlaceSchoolControl").value;
+    this.resident.ownHouse = this.residentForm.get("ownHouseControl").value;
+    this.resident.residentRemark = this.residentForm.get("residentRemarksControl").value;
+
     this.dataService.postResident(this.resident).subscribe(response=>{
       if(response.success === "true"){
         this.snackBar.open('Registration complete', '', {
@@ -440,33 +527,36 @@ reactiveForms() {
     })
   }
   registerUnit(){
-    this.unit.building_id=Number(sessionStorage.getItem('buildingId'));
+    this.unit.structure_id=Number(sessionStorage.getItem('buildingId'));
     this.unit.unitNumber = this.multiUnitForm.get('multiUnitIdControl').value;
-    this.unit.user_id = 1;
+    this.unit.unitName = this.multiUnitForm.get('unitNameControl').value;
+    this.unit.occupancyStatus = this.multiUnitForm.get('occupancyStatusControl').value;
+    this.unit.floorLevel = this.multiUnitForm.get('floorLevelControl').value;
+    this.unit.unitOwnership = this.multiUnitForm.get('unitOwnershipControl').value;
+    this.unit.rent = this.multiUnitForm.get('rentControl').value;
+
+    this.unitUse = this.multiUnitForm.get('multiUnitUseControl').value;
+    if(this.unitUse=== "Others"){
+      this.unitUse = this.multiUnitForm.get('otherUseRemarkControl').value;
+    }
+    this.unit.unitUse = this.unitUse;
+    this.unit.remarks = this.multiUnitForm.get('multiUnitRemarksControl').value;
+    this.unit.contact = this.contactForm.get('contactControl').value;
+    this.unit.user_id = Number(sessionStorage.getItem('userId'));
+
     this.dataService.postUnit(this.unit).subscribe(response=>{
       if(response.success === "true"){
         this.unitId = response.data.id
-        this.dataService.postProgress(this.buildingId).subscribe(response=>{
-          if(response['success']=="true"){
-            this.snackBar.open('Building marked in progress', '', {
-              duration: 1000,
-              verticalPosition: 'bottom',
-              panelClass: ['error-snackbar']
-            });
-          }
-        })
-
-        this.router.navigate(['dashboard',this.buildingId]);
-        // if(this.unitUse === "Residential"){
-        //   this.registerResident(this.unitId)
-        // }else{
-        //   this.snackBar.open('Registration complete', '', {
-        //     duration: 5000,
-        //     verticalPosition: 'bottom',
-        //     panelClass: ['success-snackbar']
-        //   });
-        //   this.router.navigate(['dashboard',this.buildingId])
-        // }
+        if(this.unitUse === "Residential"){
+          this.registerResident(this.unitId)
+        }else{
+          this.snackBar.open('Registration complete', '', {
+            duration: 5000,
+            verticalPosition: 'bottom',
+            panelClass: ['success-snackbar']
+          });
+          this.router.navigate(['dashboard',this.buildingId])
+        }
       }else if (response.success === "false"){
         this.snackBar.open('Cannot register unit', '', {
           duration: 5000,

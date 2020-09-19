@@ -75,6 +75,21 @@ export class DataService {
       );
   }
 
+  getBuildingInfo(bid){
+    return this.http
+      .get<any>(`${this.API_URL}/get-building-info/${bid}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+  getUnits(buildingId){
+    return this.http
+      .get(`${this.API_URL}/getunits/${buildingId}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   validateQRCode(requestType, uuid) {
     return this.http
       .get<any>(`${this.API_URL}/validate-qr/${requestType}/${uuid}`, this.httpOptions)
@@ -112,9 +127,9 @@ export class DataService {
         catchError(this.handleError)
       );
   }
-  postShop(item){
+  postSchool(item){
     return this.http
-      .post<any>(`${this.API_URL}/create-shop`,item,this.httpOptions)
+      .post<any>(`${this.API_URL}/create-school`,item,this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -126,7 +141,13 @@ export class DataService {
         catchError(this.handleError)
       );
   }
-
+  postInstitute(item){
+    return this.http
+      .post<any>(`${this.API_URL}/create-institution`,item,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
   postAtm(item){
     return this.http
       .post<any>(`${this.API_URL}/create-atm`,item,this.httpOptions)

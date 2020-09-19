@@ -27,6 +27,8 @@ export class DashboardComponent implements OnInit {
   longitude: number;
   latitude: number;
   accuracy: number;
+  units = [];
+  buildingId:number;
 
   constructor(
     private router: Router,
@@ -40,13 +42,30 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    sessionStorage.setItem('buildingId',this.route.snapshot.params['id'])
+    this.buildingId = this.route.snapshot.params['id'];
+    sessionStorage.setItem('buildingId',this.buildingId.toString());
+    this.getUnits(this.buildingId);
   }
 
   redirect(path) {
     sessionStorage.setItem('transactionType', 'registration');
     this.router.navigate([path]);
   }
+  getUnits(bid){
+    this.dataService.getUnits(bid).subscribe(response=>{
+      if(response['success']=="true"){
+        this.units=response['data'];
+      }else if(response['success']=="false"){
+        console.log("no units for this building")
+      }else{
+          this.snackBar.open('error retrieving units' , '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['success-snackbar']
+          });
+      }
+    }) 
+  } 
 
   gotocamera(){
     this.router.navigate(['camera']);
