@@ -77,24 +77,24 @@ export class Unit{
 }
 export class Resident{
   unit_id:number;
-  building_id:number;
+  structure_id:number;
   headHousehold:string;
   contactNumberHead:string;
   cid:string;
   bhutaneseNationals:string;
   nonBhutaneseNationals
   nationalityRemarks:string;
-  buddhistMale:string;
-  buddhistFemale:string;
-  hindumMale:string;
-  hindumFemale:string;
-  christianMale:string;
-  christianFemale:string;
+  buddhismMale:string;
+  buddhismFemale:string;
+  hinduismMale:string;
+  hinduismFemale:string;
+  christianityMale:string;
+  christianityFemale:string;
   otherMaleR:string;
   otherFemaleR:string;
 
-  maleBelow5:string;
-  femaleBelow5:string;
+  maleBelow6:string;
+  femaleBelow6:string;
   male617:string;
   female617:string;
   male1824:string;
@@ -136,7 +136,7 @@ export class Resident{
   busTransport:string;
   ownLand:string;
   ownHouse:string;
-  residentRemark:string;
+  residentRemarks:string;
 }
 
 
@@ -441,23 +441,23 @@ reactiveForms() {
   }
   registerResident(unitid){
     this.resident.unit_id = unitid;
-    this.resident.building_id = Number(sessionStorage.getItem('buildingId'));
+    this.resident.structure_id= Number(sessionStorage.getItem('buildingId'));
     this.resident.headHousehold = this.residentForm.get('headHouseholdControl').value;
     this.resident.contactNumberHead = this.residentForm.get('contactNumberHeadControl').value;
     this.resident.cid = this.residentForm.get('cidControl').value;
     this.resident.bhutaneseNationals = this.residentForm.get('bhutaneseNationalsControl').value;
     this.resident.nonBhutaneseNationals= this.residentForm.get('nonBhutaneseNationalsControl').value;
     this.resident.nationalityRemarks = this.residentForm.get('nationalityRemarksControl').value;
-    this.resident.buddhistMale = this.residentForm.get('buddhismMaleControl').value;
-    this.resident.buddhistFemale = this.residentForm.get('buddhismFemaleControl').value;
-    this.resident.hindumMale = this.residentForm.get('hinduismMaleControl').value;
-    this.resident.hindumFemale = this.residentForm.get('hinduismFemaleControl').value;
-    this.resident.christianMale = this.residentForm.get('christianityMaleControl').value;
-    this.resident.christianFemale = this.residentForm.get('christianityFemaleControl').value;
+    this.resident.buddhismMale = this.residentForm.get('buddhismMaleControl').value;
+    this.resident.buddhismFemale = this.residentForm.get('buddhismFemaleControl').value;
+    this.resident.hinduismMale = this.residentForm.get('hinduismMaleControl').value;
+    this.resident.hinduismFemale = this.residentForm.get('hinduismFemaleControl').value;
+    this.resident.christianityMale = this.residentForm.get('christianityMaleControl').value;
+    this.resident.christianityFemale = this.residentForm.get('christianityFemaleControl').value;
     this.resident.otherMaleR = this.residentForm.get('otherMaleRControl').value;
     this.resident.otherFemaleR = this.residentForm.get('otherFemaleRControl').value;
-    this.resident.maleBelow5 = this.residentForm.get('maleBelow6Control').value;
-    this.resident.femaleBelow5 = this.residentForm.get('femaleBelow6Control').value;
+    this.resident.maleBelow6= this.residentForm.get('maleBelow6Control').value;
+    this.resident.femaleBelow6 = this.residentForm.get('femaleBelow6Control').value;
     this.resident.male617 = this.residentForm.get('male617Control').value;
     this.resident.female617 = this.residentForm.get('female617Control').value;
     this.resident.male1824 =  this.residentForm.get('male1824Control').value;
@@ -501,7 +501,7 @@ reactiveForms() {
     this.resident.ownLand = this.residentForm.get("ownLandControl").value;
     this.resident.workPlaceSchool = this.residentForm.get("workPlaceSchoolControl").value;
     this.resident.ownHouse = this.residentForm.get("ownHouseControl").value;
-    this.resident.residentRemark = this.residentForm.get("residentRemarksControl").value;
+    this.resident.residentRemarks = this.residentForm.get("residentRemarksControl").value;
 
     this.dataService.postResident(this.resident).subscribe(response=>{
       if(response.success === "true"){
@@ -547,6 +547,11 @@ reactiveForms() {
     this.dataService.postUnit(this.unit).subscribe(response=>{
       if(response.success === "true"){
         this.unitId = response.data.id
+        this.dataService.postProgress(this.buildingId).subscribe(resp=>{
+          if(resp['success']==="true"){
+            console.log("marked progress")
+          }
+        });
         if(this.unitUse === "Residential"){
           this.registerResident(this.unitId)
         }else{
