@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
     iconSize: [15,15]
   });
   myMarker = L.icon({
-    iconUrl: 'assets/marker-icon.png',
+    iconUrl: 'assets/mymarker.png',
     iconSize: [20, 20]
   });
 
@@ -311,7 +311,7 @@ export class MapComponent implements OnInit {
 
   onMapReady(map: L.Map) {
     const zoneId = Number(sessionStorage.getItem('subZoneId'));
-    const geojson = this.http.get(`${this.BASE_URL}/assets/geojson/conv_T${zoneId}.geojson`).subscribe((json:any)=>{
+    const geojson = this.http.get(`/assets/geojson/conv_T${zoneId}.geojson`).subscribe((json:any)=>{
       this.bound= L.geoJSON(json,{
         style: (feature)=>{
           return {
