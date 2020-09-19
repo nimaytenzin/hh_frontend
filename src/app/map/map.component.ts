@@ -34,6 +34,7 @@ export class MapComponent implements OnInit {
   watchId;
   mylocation: L.Marker;
   mycircle: L.Circle;
+  newMarker: L.Marker;
   bound: any;
 
   map: L.Map;
@@ -295,13 +296,12 @@ export class MapComponent implements OnInit {
     });
 
 
-    let newMarker: any;
     this.map.on('click', <LeafletMouseEvent>($e) => {
       if (this.isAddAllowed) {
-        if (newMarker !== undefined) {
-          this.map.removeLayer(newMarker);
+        if (this.newMarker !== undefined) {
+          this.map.removeLayer(this.newMarker);
         }
-        newMarker = L.marker($e.latlng, {icon: this.myMarker}).addTo(this.map);
+        this.newMarker = L.marker($e.latlng, {icon: this.myMarker}).addTo(this.map);
         this.presentAlert($e.latlng);
       }
     });
@@ -394,6 +394,9 @@ export class MapComponent implements OnInit {
             this.router.navigate(['update-household', this.buildingId]);
           }
         });
+      }else{
+        this.map.removeLayer(this.newMarker)
+        this.isAddAllowed = false;
       }
     });
   }
