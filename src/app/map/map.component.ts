@@ -378,7 +378,7 @@ export class MapComponent implements OnInit {
       if (result === true) {
         this.building.lat = latlng.lat;
         this.building.lng = latlng.lng;
-        this.building.sub_zone_id = Number(sessionStorage.getItem('zoneId'));
+        this.building.sub_zone_id = Number(sessionStorage.getItem('subZoneId'));
         this.dataService.postNewBuilding(this.building).subscribe(response => {
           console.log(response);
           this.buildingId = response.data.id;
