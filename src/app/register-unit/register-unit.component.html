@@ -11,7 +11,7 @@
 
             <mat-form-field class="justifier">
               <mat-label>Unit ID</mat-label>
-              <input matInput type="text" name="multiUnitId" formControlName="multiUnitIdControl" required min="0" [readonly]="disableForm" autofocus required>
+              <input matInput type="text" name="multiUnitId" formControlName="multiUnitIdControl"[readonly]="disableForm" autofocus>
             </mat-form-field>
 
             <mat-form-field class="justifier">
@@ -53,7 +53,7 @@
       
             <mat-form-field class="justifier">
               <mat-label>Use</mat-label>
-              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" (selectionChange)="changeDiff($event)" [readonly]="disableForm" >
+              <mat-select name="multiUnitUse" formControlName="multiUnitUseControl" (selectionChange)="changeDiff($event)" [readonly]="disableForm" required>
                 <mat-option *ngFor="let unitUse of multiUnitUse" [value]="unitUse.name">
                   {{unitUse.name}}
                 </mat-option>
