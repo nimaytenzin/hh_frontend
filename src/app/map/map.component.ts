@@ -74,7 +74,7 @@ export class MapComponent implements OnInit {
   }
 
   getMyLocation(){
-    this.map.locate({setView:true,watch:true,enableHighAccuracy:true});
+    this.map.locate({watch:true,enableHighAccuracy:true});
   }
 
   // getMyLocation() {
