@@ -330,6 +330,7 @@ export class MapComponent implements OnInit {
         onEachFeature: (feature, layer) => {
             layer.on('click', (e) => {
               this.buildingId = feature.properties.structure_id;
+              console.log(this.buildingId);
               if(feature.properties.status === "COMPLETE"){
                 this.snackBar.open(`Building with id ${this.buildingId} marked complete. Cannot edit`, '', {
                   duration: 5000,
