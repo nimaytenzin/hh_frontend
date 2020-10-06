@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       const password = this.loginForm.get('password').value;
       this.authService.validateLogin(loginId, password).subscribe(response => {
         sessionStorage.setItem('userId', response.data.id);
+        sessionStorage.setItem('isadmin',response.data.isadmin);
         localStorage.setItem('loginId', loginId);
         this.router.navigate(['selectzone']);
         this.snackBar.open('Welcome ' + response.data.username, '', {

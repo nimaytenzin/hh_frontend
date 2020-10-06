@@ -6,7 +6,7 @@
     <div class="form-body">
       <form [formGroup]="loginForm">
         <mat-form-field class="justifier">
-          <input matInput type="number" placeholder="CID Number" class="form-input" name="cid" formControlName="cid" [ngClass]="{ 'is-invalid': submitted && f.cid.errors }" required autofocus>
+          <input matInput type="text" placeholder="CID Number" class="form-input" name="cid" formControlName="cid" [ngClass]="{ 'is-invalid': submitted && f.cid.errors }" required autofocus>
           <div *ngIf="submitted && f.cid.errors" class="invalid-feedback">
             <div *ngIf="f.cid.errors.required">CID number is required</div>
           <div *ngIf="f.cid.errors.minlength">CID number must be atleast 11 characters</div>

@@ -74,6 +74,13 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+  getResident(unitid){
+    return this.http
+      .get<any>(`${this.API_URL}/get-resident/${unitid}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
   getBuildingInfo(bid){
     return this.http

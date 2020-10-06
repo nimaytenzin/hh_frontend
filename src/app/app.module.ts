@@ -35,6 +35,7 @@ import { CameraComponent } from './camera/camera.component';
 import {WebcamModule} from 'ngx-webcam';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { RegisterAtmComponent } from './register-atm/register-atm.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { RegisterAtmComponent } from './register-atm/register-atm.component';
     CameraComponent,
     UploadImageComponent,
     RegisterAtmComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
