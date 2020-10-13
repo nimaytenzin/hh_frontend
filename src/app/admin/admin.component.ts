@@ -54,7 +54,8 @@ export class AdminComponent implements OnInit {
   mylocation: L.Marker;
   mycircle: L.Circle;
   resident: any;
-  checkIncome = false;
+  showattic= false;
+  residentAttic=[];
 
   map: L.Map;
 
@@ -329,6 +330,11 @@ export class AdminComponent implements OnInit {
     this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
       this.json = json;
       console.log(json);
+      this.http.get(`${this.API_URL}/get-resident-in-attic/${zoneId}`).subscribe((json:any)=>{
+        this.residentAttic = json.data[0];
+        console.log( this.residentAttic.length);
+        console.log(this.residentAttic);
+      })
       const geoJson = L.geoJSON(this.json, {
         onEachFeature: (feature, layer) => {
             layer.on('click', (e) => {
@@ -349,7 +355,13 @@ export class AdminComponent implements OnInit {
               return L.marker(latLng, {icon: this.redMarker});
             }else if(feature.properties.status == "PROGRESS"){
               return L.marker(latLng, {icon: this.yellowMarker});
-            }else{
+            }else if(this.showattic){
+              for(var i = 0;i<this.residentAttic.length;i++){
+                // if(this.residentAttic[i]['structure_id'] == this.);
+                // if()
+              }
+              return L.marker(latLng,{icon: this.myMarker});
+            } else{
               return L.marker(latLng, {icon: this.greenMarker});
             }
           }
@@ -369,6 +381,8 @@ export class AdminComponent implements OnInit {
 
   showBuilding(unitid){
     this.building = null;
+    this.buildingInfo = null;
+    this.buildingInfo = new BuildingInfo();
     this.dataService.getBuildingInfo(unitid).subscribe(resp=>{
       console.log(resp.data);
       this.buildingInfo.BuildingName = resp.data[0]['nameOfTheBuilding'];
