@@ -266,7 +266,7 @@ export class AdminComponent implements OnInit {
           "structure_id":response.data.id
         }
       };
-      this.searchmarker = L.geoJSON(responseJson, {
+      this.searchmarker = L.geoJSON(<GeoJSON.Point>responseJson, {
         onEachFeature: (feature, layer) => {
             layer.on('click', (e) => {
               this.buildingId = feature.properties.structure_id;
