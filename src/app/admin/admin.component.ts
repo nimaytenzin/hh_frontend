@@ -253,7 +253,8 @@ export class AdminComponent implements OnInit {
       alert("Building not found");
     }else{
       if(this.searchmarker !== undefined){
-        this.searchmarker = null
+        this.map.removeLayer(this.searchmarker);  
+        this.searchmarker = null;
       }
       lat = response.data.lat
       lng = response.data.lng
