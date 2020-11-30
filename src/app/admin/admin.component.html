@@ -32,8 +32,18 @@
         </div>
       </div>
     </div>
+    <div class="leaflet-top leaflet-left">
+      
+    </div>
   </div>
   <div class = "scroll" style="float:right;width:48vw">
+    <form  [formGroup]="searchForm">
+      <mat-form-field>
+        <input matInput type="number" placeholder="Search building number" name="search" formControlName="searchBuilding">
+      </mat-form-field>
+      <button type="submit" (click)="submit()" ><mat-icon>search</mat-icon></button>
+    </form>
+
     <h3>Details</h3>
     <div *ngIf="buildingId">
       Building ID: {{buildingId}}

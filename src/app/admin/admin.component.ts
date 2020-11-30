@@ -6,7 +6,7 @@ import { DataService } from '../service/data.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { environment } from '../../environments/environment';
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class Building {
   lat: number;
@@ -37,6 +37,9 @@ interface IdName{
 export class AdminComponent implements OnInit {
   API_URL =environment.API_URL;
   BASE_URL = environment.BASE_URL;
+  searchForm: FormGroup;
+  searchmarker: L.GeoJSON;
+  searchedId: any;
 
   latitude: number;
   longitude: number;
@@ -221,7 +224,8 @@ export class AdminComponent implements OnInit {
     private dataService: DataService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private zone: NgZone
+    private zone: NgZone,
+    private fb: FormBuilder,
   ) { 
     this.building = new Building();
     this.buildingInfo = new BuildingInfo();
@@ -229,7 +233,62 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.renderMap();
+    this.searchForm = this.fb.group({
+      searchBuilding:[]
+    });
   }
+
+  submit(){
+    let result = this.searchForm.get("searchBuilding").value;
+    console.log(result);
+    this.dataService.getStructure(result).subscribe(resp=>{
+      let structure = resp;
+      this.zoomToSearched(structure)
+    });
+  }
+
+  zoomToSearched(response:any){
+    let lat,lng,id = 0
+    if(response.success === "false"){
+      alert("Building not found");
+    }else{
+      if(this.searchmarker !== undefined){
+        this.searchmarker = null
+      }
+      lat = response.data.lat
+      lng = response.data.lng
+
+      this.map.flyTo([lat,lng],18)
+      var responseJson = {
+        "type":"Point",
+        "coordinates":[lng,lat],
+        "properties":{
+          "structure_id":response.data.id
+        }
+      };
+      this.searchmarker = L.geoJSON(responseJson, {
+        onEachFeature: (feature, layer) => {
+            layer.on('click', (e) => {
+              this.buildingId = feature.properties.structure_id;
+              this.showBuilding(this.buildingId);
+              this.resident = null;
+
+              this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+                this.units = json.data;
+              });
+
+              this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+                this.imgs= json.data;
+              });
+              
+            });
+          }, pointToLayer: (feature, latLng) => {
+              return L.marker(latLng,{icon: this.myMarker});
+          }
+        }).addTo(this.map);
+    }
+  }
+  
 
   getMyLocation(){
     this.map.locate({setView:true,watch:true,enableHighAccuracy:true});

@@ -7,6 +7,15 @@
     margin-top: 70px;
     width:50vw;
   }
+  .topnav input[type=text] {
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+  }
+  
   .scroll{
     height: 80vh; 
     overflow-x: hidden; 

@@ -96,6 +96,14 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+  
+  getStructure(strId){
+    return this.http
+      .get(`${this.API_URL}/get-structure/${strId}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 
   validateQRCode(requestType, uuid) {
     return this.http
