@@ -63,6 +63,7 @@
     <div>
         <mat-list-item *ngFor="let image of imgs">
               <img src="{{image.uri}}">
+              {{image.uri}}
         </mat-list-item>
     </div>
     <br>
@@ -175,6 +176,13 @@
 
       <div>
        16) Total non-Bhutanese: 
+       <strong>
+       {{this.resident[0]['nonBhutaneseNationals']}}
+       </strong>
+      </div>
+
+      <div>
+       17) Resident Remarks: 
        <strong>
        {{this.resident[0]['nonBhutaneseNationals']}}
        </strong>
