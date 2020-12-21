@@ -71,16 +71,21 @@ export class Unit{
   unitOwnership:string;
   rent:string;
   unitUse:string;
+  otherUseRemark:string;
   remarks:string;
+
   contact:string;
   user_id:number;
+
 }
 export class Resident{
   unit_id:number;
   structure_id:number;
   headHousehold:string;
   contactNumberHead:string;
+
   cid:string;
+
   bhutaneseNationals:string;
   nonBhutaneseNationals
   nationalityRemarks:string;
@@ -149,7 +154,9 @@ export class Resident{
 export class RegisterUnitComponent implements OnInit {
   multiUnitForm: FormGroup;
   residentForm: FormGroup;
+
   contactForm: FormGroup;
+
   showScanner = false;
   buildingId: number;
   qrId: string;
@@ -171,7 +178,9 @@ export class RegisterUnitComponent implements OnInit {
   showOtherType = false;
   displayResidentForm = false;
   displayShopForm = false;
+
   displayOtherUse = false;
+
 
 //Multi Units
 occupancyStatus: Occupancy[]=[
@@ -250,6 +259,7 @@ multiUnitUse:UnitUse[]=[
   {id:'52', name:"Public Toilet"},
   {id:'53', name:"Religious"},
   {id:'54', name:"Religious Item Shop"},
+
   {id:'57', name:"Resort/Hotel"},
   {id:'58', name:"Restaurant"},
   {id:'60', name:"Salon/Barber Shop"},
@@ -317,6 +327,7 @@ nationality:Nationality[] =[
 //
 
 
+
 constructor(
   private fb: FormBuilder,
   private route: ActivatedRoute,
@@ -337,6 +348,7 @@ ngOnInit() {
 changeDiff($event){
   this.displayResidentForm = false;
   this.displayShopForm = false;
+
   this.displayOtherUse = false;
   if($event.value === "Residential"){
     this.displayResidentForm=true;
@@ -344,6 +356,7 @@ changeDiff($event){
     this.displayOtherUse =true;
     this.displayShopForm = true;
   }else{ 
+
     this.displayShopForm = true;
   }
 };
@@ -357,6 +370,7 @@ reactiveForms() {
     floorLevelControl:[],
     unitOwnershipControl:[],
     rentControl:[],
+
     multiUnitUseControl:[],
     otherUseRemarkControl:[],
     multiUnitRemarksControl:[]
@@ -364,7 +378,9 @@ reactiveForms() {
   this.residentForm = this.fb.group({
     headHouseholdControl:[],
     contactNumberHeadControl:[],
+
     cidControl:[],
+
     bhutaneseNationalsControl:[],
     nonBhutaneseNationalsControl:[],
     nationalityRemarksControl:[],
@@ -416,14 +432,17 @@ reactiveForms() {
     taxiControl:[],
     resParkingControl:[],
     otherVehicleControl:[],
+
     busTransportControl:[],
     ownLandControl:[],
     workPlaceSchoolControl:[],
     ownHouseControl:[],
     residentRemarksControl:[],
     });
+
   this.contactForm= this.fb.group({
       contactControl:[],
+
   });
     
 }
@@ -431,6 +450,7 @@ reactiveForms() {
 
   submit(){
     // this.router.navigate(['dashboard']);
+
     this.registerUnit();
     // this.snackBar.open('Unit Registration Complete', '', {
     //   duration: 5000,
@@ -438,6 +458,7 @@ reactiveForms() {
     //   panelClass: ['success-snackbar']
     // });
     // this.router.navigate(['dashboard',this.buildingId]);
+
   }
   registerResident(unitid){
     this.resident.unit_id = unitid;

@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { ErrorComponent } from './error/error.component';
 import { SelectZoneComponent } from './select-zone/select-zone.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RegisterAtmComponent } from './register-atm/register-atm.component';
 import {
   MatButtonModule,
   MatFormFieldModule,
@@ -42,6 +43,7 @@ import { AdminComponent } from './admin/admin.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    RegisterAtmComponent,
     ErrorComponent,
     SelectZoneComponent,
     DashboardComponent,

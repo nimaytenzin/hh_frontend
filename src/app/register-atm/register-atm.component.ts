@@ -83,8 +83,10 @@ export class RegisterAtmComponent implements OnInit {
           verticalPosition: 'bottom',
           panelClass: ['success-snackbar']
         });
+
       }else if(response.success === "false"){
         this.snackBar.open('Could not register ATM'+response.msg, '', {
+
           duration: 5000,
           verticalPosition: 'bottom',
           panelClass: ['error-snackbar']

@@ -16,6 +16,7 @@ import { AdminComponent } from './admin/admin.component';
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
+
   {path: 'selectzone', component: SelectZoneComponent,canActivate: [RouteGuard]},
   // {path: 'dashboard', component: DashboardComponent, canActivate: [RouteGuard]},
   {path: 'dashboard/:id', component: DashboardComponent,canActivate: [RouteGuard]},

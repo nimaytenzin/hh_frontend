@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+
     this.submitted = true;
     if (this.loginForm.valid) {
       const loginId = this.loginForm.get('cid').value;

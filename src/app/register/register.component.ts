@@ -9,6 +9,7 @@ interface OwnershipType {
   id: string;
   name: string;
 }
+
 export class School{
   structure_id:number;
   user_id:number;
@@ -30,6 +31,7 @@ export class Institution{
   instituteStaffFemale:string;
   instituteVehicle:string;
 }
+
 export class Building{
     structure_id: number;
     nameOfTheBuilding:string;
@@ -175,6 +177,7 @@ export class RegisterComponent implements OnInit {
   buildingOwnership:OwnershipType[]=[
     {id:'1', name:"Singly Owned"},
     {id:'2', name:"Jointly Owned"},
+
   ];
 
   approvedDrawing:OwnershipType[]=[
@@ -212,10 +215,17 @@ export class RegisterComponent implements OnInit {
     {id:'2', name:"1"},
     {id:'3', name:"2"},
   ];
+
   basement:Basement[]=[
     {id:'1', name:"0"},
     {id:'2', name:"1"},
     {id:'3', name:"2"},
+
+  ];
+  basement:Basement[]=[
+    {id:'1', name:"No Basement"},
+    {id:'2', name:"1 Basement"},
+    {id:'2', name:"2 Basement"},
   ];
   buildingStyle:BuildingStyle []=[
     {id:'1', name:"Contemporary"},
@@ -228,6 +238,7 @@ export class RegisterComponent implements OnInit {
     {id:'3', name:"Composite"},
     {id:'4', name:"Others"},
   ];
+
 
   materialType:StructureType []=[
     {id:'1', name:"Brick Masonry"},
@@ -249,6 +260,7 @@ export class RegisterComponent implements OnInit {
     {id:'5', name:"Others"}
   ];
 
+
   roofType: RoofType[]=[
     {id:'1', name:"Gable"},
     {id:'2', name:"Hipped"},
@@ -259,7 +271,9 @@ export class RegisterComponent implements OnInit {
     {id:'1', name:"CGI"},
     {id:'2', name:"Wooden Shingles"},
     {id:'3', name:"Slate"},
+
     {id:'4', name:"Composite"},
+
     {id:'6', name:"Others"},
   ];
   emergencyExit:EmergencyExit[]=[
@@ -273,16 +287,19 @@ export class RegisterComponent implements OnInit {
   ];
   sewerTreatment:SewerTreatment[]=[
     {id:'1', name:"Individual Septic Tank"},
+
     {id:'2', name:"Combined Septic Tank"},
     {id:'3', name:"Thromde Sewerage Network"},
     {id:'4', name:"Pit Latrine"},
     {id:'5', name:"Others"},
+
   ];
   wasteCollection:WasteCollection[]=[
     {id:'1', name:"Thromde"},
     {id:'2', name:"Dzongkhag"},
     {id:'2', name:"Private Company"},
     {id:'3', name:"Individual"},
+
   ];
    buildingUse: BuildingUse[] = [
     {id:'1', name:"Residential"},
@@ -373,7 +390,9 @@ export class RegisterComponent implements OnInit {
     this.buildingForm = this.fb.group({
       buildingOwnershipControl:[],
       nameOfTheBuildingControl:[],
+
       nameOwnerControl:[],
+
       contactNumberBuildingControl:[],
       approvedDrawingsControl:[],
       occupancyCertificateControl:[],
@@ -388,7 +407,6 @@ export class RegisterComponent implements OnInit {
       basementControl:[],
       buildingStyleControl:[],
       structureTypeControl:[],
-      materialTypeControl:[],
       roofTypeControl:[],
       roofingMaterialControl:[],
       emergencyExitControl:[],
@@ -422,16 +440,20 @@ export class RegisterComponent implements OnInit {
 
 
   submit(){
+
     this.registerBuilding();
     // this.router.navigate(['dashboard',this.buildingId]);
+
   }
   registerBuilding(){
     this.building.structure_id =Number(sessionStorage.getItem('buildingId'));
     this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
     this.building.buildingOwnership=this.buildingForm.get('buildingOwnershipControl').value;
+
     this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOwnerControl').value;
     this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuildingControl').value;
     this.building.approvedDrawing=this.buildingForm.get('approvedDrawingsControl').value;
+
     this.building.occupancyCertificate=this.buildingForm.get('occupancyCertificateControl').value;
     this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
     this.building.existancyStatus=this.buildingForm.get('existancyStatusControl').value;

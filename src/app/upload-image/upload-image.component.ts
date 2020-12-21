@@ -33,6 +33,7 @@ export class UploadImageComponent implements OnInit {
   }
 
   uploadImg(){
+
     // this.router.navigate(['dashboard',this.buildingId]);
     if(this.webcamImage){
       let jsonObject = {

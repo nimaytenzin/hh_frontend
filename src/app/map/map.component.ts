@@ -323,7 +323,9 @@ export class MapComponent implements OnInit {
       this.map.fitBounds(this.bound.getBounds());
     })
 
-    this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
+    // this.http.get(`${this.API_URL}/str-json/${zoneId}`).subscribe((json: any) => {
+
+    this.http.get(`${this.API_URL}/get-buildings-json/${zoneId}`).subscribe((json: any) => {
       this.json = json;
       console.log(json);
       const geoJson = L.geoJSON(this.json, {

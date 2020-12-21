@@ -142,7 +142,9 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+
   postSchool(item){
+
     return this.http
       .post<any>(`${this.API_URL}/create-school`,item,this.httpOptions)
       .pipe(
@@ -193,7 +195,7 @@ export class DataService {
       );
   }
 
-  postAtms(items){
+  postAtm(items){
     return this.http
       .post(`${this.API_URL}/create-bulk-atm`,items,this.httpOptions)
       .pipe(
