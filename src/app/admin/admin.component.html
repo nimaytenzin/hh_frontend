@@ -45,18 +45,34 @@
     </form>
 
     <h3>Details</h3>
-    <div *ngIf="buildingId">
-      Building ID: {{buildingId}}
-    </div>
     <div *ngIf="buildingInfo">
-    <h3>Building Details</h3>    
-    <div>BuildingName: {{buildingInfo.BuildingName}}</div>
-    <div>Building Owner: {{buildingInfo.BuildingOwner}}</div>
-    <div>Contact Number of Owner: {{buildingInfo.Contact}}</div>
-    <div>Bulding Use: {{buildingInfo.BuildingUse}}</div>
-    <div>Sewer Treatment: {{buildingInfo.Sewer}}</div>
-    <div>Water Supply: {{buildingInfo.Water}} </div>
-    <div>Waste Collection: {{buildingInfo.Waste}}</div>
+      <h3>Building Details</h3>    
+      <table style = "width:100%;">
+        <tr>
+          <th>Building ID</th>
+          <td>{{buildingId}}</td>
+        </tr>
+        <tr>
+          <th>Building Name</th>
+          <td>{{buildingInfo.BuildingName}}</td>
+        </tr>
+        <tr>
+          <th>Building Owner</th>
+          <td>{{buildingInfo.BuildingOwner}}</td>
+        </tr>
+        <tr>
+          <th>Contact of owner</th>
+          <td>{{buildingInfo.Contact}}</td>
+        </tr>
+        <tr>
+          <th>Building Use</th>
+          <td>{{buildingInfo.BuildingUse}}</td>
+        </tr>
+        <tr>
+          <th>Remarks</th>
+          <td>{{buildingInfo.Remarks}}</td>
+        </tr>
+      </table>
     </div>
     <br>
 <br>
@@ -71,11 +87,32 @@
 
     <div *ngIf="units">
       Unit Details
-      <mat-list-item *ngFor="let unit of units">
+
+      <table style = "width:100%;">
+        <tr>
+          <th>Unit Number</th>
+          <th>Unit Use</th>
+          <th>Unit Name</th>
+          <th>Contact Number</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor = "let unit of units">
+          <td>{{unit.unitNumber}}</td>
+          <td>{{unit.unitUse}}</td>
+          <td>{{unit.unitName}}</td>
+          <td>{{unit.contact}}</td>
+          <td>
+            <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Click for details</a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- <mat-list-item *ngFor="let unit of units">
         <div >Unit Number : <b>{{unit.unitNumber}}</b> | Unit use: <b>{{unit.unitUse}}</b> | Unit Name: <b>{{unit.unitName}}</b> 
+          <b>Contact Number: {{unit.contact}}</b>
            <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Click Here for details</a>
         </div>
-      </mat-list-item>
+      </mat-list-item> -->
       <!-- <mat-list-item *ngfor="let img of imgs">
         <img src="{{img.uri}}">
       </mat-list-item> -->
@@ -83,109 +120,71 @@
     <br><br>
     <div *ngIf="resident">
       Resident Details
-      <div>
-       1) Head of household : <strong>{{this.resident[0]['headHousehold']}}</strong>
-      </div>
-      
-      <div>
-        2) Family Income: <strong>{{this.resident[0]['familyIncome']}}</strong>
-      </div>
-
-      <div>
-       3) CID/Work permit no. : <strong>{{this.resident[0]['cid']}} </strong> 
-      </div>
-
-      <div>
-       4) Contact Number: 
-       <strong>
-       {{this.resident[0]['contactNumberHead']}}
-       </strong>
-      </div>
-
-      <div>
-       6) Male Below 6: 
-       <strong>
-       {{this.resident[0]['maleBelow6']}}
-       </strong>
-      </div>
-      <div>
-       7) Female Below 6: 
-      <strong>
-       {{this.resident[0]['femaleBelow6']}}
-      </strong> 
-      </div>
-      <div>
-       8) Male 6 t0 17: 
-       <strong>
-       {{this.resident[0]['male617']}}
-       </strong>
-      </div>
-      <div>
-       9) Female 6 t0 17:
-       <strong>
-        {{this.resident[0]['female617']}}
-       </strong>
-      </div>
-      <div>
-       10) Male 18 to 24: 
-       <strong>
-       {{this.resident[0]['male1824']}}
-       </strong>
-      </div>
-      <div>
-       11) Female 18 to 24: 
-       <strong>
-       {{this.resident[0]['female1824']}}
-       </strong>
-      </div>
-
-      <div>
-       11) Male 25 to 59: 
-       <strong>
-       {{this.resident[0]['male2559']}}
-       </strong>
-      </div>
-
-      <div>
-       12) Female 25 to 59: 
-       <strong>
-       {{this.resident[0]['female2559']}}
-       </strong>
-      </div>
-
-      <div>
-       13) Male above 60: 
-       <strong>
-       {{this.resident[0]['male60']}}
-       </strong>
-      </div>
-
-      <div>
-       14) Female above 60: 
-       <strong>
-       {{this.resident[0]['female60']}}
-       </strong>
-      </div>
-
-      <div>
-       15) Total Bhutanese: 
-       <strong>
-       {{this.resident[0]['bhutaneseNationals']}}
-       </strong>
-      </div>
-
-      <div>
-       16) Total non-Bhutanese: 
-       <strong>
-       {{this.resident[0]['nonBhutaneseNationals']}}
-       </strong>
-      </div>
-
-      <div>
-       17) Resident Remarks: 
-       <strong>
-       {{this.resident[0]['nonBhutaneseNationals']}}
-       </strong>
-      </div>
+      <table style = "width:100%;">
+        <tr>
+          <th>Head of household</th>
+          <td>{{this.resident[0]['headHousehold']}}</td>
+        </tr>
+        <tr>
+          <th>Famile Income</th>
+          <td>{{this.resident[0]['familyIncome']}}</td>
+        </tr>
+        <tr>
+          <th>Contact Number</th>
+          <td>{{this.resident[0]['contactNumberHead']}}</td>
+        </tr>
+        <tr>
+          <th>Contact Number</th>
+          <td>{{this.resident[0]['contactNumberHead']}}</td>
+        </tr>
+        <tr>
+          <th>CID/ Permit No.</th>
+          <td>{{this.resident[0]['cid']}}</td>
+        </tr>
+        <tr>
+          <th>Male Below 6</th>
+          <td>{{this.resident[0]['maleBelow6']}}</td>
+        </tr>
+        <tr>
+          <th>Female Below 6</th>
+          <td>{{this.resident[0]['femaleBelow6']}}</td>
+        </tr>
+        <tr>
+          <th>Male 6 to 17</th>
+          <td>{{this.resident[0]['male617']}}</td>
+        </tr>
+        <tr>
+          <th>Female 6 to 17</th>
+          <td>{{this.resident[0]['female617']}}</td>
+        </tr>
+        <tr>
+          <th>Male 18 to 24</th>
+          <td>{{this.resident[0]['male1824']}}</td>
+        </tr>
+        <tr>
+          <th>Female 18 to 24</th>
+          <td>{{this.resident[0]['female1824']}}</td>
+        </tr>
+        <tr>
+          <th>Male 25 to 59</th>
+          <td>{{this.resident[0]['male2559']}}</td>
+        </tr>
+        <tr>
+          <th>Female 25 to 59</th>
+          <td>{{this.resident[0]['female2559']}}</td>
+        </tr>
+        <tr>
+          <th>Male above 59</th>
+          <td>{{this.resident[0]['male60']}}</td>
+        </tr>
+        <tr>
+          <th>Female above 59</th>
+          <td>{{this.resident[0]['female60']}}</td>
+        </tr>
+        <tr>
+          <th>Remarks</th>
+          <td>{{this.resident[0]['residentRemarks']}}</td>
+        </tr>
+      </table>
     </div>
   </div>

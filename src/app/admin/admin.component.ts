@@ -22,6 +22,7 @@ export class BuildingInfo{
   Sewer: string;
   Water: string;
   Waste: string;
+  Remarks: string;
 }
 
 interface IdName{
@@ -228,7 +229,7 @@ export class AdminComponent implements OnInit {
     private fb: FormBuilder,
   ) { 
     this.building = new Building();
-    this.buildingInfo = new BuildingInfo();
+    this.buildingInfo = null;
   }
 
   ngOnInit() {
@@ -456,6 +457,7 @@ export class AdminComponent implements OnInit {
       this.buildingInfo.BuildingUse = this.buildingUse[useIndex]['name'];
       this.buildingInfo.Sewer = this.sewerTreatment[sewerIndex]['name'];
       this.buildingInfo.Waste = this.wasteCollection[wasteIndex]['name'];
+      this.buildingInfo.Remarks = resp.data[0]['buildingRemarksstring'];
     });
 
   }
