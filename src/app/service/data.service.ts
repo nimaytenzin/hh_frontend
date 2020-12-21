@@ -74,6 +74,36 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+  getResident(unitid){
+    return this.http
+      .get<any>(`${this.API_URL}/get-resident/${unitid}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getBuildingInfo(bid){
+    return this.http
+      .get<any>(`${this.API_URL}/get-building-info/${bid}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+  getUnits(buildingId){
+    return this.http
+      .get(`${this.API_URL}/getunits/${buildingId}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  
+  getStructure(strId){
+    return this.http
+      .get(`${this.API_URL}/get-structure/${strId}`,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 
   validateQRCode(requestType, uuid) {
     return this.http
@@ -112,16 +142,11 @@ export class DataService {
         catchError(this.handleError)
       );
   }
-  postCompelte(strid){
+
+  postSchool(item){
+
     return this.http
-      .get<any>(`${this.API_URL}/markcomplete/${strid}`)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-  postShop(item){
-    return this.http
-      .post<any>(`${this.API_URL}/create-shop`,item,this.httpOptions)
+      .post<any>(`${this.API_URL}/create-school`,item,this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -129,6 +154,20 @@ export class DataService {
   postBuilding(item){
     return this.http
       .post<any>(`${this.API_URL}/createbuilding`,item,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  postInstitute(item){
+    return this.http
+      .post<any>(`${this.API_URL}/create-institution`,item,this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  postAtm(item){
+    return this.http
+      .post<any>(`${this.API_URL}/create-atm`,item,this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -143,7 +182,14 @@ export class DataService {
 
   postCompletion(buildingId) {
     return this.http
-      .post(`${this.API_URL}/mark-building-completed/${buildingId}`, '', this.httpOptions)
+      .get(`${this.API_URL}/markComplete/${buildingId}`,  this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  postProgress(bid){
+    return this.http
+      .get(`${this.API_URL}/markProgress/${bid}`,  this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -158,7 +204,7 @@ export class DataService {
   }
   postNewBuilding(item) {
     return this.http
-      .post<any>(`${this.API_URL}/buildings`, item, this.httpOptions)
+      .post<any>(`${this.API_URL}/create-str`, item, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );

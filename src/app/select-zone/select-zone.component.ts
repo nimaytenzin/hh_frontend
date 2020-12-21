@@ -116,7 +116,11 @@ export class SelectZoneComponent implements OnInit {
       sessionStorage.setItem('zoneId', this.zoneForm.get('zoneControl').value);
       sessionStorage.setItem('subZoneId', this.zoneForm.get('subZoneControl').value);
       sessionStorage.setItem('shopId', this.zoneForm.get('shopControl').value);
-      this.router.navigate(['map']);
+      if(sessionStorage.getItem('isadmin') === "TRUE"){
+        this.router.navigate(['admin']);
+      }else{
+        this.router.navigate(['map']);
+      }
     }
   }
 }

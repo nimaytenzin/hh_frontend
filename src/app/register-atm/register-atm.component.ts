@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { DataService } from '../service/data.service';
+import { Class } from 'leaflet';
 
 interface AtmType{
   id: string;
@@ -74,15 +75,18 @@ export class RegisterAtmComponent implements OnInit {
 
    
     this.dataService.postAtm(this.atmData).subscribe(response=>{
-      if(response['success'] === "true"){
+      console.log(response.status);
+      if(response.success === "true"){
         this.router.navigate(['dashboard',this.buildingId]);
         this.snackBar.open('ATM Registration Complete', '', {
           duration: 5000,
           verticalPosition: 'bottom',
           panelClass: ['success-snackbar']
         });
-      }else if(response['success'] === "false"){
-        this.snackBar.open('Could not register ATM'+response['message'], '', {
+
+      }else if(response.success === "false"){
+        this.snackBar.open('Could not register ATM'+response.msg, '', {
+
           duration: 5000,
           verticalPosition: 'bottom',
           panelClass: ['error-snackbar']

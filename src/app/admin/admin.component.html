@@ -1,0 +1,190 @@
+<mat-toolbar>
+    <!-- <span>Select a structure</span>
+    <span class="menu-spacer"></span>
+    <button mat-raised-button (click)="toggleAdd()" color="primary">
+      <mat-icon>add</mat-icon>
+      <mat-label>Add Structure</mat-label>
+    </button> -->
+  </mat-toolbar>
+  <div class="map-container">
+    <div class="map-frame">
+      <div id="map">
+        <div class="leaflet-bottom leaflet-right">
+            <button style="
+            width: 42px;
+            border-radius: 23px;
+            height: 42px;
+            background: #ffffffa3;
+            margin-bottom: 20px;
+            border: none;" value="Cancel" class=" span3 leaflet-control" (click)="getMyLocation()">
+              <mat-icon style="color: blue;">location_searching</mat-icon>
+            </button>
+        </div>
+        <div class="leaflet-top leaflet-right">
+          <mat-label style="
+          margin-bottom: 20px;
+          font-size: 13px;
+          font-weight: bold;
+          color: white;
+          background-color: #df1515;
+          padding: 5px;
+          margin-right: 30px;">Select a building by clicking on the red dot</mat-label>
+        </div>
+      </div>
+    </div>
+    <div class="leaflet-top leaflet-left">
+      
+    </div>
+  </div>
+  <div class = "scroll" style="float:right;width:48vw">
+    <form  [formGroup]="searchForm">
+      <mat-form-field>
+        <input matInput type="number" placeholder="Search building number" name="search" formControlName="searchBuilding">
+      </mat-form-field>
+      <button type="submit" (click)="submit()" ><mat-icon>search</mat-icon></button>
+    </form>
+
+    <h3>Details</h3>
+    <div *ngIf="buildingInfo">
+      <h3>Building Details</h3>    
+      <table style = "width:100%;">
+        <tr>
+          <th>Building ID</th>
+          <td>{{buildingId}}</td>
+        </tr>
+        <tr>
+          <th>Building Name</th>
+          <td>{{buildingInfo.BuildingName}}</td>
+        </tr>
+        <tr>
+          <th>Building Owner</th>
+          <td>{{buildingInfo.BuildingOwner}}</td>
+        </tr>
+        <tr>
+          <th>Contact of owner</th>
+          <td>{{buildingInfo.Contact}}</td>
+        </tr>
+        <tr>
+          <th>Building Use</th>
+          <td>{{buildingInfo.BuildingUse}}</td>
+        </tr>
+        <tr>
+          <th>Remarks</th>
+          <td>{{buildingInfo.Remarks}}</td>
+        </tr>
+      </table>
+    </div>
+    <br>
+<br>
+    <div>
+        <mat-list-item *ngFor="let image of imgs">
+              <img src="{{image.uri}}">
+              {{image.uri}}
+        </mat-list-item>
+    </div>
+    <br>
+
+
+    <div *ngIf="units">
+      Unit Details
+
+      <table style = "width:100%;">
+        <tr>
+          <th>Unit Number</th>
+          <th>Unit Use</th>
+          <th>Unit Name</th>
+          <th>Contact Number</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor = "let unit of units">
+          <td>{{unit.unitNumber}}</td>
+          <td>{{unit.unitUse}}</td>
+          <td>{{unit.unitName}}</td>
+          <td>{{unit.contact}}</td>
+          <td>
+            <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Click for details</a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- <mat-list-item *ngFor="let unit of units">
+        <div >Unit Number : <b>{{unit.unitNumber}}</b> | Unit use: <b>{{unit.unitUse}}</b> | Unit Name: <b>{{unit.unitName}}</b> 
+          <b>Contact Number: {{unit.contact}}</b>
+           <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Click Here for details</a>
+        </div>
+      </mat-list-item> -->
+      <!-- <mat-list-item *ngfor="let img of imgs">
+        <img src="{{img.uri}}">
+      </mat-list-item> -->
+    </div>
+    <br><br>
+    <div *ngIf="resident">
+      Resident Details
+      <table style = "width:100%;">
+        <tr>
+          <th>Head of household</th>
+          <td>{{this.resident[0]['headHousehold']}}</td>
+        </tr>
+        <tr>
+          <th>Famile Income</th>
+          <td>{{this.resident[0]['familyIncome']}}</td>
+        </tr>
+        <tr>
+          <th>Contact Number</th>
+          <td>{{this.resident[0]['contactNumberHead']}}</td>
+        </tr>
+        <tr>
+          <th>Contact Number</th>
+          <td>{{this.resident[0]['contactNumberHead']}}</td>
+        </tr>
+        <tr>
+          <th>CID/ Permit No.</th>
+          <td>{{this.resident[0]['cid']}}</td>
+        </tr>
+        <tr>
+          <th>Male Below 6</th>
+          <td>{{this.resident[0]['maleBelow6']}}</td>
+        </tr>
+        <tr>
+          <th>Female Below 6</th>
+          <td>{{this.resident[0]['femaleBelow6']}}</td>
+        </tr>
+        <tr>
+          <th>Male 6 to 17</th>
+          <td>{{this.resident[0]['male617']}}</td>
+        </tr>
+        <tr>
+          <th>Female 6 to 17</th>
+          <td>{{this.resident[0]['female617']}}</td>
+        </tr>
+        <tr>
+          <th>Male 18 to 24</th>
+          <td>{{this.resident[0]['male1824']}}</td>
+        </tr>
+        <tr>
+          <th>Female 18 to 24</th>
+          <td>{{this.resident[0]['female1824']}}</td>
+        </tr>
+        <tr>
+          <th>Male 25 to 59</th>
+          <td>{{this.resident[0]['male2559']}}</td>
+        </tr>
+        <tr>
+          <th>Female 25 to 59</th>
+          <td>{{this.resident[0]['female2559']}}</td>
+        </tr>
+        <tr>
+          <th>Male above 59</th>
+          <td>{{this.resident[0]['male60']}}</td>
+        </tr>
+        <tr>
+          <th>Female above 59</th>
+          <td>{{this.resident[0]['female60']}}</td>
+        </tr>
+        <tr>
+          <th>Remarks</th>
+          <td>{{this.resident[0]['residentRemarks']}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
