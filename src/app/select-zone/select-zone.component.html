@@ -16,7 +16,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="justifier">
-          <mat-label>Zone</mat-label>
+          <mat-label>Super Zone</mat-label>
           <mat-select #zone formControlName="zoneControl" name="zone" (selectionChange)="getSubzoneList(zone.value)" required>
             <mat-option *ngFor="let zone of zones" [value]="zone.id">
               {{zone.name}}
@@ -24,7 +24,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="justifier">
-          <mat-label>Sub-zone</mat-label>
+          <mat-label>Zone</mat-label>
           <mat-select formControlName="subZoneControl" name="subZone" required>
             <mat-option *ngFor="let subZone of subZones" [value]="subZone.id">
               {{subZone.name}}
