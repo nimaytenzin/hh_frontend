@@ -612,17 +612,17 @@ export class AdminComponent implements OnInit {
   }
 
   reset(){
-    if(this.bound !== undefined){
+    if(this.bound !== null){
       this.map.removeLayer(this.bound)
-      this.bound = null;
+      // this.bound = null;
     }
-    if(this.buildingGeojson !== undefined){
+    if(this.buildingGeojson !== null){
       this.map.removeLayer(this.buildingGeojson);
-      this.buildingGeojson = null;
+      // this.buildingGeojson = null;
     }
     if(this.searchmarker !== undefined){
       this.map.removeLayer(this.searchmarker);
-      this.searchmarker = null;
+      // this.searchmarker = null;
     }
     this.buildingInfo = null;
     this.units = null;
