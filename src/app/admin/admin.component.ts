@@ -612,6 +612,10 @@ export class AdminComponent implements OnInit {
   }
 
   reset(){
+    this.buildingInfo = null; 
+    this.units = null;
+    this.imgs = null;
+    this.resident = null;
     if(this.bound !== null){
       this.map.removeLayer(this.bound)
       // this.bound = null;
@@ -624,10 +628,7 @@ export class AdminComponent implements OnInit {
       this.map.removeLayer(this.searchmarker);
       // this.searchmarker = null;
     }
-    this.buildingInfo = null;
-    this.units = null;
-    this.imgs = null;
-    this.resident = null;
+    
   }
 
 } 
