@@ -1,18 +1,49 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { DataService } from '../service/data.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { environment } from '../../environments/environment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+// import  from '@ansur/leaflet-pulse-icon';
 
 export class Building {
   lat: number;
   lng: number;
   sub_zone_id: number;
 }
+
+interface Zone {
+  id: string;
+  name: string;
+  map_image: string;
+  dzongkhag_id: number;
+  color_code: string;
+  lat: number;
+  lng: number;
+  created_at: string;
+  updated_date: string;
+}
+
+interface Subzone {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  name: string;
+  zone_id: number;
+}
+
+
+
+interface Dzongkhag {
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
 
 export class BuildingInfo{
   BuildingName: string;
@@ -41,12 +72,25 @@ export class AdminComponent implements OnInit {
   searchForm: FormGroup;
   searchmarker: L.GeoJSON;
   searchedId: any;
+  
 
+
+  zoneForm: FormGroup;
+  dzongkhags: Dzongkhag[] = [];
+  zones: Zone[] = [];
+  subZones: Subzone[] = [];
+  isUserLoggedIn: boolean;
+  dzongkhag: string;
+  zoned: string;
+  subZone: string;
+  shop: string;
   latitude: number;
   longitude: number;
   accuracy: number;
   json: any;
   bound: any;
+  buildingGeojson: any;
+  postiveCaseMap: any;
   buildingId: number;
   imgs:any;
   units:any;
@@ -63,21 +107,22 @@ export class AdminComponent implements OnInit {
 
   map: L.Map;
 
+
   greenMarker = L.icon({
     iconUrl: 'assets/marker-green.png',
-    iconSize: [15, 15]
+    iconSize: [12, 12]
   });
   redMarker = L.icon({
     iconUrl: 'assets/marker-red.png',
-    iconSize: [15, 15]
+    iconSize: [12, 12]
   });
   yellowMarker = L.icon({
     iconUrl: 'assets/marker-yellow.png',
-    iconSize: [15,15]
+    iconSize: [12,12]
   })
   myMarker = L.icon({
     iconUrl: 'assets/mymarker.png',
-    iconSize: [20, 20]
+    iconSize: [12, 12]
   });
 
   buildingOwnership:IdName[]=[
@@ -233,10 +278,17 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.renderMap();
-    this.searchForm = this.fb.group({
-      searchBuilding:[]
-    });
+   
+    this.getDzongkhagList();
+    this.reactiveForm();
+
+    const zoneId = sessionStorage.getItem('zoneId');
+    const subZoneId = sessionStorage.getItem('subZoneId');
+    const dzongkhagId = sessionStorage.getItem('dzongkhagId')
+
+    this.getZoneList(dzongkhagId);
+    this.getSubzoneList(zoneId);
+    this.renderMap(this.dataService);
   }
 
   submit(){
@@ -292,11 +344,34 @@ export class AdminComponent implements OnInit {
   }
   
 
+  reactiveForm(){
+    this.zoneForm = this.fb.group({
+      dzongkhagControl:[],
+      zoneControl:[],
+      subZoneControl:[]
+    });
+    this.searchForm = this.fb.group({
+      searchBuilding:[]
+    });
+  }
+
   getMyLocation(){
     this.map.locate({setView:true,watch:true,enableHighAccuracy:true});
   }
 
-  renderMap(){
+  renderMap(dataservice: DataService){
+    var positiveCases = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/POSITIVE_CASES.geojson";
+
+    var geojsonMarkerOptions = {
+      radius: 13,
+      fillColor: "red",
+      color: "white",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 1,
+  };
+
+ 
     var sat = L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       minZoom: 9,
@@ -312,13 +387,55 @@ export class AdminComponent implements OnInit {
       minZoom: 9,
       layers: [sat]
     });
-    var baseMaps = {
-      "Satellite Image": sat,
-      "OSM base map": osm 
-    };
+   
 
-    L.control.layers(baseMaps,null,{position:"bottomleft"}).addTo(this.map);
-    this.onMapReady(this.map);
+    var postiveCaseMap = L.geoJSON(null, { 
+      onEachFeature:  (feature, layer)=> {
+        layer.on('click',(e) =>{
+          var unitId = feature.properties.id;
+          var buildingId = feature.properties.id;
+          this.showBuilding(buildingId);
+          layer.bindPopup(`Building ID : ${buildingId}`)
+
+          if(this.units !== undefined){
+            this.units = null;
+          }
+          this.http.get(`${this.API_URL}/getunits/${buildingId}`).subscribe((json: any) => {
+            this.units = json.data;
+          });
+
+          if(this.imgs !== undefined){
+            this.imgs = null
+          }
+          this.http.get(`${this.API_URL}/get-img/${buildingId}`).subscribe((json: any) => {
+            this.imgs= json.data;
+          });
+          
+        })},
+      pointToLayer:  (feature, latlng) => { 
+        return L.circleMarker(latlng,geojsonMarkerOptions);
+      }
+  }).addTo(this.map);
+
+
+    fetch(positiveCases)
+      .then(res => res.json())
+      .then( data => {
+        postiveCaseMap.addData(data);
+        this.map.fitBounds(postiveCaseMap.getBounds());
+      })
+
+      var baseMaps = {
+        "Satellite Image": sat,
+        "OSM base map": osm 
+      };
+
+      var overlayMaps = {
+        "Positive Cases": postiveCaseMap,
+      };
+
+      
+    L.control.layers(baseMaps, overlayMaps).addTo(this.map);
   
     this.map.on('locationerror',(err)=>{
           if (err.code === 0) {
@@ -361,8 +478,6 @@ export class AdminComponent implements OnInit {
         this.mycircle = L.circle(e.latlng,radius).addTo(this.map);
       }
     });
-
-
     let newMarker: any;
     this.map.on('click', <LeafletMouseEvent>($e) => {
       if (this.isAddAllowed) {
@@ -374,60 +489,78 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  onMapReady(map: L.Map) {
-    const zoneId = Number(sessionStorage.getItem('subZoneId'));
-    const geojson = this.http.get(`/assets/geojson/conv_T${zoneId}.geojson`).subscribe((json:any)=>{
-      this.bound= L.geoJSON(json,{
-        style: (feature)=>{
-          return {
-            color:"red",
-            fillOpacity:0
-          }
+  zoneSearch() {
+    // const zoneId = sessionStorage.getItem('zoneId');
+    if (this.zoneForm.valid) {
+      const zoneId = this.zoneForm.get('subZoneControl').value;
+      console.log(zoneId)
+      this.http.get(`/assets/geojson/conv_T${zoneId}.geojson`).subscribe((json:any)=>{
+        if(this.bound !== undefined){
+          this.map.removeLayer(this.bound)
+          this.bound = null;
         }
-      }).addTo(this.map);
-      this.map.fitBounds(this.bound.getBounds());
-    })
-
-    this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
-      this.json = json;
-      console.log(json);
-      this.http.get(`${this.API_URL}/get-resident-in-attic/${zoneId}`).subscribe((json:any)=>{
-        this.residentAttic = json.data[0];
-        console.log( this.residentAttic.length);
-        console.log(this.residentAttic);
-      })
-      const geoJson = L.geoJSON(this.json, {
-        onEachFeature: (feature, layer) => {
-            layer.on('click', (e) => {
-              this.buildingId = feature.properties.structure_id;
-              this.showBuilding(this.buildingId);
-              this.resident = null;
-
-              this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-                this.units = json.data;
-              });
-
-              this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-                this.imgs= json.data;
-              });
-            });
-          }, pointToLayer: (feature, latLng) => {
-            if(feature.properties.status == 'INCOMPLETE'){
-              return L.marker(latLng, {icon: this.redMarker});
-            }else if(feature.properties.status == "PROGRESS"){
-              return L.marker(latLng, {icon: this.yellowMarker});
-            }else if(this.showattic){
-              for(var i = 0;i<this.residentAttic.length;i++){
-                // if(this.residentAttic[i]['structure_id'] == this.);
-                // if()
-              }
-              return L.marker(latLng,{icon: this.myMarker});
-            } else{
-              return L.marker(latLng, {icon: this.greenMarker});
+        this.bound= L.geoJSON(json,{
+          style: (feature)=>{
+            return {
+              color:"red",
+              fillOpacity:0
             }
           }
-        }).addTo(map);
-    });
+        }).addTo(this.map).bringToBack();
+        this.map.fitBounds(this.bound.getBounds());
+        
+      })
+      this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
+    
+        this.json = json;
+        this.http.get(`${this.API_URL}/get-resident-in-attic/${zoneId}`).subscribe((json:any)=>{
+          this.residentAttic = json.data[0];
+        })
+
+        if(this.buildingGeojson !== undefined){
+          this.map.removeLayer(this.buildingGeojson)
+          this.buildingGeojson = null
+        }
+
+        this.buildingGeojson = L.geoJSON(this.json, {
+         
+          onEachFeature: (feature, layer) => {
+              layer.on('click', (e) => {
+                this.buildingId = feature.properties.structure_id;
+                this.showBuilding(this.buildingId);
+                this.resident = null;
+  
+                this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+                  this.units = json.data;
+                });
+  
+                this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+                  this.imgs= json.data;
+                });
+              });
+            }, pointToLayer: (feature, latLng) => {
+              if(feature.properties.status == 'INCOMPLETE'){
+                return L.marker(latLng, {icon: this.redMarker});
+              }else if(feature.properties.status == "PROGRESS"){
+                return L.marker(latLng, {icon: this.yellowMarker});
+              }else if(this.showattic){
+                for(var i = 0;i<this.residentAttic.length;i++){
+                  // if(this.residentAttic[i]['structure_id'] == this.);
+                  // if()
+                }
+                return L.marker(latLng,{icon: this.myMarker});
+              } else{
+                return L.marker(latLng, {icon: this.greenMarker});
+              }
+            }
+          });
+          this.map.addLayer(this.buildingGeojson);
+
+      });
+
+
+    }
+    
   }
 
   
@@ -437,15 +570,13 @@ export class AdminComponent implements OnInit {
       this.resident = resp.data;
       console.log(this.resident);
     });
-
   }
 
   showBuilding(unitid){
-    this.building = null;
+    // this.building = null;
     this.buildingInfo = null;
     this.buildingInfo = new BuildingInfo();
     this.dataService.getBuildingInfo(unitid).subscribe(resp=>{
-      console.log(resp.data);
       this.buildingInfo.BuildingName = resp.data[0]['nameOfTheBuilding'];
       this.buildingInfo.BuildingOwner = resp.data[0]['nameOfTheBuildingOwner'];
       this.buildingInfo.Contact = resp.data[0]['contactNumberBuilding'];
@@ -460,6 +591,43 @@ export class AdminComponent implements OnInit {
       this.buildingInfo.Remarks = resp.data[0]['buildingRemarksstring'];
     });
 
+  }
+
+  getDzongkhagList() {
+    this.dataService.getDzongkhags().subscribe(response => {
+      this.dzongkhags = response.data;
+    });
+  }
+
+  getZoneList(dzongkhagId) {
+    this.dataService.getZones(dzongkhagId).subscribe(response => {
+      this.zones = response.data;
+    });
+  }
+
+  getSubzoneList(zoneId) {
+    this.dataService.getSubZones(zoneId).subscribe(response => {
+      this.subZones = response.data;
+    });
+  }
+
+  reset(){
+    if(this.bound !== undefined){
+      this.map.removeLayer(this.bound)
+      this.bound = null;
+    }
+    if(this.buildingGeojson !== undefined){
+      this.map.removeLayer(this.buildingGeojson);
+      this.buildingGeojson = null;
+    }
+    if(this.searchmarker !== undefined){
+      this.map.removeLayer(this.searchmarker);
+      this.searchmarker = null;
+    }
+    this.buildingInfo = null;
+    this.units = null;
+    this.imgs = null;
+    this.resident = null;
   }
 
 } 

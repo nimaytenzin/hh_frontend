@@ -74,31 +74,32 @@ export class RegisterAtmComponent implements OnInit {
     this.atmData.data = atm_data;
 
    
-    this.dataService.postAtm(this.atmData).subscribe(response=>{
-      console.log(response.status);
-      if(response.success === "true"){
-        this.router.navigate(['dashboard',this.buildingId]);
-        this.snackBar.open('ATM Registration Complete', '', {
-          duration: 5000,
-          verticalPosition: 'bottom',
-          panelClass: ['success-snackbar']
-        });
+  //   this.dataService.postAtm(this.atmData).subscribe(response=>{
+  //     console.log(response.status);
+  //     if(response.success === "true"){
+  //       this.router.navigate(['dashboard',this.buildingId]);
+  //       this.snackBar.open('ATM Registration Complete', '', {
+  //         duration: 5000,
+  //         verticalPosition: 'bottom',
+  //         panelClass: ['success-snackbar']
+  //       });
 
-      }else if(response.success === "false"){
-        this.snackBar.open('Could not register ATM'+response.msg, '', {
+  //     }else if(response.success === "false"){
+  //       this.snackBar.open('Could not register ATM'+response.msg, '', {
 
-          duration: 5000,
-          verticalPosition: 'bottom',
-          panelClass: ['error-snackbar']
-        });
-      }else{
-        this.snackBar.open('Error registering ATM', '', {
-          duration: 5000,
-          verticalPosition: 'bottom',
-          panelClass: ['error-snackbar']
-        });
-      }
-    })
-  }
+  //         duration: 5000,
+  //         verticalPosition: 'bottom',
+  //         panelClass: ['error-snackbar']
+  //       });
+  //     }else{
+  //       this.snackBar.open('Error registering ATM', '', {
+  //         duration: 5000,
+  //         verticalPosition: 'bottom',
+  //         panelClass: ['error-snackbar']
+  //       });
+  //     }
+  //   })
+  // }
 
+}
 }

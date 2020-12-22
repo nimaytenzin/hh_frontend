@@ -121,13 +121,7 @@ export class DashboardComponent implements OnInit {
   unit(){
     this.router.navigate(['unit']);
   }
-  markcomplete(){
-    this.snackBar.open('Building Marked Complete', '', {
-      duration: 5000,
-      verticalPosition: 'bottom',
-      panelClass: ['success-snackbar']
-    });
-  }
+
   getLocation(): void {
     if (navigator.geolocation) {
         const options = {
