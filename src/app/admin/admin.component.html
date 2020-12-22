@@ -1,11 +1,4 @@
-<mat-toolbar>
-    <!-- <span>Select a structure</span>
-    <span class="menu-spacer"></span>
-    <button mat-raised-button (click)="toggleAdd()" color="primary">
-      <mat-icon>add</mat-icon>
-      <mat-label>Add Structure</mat-label>
-    </button> -->
-  </mat-toolbar>
+<div class="main"> 
   <div class="map-container">
     <div class="map-frame">
       <div id="map">
@@ -26,26 +19,56 @@
           font-size: 13px;
           font-weight: bold;
           color: white;
-          background-color: #df1515;
+          background-color:#6EA1F6;
           padding: 5px;
-          margin-right: 30px;">Select a building by clicking on the red dot</mat-label>
+          margin-right: 50px;">Select a building by clicking on the red dot</mat-label>
         </div>
       </div>
     </div>
     <div class="leaflet-top leaflet-left">
-      
     </div>
   </div>
-  <div class = "scroll" style="float:right;width:48vw">
-    <form  [formGroup]="searchForm">
-      <mat-form-field>
-        <input matInput type="number" placeholder="Search building number" name="search" formControlName="searchBuilding">
+  <div class = "scroll" style="float:right;width:48vw; padding: 10px;">
+    <div style="display: flex; flex-direction: row; justify-content: space-between;"><p>Select Zone </p><button  mat-flat-button color="primary" style="width:fit-content;" (click) = reset();>Clear  | <mat-icon appearance="none">cached</mat-icon></button></div>
+    <form [formGroup]="zoneForm">
+      <mat-form-field class="justifier">
+        <mat-label>Dzongkhag</mat-label>
+        <mat-select #dzongkhag formControlName="dzongkhagControl" name="dzongkhag" (selectionChange)="getZoneList(dzongkhag.value)" required>
+          <mat-option *ngFor="let dzongkhag of dzongkhags" [value]="dzongkhag.id">
+            {{dzongkhag.name}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
-      <button type="submit" (click)="submit()" ><mat-icon>search</mat-icon></button>
+      <mat-form-field class="justifier">
+        <mat-label>Super Zone</mat-label>
+        <mat-select #zone formControlName="zoneControl" name="zone" (selectionChange)="getSubzoneList(zone.value)" required>
+          <mat-option *ngFor="let zone of zones" [value]="zone.id">
+            {{zone.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="justifier">
+        <mat-label>Zone</mat-label>
+        <mat-select formControlName="subZoneControl" name="subZone" required>
+          <mat-option *ngFor="let subZone of subZones" [value]="subZone.id">
+            {{subZone.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)= "zoneSearch()" style="width : 100%;">Go To Sub Zone</button>
     </form>
 
-    <h3>Details</h3>
+    <div style="width: 100%;display: flex; flex-direction:column;">
+      <form  [formGroup]="searchForm">
+        <mat-form-field style="width: 90%;">
+          <input matInput type="number" placeholder="Search by building number" name="search" formControlName="searchBuilding"  >
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="submit()" style="width : 10%;"><mat-icon appearance="none">search</mat-icon></button>
+
+      </form>
+    </div>
     <div *ngIf="buildingInfo">
+      <h3>Details</h3>
       <h3>Building Details</h3>    
       <table style = "width:100%;">
         <tr>
@@ -76,14 +99,7 @@
     </div>
     <br>
 <br>
-    <div>
-        <mat-list-item *ngFor="let image of imgs">
-              <img src="{{image.uri}}">
-              {{image.uri}}
-        </mat-list-item>
-    </div>
-    <br>
-
+    
 
     <div *ngIf="units">
       Unit Details
@@ -187,4 +203,14 @@
         </tr>
       </table>
     </div>
+    <br>
+
+    <div>
+      <mat-list-item *ngFor="let image of imgs">
+            <img src="{{image.uri}}">
+            {{image.uri}}
+      </mat-list-item>
   </div>
+  </div>
+
+</div>

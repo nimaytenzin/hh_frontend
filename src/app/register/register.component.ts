@@ -222,11 +222,7 @@ export class RegisterComponent implements OnInit {
     {id:'3', name:"2"},
 
   ];
-  basement:Basement[]=[
-    {id:'1', name:"No Basement"},
-    {id:'2', name:"1 Basement"},
-    {id:'2', name:"2 Basement"},
-  ];
+
   buildingStyle:BuildingStyle []=[
     {id:'1', name:"Contemporary"},
     {id:'2', name:"Traditional"},

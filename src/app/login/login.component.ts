@@ -47,7 +47,13 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('userId', response.data.id);
         sessionStorage.setItem('isadmin',response.data.isadmin);
         localStorage.setItem('loginId', loginId);
-        this.router.navigate(['selectzone']);
+        if(sessionStorage.getItem('isadmin') === "TRUE"){
+          this.router.navigate(['admin']);
+        }else{
+          this.router.navigate(['selectzone']);
+        }
+        // this.router.navigate(['selectzone']);
+        
         this.snackBar.open('Welcome ' + response.data.username, '', {
           duration: 5000,
           verticalPosition: 'bottom',
