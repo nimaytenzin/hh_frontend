@@ -393,21 +393,21 @@ export class AdminComponent implements OnInit {
       onEachFeature:  (feature, layer)=> {
         layer.on('click',(e) =>{
           var unitId = feature.properties.id;
-          var buildingId = feature.properties.id;
-          this.showBuilding(buildingId);
-          layer.bindPopup(`Building ID : ${buildingId}`)
+          this.buildingId = feature.properties.id;
+          this.showBuilding(this.buildingId);
+          layer.bindPopup(`Building ID : ${this.buildingId}`)
 
           if(this.units !== undefined){
             this.units = null;
           }
-          this.http.get(`${this.API_URL}/getunits/${buildingId}`).subscribe((json: any) => {
+          this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
             this.units = json.data;
           });
 
           if(this.imgs !== undefined){
             this.imgs = null
           }
-          this.http.get(`${this.API_URL}/get-img/${buildingId}`).subscribe((json: any) => {
+          this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
             this.imgs= json.data;
           });
           
