@@ -361,6 +361,7 @@ export class AdminComponent implements OnInit {
 
   renderMap(dataservice: DataService){
     var positiveCases = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/POSITIVE_CASES.geojson";
+    var dayTwo = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayTwo.geojson";
 
     var geojsonMarkerOptions = {
       radius: 13,
@@ -370,6 +371,15 @@ export class AdminComponent implements OnInit {
       opacity: 1,
       fillOpacity: 1,
   };
+
+  var geojsonMarkerOptions2 ={
+    radius: 13,
+      fillColor: "yellow",
+      color: "white",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 1,
+  }
 
  
     var sat = L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
@@ -387,6 +397,40 @@ export class AdminComponent implements OnInit {
       minZoom: 9,
       layers: [sat]
     });
+
+    var dayTwoPositiveMap =L.geoJSON(null,  {
+      onEachFeature:  (feature, layer)=> {
+      layer.on('click',(e) =>{
+        var unitId = feature.properties.building_i;
+        this.buildingId = feature.properties.building_i;
+        this.showBuilding(this.buildingId);
+        layer.bindPopup(`Building ID : ${this.buildingId}`)
+
+        if(this.units !== undefined){
+          this.units = null;
+        }
+        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+          this.units = json.data;
+        });
+
+        if(this.imgs !== undefined){
+          this.imgs = null
+        }
+        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+          this.imgs= json.data;
+        });
+        
+      })},
+    pointToLayer:  (feature, latlng) => { 
+      return L.circleMarker(latlng,geojsonMarkerOptions2);
+    }
+}).addTo(this.map);
+
+  fetch(dayTwo)
+    .then(res => res.json())
+    .then(data => {
+      dayTwoPositiveMap.addData(data);
+    })
    
 
     var postiveCaseMap = L.geoJSON(null, { 
@@ -431,7 +475,8 @@ export class AdminComponent implements OnInit {
       };
 
       var overlayMaps = {
-        "Positive Cases": postiveCaseMap,
+        "21/12/20 Positive Cases" : dayTwoPositiveMap,
+        "20/12/20 Positive Cases": postiveCaseMap
       };
 
       
