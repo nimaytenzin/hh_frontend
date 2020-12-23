@@ -1,6 +1,6 @@
-# Covidoutpass
+# Zhichar Data collection app and dashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
+A project for data collection and display for COVID-19 efforts
 
 ## Development server
 
