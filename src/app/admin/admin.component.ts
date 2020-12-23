@@ -362,9 +362,10 @@ export class AdminComponent implements OnInit {
   renderMap(dataservice: DataService){
     var positiveCases = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/POSITIVE_CASES.geojson";
     var dayTwo = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayTwo.geojson";
+    var dayThree = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayThree.geojson";
 
     var geojsonMarkerOptions = {
-      radius: 13,
+      radius: 9,
       fillColor: "red",
       color: "white",
       weight: 1,
@@ -373,13 +374,23 @@ export class AdminComponent implements OnInit {
   };
 
   var geojsonMarkerOptions2 ={
-    radius: 13,
+    radius: 9,
       fillColor: "yellow",
       color: "white",
       weight: 1,
       opacity: 1,
       fillOpacity: 1,
   }
+
+  var geojsonMarkerOptions3 ={
+    radius: 9,
+      fillColor: "green",
+      color: "white",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 1,
+  }
+
 
  
     var sat = L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
@@ -430,7 +441,43 @@ export class AdminComponent implements OnInit {
     .then(res => res.json())
     .then(data => {
       dayTwoPositiveMap.addData(data);
+      this.map.fitBounds(dayTwoPositiveMap.getBounds());
     })
+
+    var dayThreePositiveMap =L.geoJSON(null,  {
+      onEachFeature:  (feature, layer)=> {
+      layer.on('click',(e) =>{
+        var unitId = feature.properties.building_i;
+        this.buildingId = feature.properties.id;
+        this.showBuilding(this.buildingId);
+        layer.bindPopup(`Building ID : ${this.buildingId}`)
+
+        if(this.units !== undefined){
+          this.units = null;
+        }
+        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+          this.units = json.data;
+        });
+
+        if(this.imgs !== undefined){
+          this.imgs = null
+        }
+        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+          this.imgs= json.data;
+        });
+        
+      })},
+    pointToLayer:  (feature, latlng) => { 
+      return L.circleMarker(latlng,geojsonMarkerOptions3);
+    }
+}).addTo(this.map);
+
+  fetch(dayThree)
+    .then(res => res.json())
+    .then(data => {
+      dayThreePositiveMap.addData(data);
+    })
+   
    
 
     var postiveCaseMap = L.geoJSON(null, { 
@@ -466,7 +513,6 @@ export class AdminComponent implements OnInit {
       .then(res => res.json())
       .then( data => {
         postiveCaseMap.addData(data);
-        this.map.fitBounds(postiveCaseMap.getBounds());
       })
 
       var baseMaps = {
@@ -475,8 +521,9 @@ export class AdminComponent implements OnInit {
       };
 
       var overlayMaps = {
+        "22/12/20 Positive Cases" : dayThreePositiveMap,
         "21/12/20 Positive Cases" : dayTwoPositiveMap,
-        "20/12/20 Positive Cases": postiveCaseMap
+        "20/12/20 Positive Cases": postiveCaseMap,
       };
 
       
