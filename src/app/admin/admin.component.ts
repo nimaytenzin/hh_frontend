@@ -72,9 +72,11 @@ export class AdminComponent implements OnInit {
   searchForm: FormGroup;
   searchmarker: L.GeoJSON;
   searchedId: any;
+  selectZone:boolean;
+  clearData:boolean;
+
+  residentialUnits = [];
   
-
-
   zoneForm: FormGroup;
   dzongkhags: Dzongkhag[] = [];
   zones: Zone[] = [];
@@ -275,6 +277,8 @@ export class AdminComponent implements OnInit {
   ) { 
     this.building = new Building();
     this.buildingInfo = null;
+    this.selectZone = false;
+    this.clearData = false;
   }
 
   ngOnInit() {
@@ -325,11 +329,13 @@ export class AdminComponent implements OnInit {
             layer.on('click', (e) => {
               this.buildingId = feature.properties.structure_id;
               this.showBuilding(this.buildingId);
+              this.toggleClearData();
               this.resident = null;
 
               this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
                 this.units = json.data;
               });
+            
 
               this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
                 this.imgs= json.data;
@@ -363,13 +369,14 @@ export class AdminComponent implements OnInit {
     var positiveCases = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/POSITIVE_CASES.geojson";
     var dayTwo = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayTwo.geojson";
     var dayThree = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayThree.geojson";
-    var dayThreeEvening = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/daythreeEvening.geojson";
+    var thimphuZone = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/ThimphuZonee.geojson";
+
 
 
     var geojsonMarkerOptions = {
       radius: 9,
-      fillColor: "red",
-      color: "white",
+      fillColor: "rgb(247,202,164)",
+      color: "red",
       weight: 1,
       opacity: 1,
       fillOpacity: 1,
@@ -377,8 +384,8 @@ export class AdminComponent implements OnInit {
 
   var geojsonMarkerOptions2 ={
     radius: 9,
-      fillColor: "yellow",
-      color: "white",
+      fillColor: "rgb(247,153,117)",
+      color: "red",
       weight: 1,
       opacity: 1,
       fillOpacity: 1,
@@ -386,11 +393,22 @@ export class AdminComponent implements OnInit {
 
   var geojsonMarkerOptions3 ={
     radius: 9,
-      fillColor: "green",
-      color: "white",
+      fillColor: "rgb(188,57,33)",
+      color: "red",
       weight: 1,
       opacity: 1,
       fillOpacity: 1,
+  }
+
+  function zoneStyle(feature) {
+    return {
+    fillColor:'white',
+    weight: 2,
+    opacity: 1,
+    color: 'yellow',
+    dashArray: '3',
+    fillOpacity: 0
+   };
   }
 
 
@@ -399,7 +417,7 @@ export class AdminComponent implements OnInit {
       maxZoom: 20,
       minZoom: 9,
     });
-    var osm = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    var osm = L.tileLayer('https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png', {
       maxZoom: 20,
       minZoom: 9,
     });
@@ -411,12 +429,28 @@ export class AdminComponent implements OnInit {
       layers: [sat]
     });
 
+  var zoneMap = L.geoJSON(null, { 
+      onEachFeature:  (feature, layer)=> {
+        layer.on('click',(e) =>{
+          layer.bindPopup(`${feature.properties.Zone}`)
+        })}, style:zoneStyle
+  })
+
+    fetch(thimphuZone)
+      .then(res => res.json())
+      .then( data => {
+        zoneMap.addData(data);
+      })
+
+
+
     var dayTwoPositiveMap =L.geoJSON(null,  {
       onEachFeature:  (feature, layer)=> {
       layer.on('click',(e) =>{
         var unitId = feature.properties.building_i;
         this.buildingId = feature.properties.building_i;
         this.showBuilding(this.buildingId);
+        this.toggleClearData();
         layer.bindPopup(`Building ID : ${this.buildingId}`)
 
         if(this.units !== undefined){
@@ -443,7 +477,6 @@ export class AdminComponent implements OnInit {
     .then(res => res.json())
     .then(data => {
       dayTwoPositiveMap.addData(data);
-      this.map.fitBounds(dayTwoPositiveMap.getBounds());
     })
 
     var dayThreePositiveMap =L.geoJSON(null,  {
@@ -452,6 +485,7 @@ export class AdminComponent implements OnInit {
         var unitId = feature.properties.building_i;
         this.buildingId = feature.properties.id;
         this.showBuilding(this.buildingId);
+        this.toggleClearData();
         layer.bindPopup(`Building ID : ${this.buildingId}`)
 
         if(this.units !== undefined){
@@ -479,44 +513,44 @@ export class AdminComponent implements OnInit {
     .then(res => res.json())
     .then(data => {
       dayThreePositiveMap.addData(data);
+      this.map.fitBounds(dayThreePositiveMap.getBounds());
     })
 
-    var dayThreeEveningMap =L.geoJSON(null,  {
-      onEachFeature:  (feature, layer)=> {
-      layer.on('click',(e) =>{
-        var unitId = feature.properties.building_i;
-        this.buildingId = feature.properties.id;
-        this.showBuilding(this.buildingId);
-        layer.bindPopup(`Building ID : ${this.buildingId}`)
+//     var dayThreeEveningMap =L.geoJSON(null,  {
+//       onEachFeature:  (feature, layer)=> {
+//       layer.on('click',(e) =>{
+//         var unitId = feature.properties.building_i;
+//         this.buildingId = feature.properties.id;
+//         this.showBuilding(this.buildingId);
+//         layer.bindPopup(`Building ID : ${this.buildingId}`)
 
-        if(this.units !== undefined){
-          this.units = null;
-        }
-        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-          this.units = json.data;
-        });
+//         if(this.units !== undefined){
+//           this.units = null;
+//         }
+//         this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+//           this.units = json.data;
+//         });
         
 
-        if(this.imgs !== undefined){
-          this.imgs = null
-        }
-        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-          this.imgs= json.data;
-        });
+//         if(this.imgs !== undefined){
+//           this.imgs = null
+//         }
+//         this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+//           this.imgs= json.data;
+//         });
         
-      })},
-    pointToLayer:  (feature, latlng) => { 
-      return L.circleMarker(latlng,geojsonMarkerOptions3);
-    }
-}).addTo(this.map);
+//       })},
+//     pointToLayer:  (feature, latlng) => { 
+//       return L.circleMarker(latlng,geojsonMarkerOptions3);
+//     }
+// }).addTo(this.map);
 
 
-fetch(dayThreeEvening)
-.then(res => res.json())
-.then( data => {
-  dayThreeEveningMap.addData(data);
-})
-   
+// fetch(dayThreeEvening)
+// .then(res => res.json())
+// .then( data => {
+//   dayThreeEveningMap.addData(data);
+// })
    
 
     var postiveCaseMap = L.geoJSON(null, { 
@@ -525,6 +559,7 @@ fetch(dayThreeEvening)
           var unitId = feature.properties.id;
           this.buildingId = feature.properties.id;
           this.showBuilding(this.buildingId);
+          this.toggleClearData();
           layer.bindPopup(`Building ID : ${this.buildingId}`)
 
           if(this.units !== undefined){
@@ -554,16 +589,17 @@ fetch(dayThreeEvening)
         postiveCaseMap.addData(data);
       })
 
+    
       var baseMaps = {
         "Satellite Image": sat,
         "OSM base map": osm 
       };
 
       var overlayMaps = {
-        "22/12/20 Eveining Positive": dayThreeEveningMap,
         "22/12/20 Positive Cases" : dayThreePositiveMap,
         "21/12/20 Positive Cases" : dayTwoPositiveMap,
         "20/12/20 Positive Cases": postiveCaseMap,
+        "Zone Map" : zoneMap
       };
 
       
@@ -660,6 +696,7 @@ fetch(dayThreeEvening)
               layer.on('click', (e) => {
                 this.buildingId = feature.properties.structure_id;
                 this.showBuilding(this.buildingId);
+                this.toggleClearData();
                 this.resident = null;
   
                 this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
@@ -694,7 +731,6 @@ fetch(dayThreeEvening)
     }
     
   }
-
   
   showResident(unitid){
     this.resident = null;
@@ -702,6 +738,14 @@ fetch(dayThreeEvening)
       this.resident = resp.data;
       console.log(this.resident);
     });
+  }
+
+  toggleClearData(){
+    if(this.clearData ===false){
+      this.clearData = true
+    }else{
+      this.clearData = false
+    }
   }
 
   showBuilding(unitid){
@@ -744,6 +788,7 @@ fetch(dayThreeEvening)
   }
 
   reset(){
+    this.toggleClearData();
     this.buildingInfo = null; 
     this.units = null;
     this.imgs = null;
@@ -761,6 +806,20 @@ fetch(dayThreeEvening)
       // this.searchmarker = null;
     }
     
+  }
+
+  showSelectZone(){
+    if(this.selectZone === false){
+      this.selectZone = true
+    }else{
+      this.selectZone = false
+    }
+
+    if(this.clearData === false){
+      this.clearData = true
+    }else{
+      this.clearData = false
+    }
   }
 
 } 
