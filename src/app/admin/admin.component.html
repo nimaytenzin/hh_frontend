@@ -35,12 +35,21 @@
         <mat-form-field style="width: 90%;">
           <input matInput type="number" placeholder="Search by building number" name="search" formControlName="searchBuilding"  >
         </mat-form-field>
-        <button mat-flat-button color="primary" (click)="submit()" style="width : 10%;"><mat-icon appearance="none">search</mat-icon></button>
 
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+          <button mat-flat-button color="primary" (click)="submit()" style="width : 10%;"><mat-icon appearance="none">search</mat-icon></button>
+          <button mat-flat-button color="primary" (click)=showSelectZone();>Select Zone</button>
+        </div>
+        
       </form>
     </div>
-    <div style="display: flex; flex-direction: row; justify-content: space-between;"><p>Select Zone </p><button  mat-flat-button color="primary" style="width:fit-content;" (click) = reset();>Clear  | <mat-icon appearance="none">cached</mat-icon></button></div>
-    <form [formGroup]="zoneForm">
+    <br>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+      <button  mat-flat-button color="primary" style="width:fit-content;" (click) = reset();  *ngIf="clearData">Clear  | <mat-icon appearance="none">cached</mat-icon></button>
+      </div>
+      <br>
+    <form [formGroup]="zoneForm" *ngIf="selectZone">
+      
       <mat-form-field class="justifier">
         <mat-label>Dzongkhag</mat-label>
         <mat-select #dzongkhag formControlName="dzongkhagControl" name="dzongkhag" (selectionChange)="getZoneList(dzongkhag.value)" required>
@@ -97,6 +106,11 @@
           <th>Remarks</th>
           <td>{{buildingInfo.Remarks}}</td>
         </tr>
+
+        <tr>
+          <th>Total Units</th>
+          <td>{{units.length}}</td>
+        </tr>
       </table>
     </div>
     <br>
@@ -112,7 +126,8 @@
           <th>Unit Use</th>
           <th>Unit Name</th>
           <th>Contact Number</th>
-          <th>Action</th>
+          <th>Details</th>
+ 
         </tr>
         <tr *ngFor = "let unit of units">
           <td>{{unit.unitNumber}}</td>
@@ -120,10 +135,13 @@
           <td>{{unit.unitName}}</td>
           <td>{{unit.contact}}</td>
           <td>
-            <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Click for details</a>
+            <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Details</a>
           </td>
+         
         </tr>
       </table>
+
+      
 
       <!-- <mat-list-item *ngFor="let unit of units">
         <div >Unit Number : <b>{{unit.unitNumber}}</b> | Unit use: <b>{{unit.unitUse}}</b> | Unit Name: <b>{{unit.unitName}}</b> 
