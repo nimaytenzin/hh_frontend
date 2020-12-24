@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as L from 'leaflet';
-import 'leaflet.heat/dist/leaflet-heat.js'
+import 'leaflet.heat';
 import { HttpClient } from '@angular/common/http';
 import { Data, Router } from '@angular/router';
 import { DataService } from '../service/data.service';
@@ -8,7 +8,6 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { environment } from '../../environments/environment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-// import  from '@ansur/leaflet-pulse-icon';
 
 export class Building {
   lat: number;
@@ -402,17 +401,17 @@ export class AdminComponent implements OnInit {
     });
   
     //heatmap begin
-    var cases =[]
+    // var cases =[]
     
-    fetch(heatmapURL)
-      .then(res => res.json())
-      .then(data => {
-        for(let i =0; i < data.features.length; i++){
-         cases.push([data.features[i].geometry.coordinates[1],data.features[i].geometry.coordinates[0],10])    
-        } 
-      })
+    // fetch(heatmapURL)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     for(let i =0; i < data.features.length; i++){
+    //      cases.push([data.features[i].geometry.coordinates[1],data.features[i].geometry.coordinates[0],10])    
+    //     } 
+    //   })
 
-    var heatMap = L.heatLayer(cases, {radius: 30, gradient:{0.1: 'yellow', 1: 'red'}})
+    // var heatMap = L.heatLayer(cases, {radius: 30, gradient:{0.1: 'yellow', 1: 'red'}})
 
  
     //heatmap end
@@ -433,7 +432,7 @@ export class AdminComponent implements OnInit {
 
       var overlayMaps = {
         "Zone Map" : zoneMap,
-        "Heat Map": heatMap
+        // "Heat Map": heatMap
       };
 
       var layer: L.GeoJSON[] = [];
