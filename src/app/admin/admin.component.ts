@@ -370,6 +370,7 @@ export class AdminComponent implements OnInit {
     var dayTwo = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayTwo.geojson";
     var dayThree = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayThree.geojson";
     var thimphuZone = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/ThimphuZonee.geojson";
+    var dayFour = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayFour.geojson";
 
 
 
@@ -400,6 +401,16 @@ export class AdminComponent implements OnInit {
       fillOpacity: 1,
   }
 
+  
+  var geojsonMarkerOptions4 ={
+    radius: 9,
+      fillColor: "green",
+      color: "red",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 1,
+  }
+
   function zoneStyle(feature) {
     return {
     fillColor:'white',
@@ -411,8 +422,7 @@ export class AdminComponent implements OnInit {
    };
   }
 
-
- 
+   
     var sat = L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       minZoom: 9,
@@ -429,11 +439,11 @@ export class AdminComponent implements OnInit {
       layers: [sat]
     });
 
-  var zoneMap = L.geoJSON(null, { 
+    var zoneMap = L.geoJSON(null, { 
       onEachFeature:  (feature, layer)=> {
         layer.on('click',(e) =>{
           layer.bindPopup(`${feature.properties.Zone}`)
-        })}, style:zoneStyle
+        })},style:zoneStyle
   })
 
     fetch(thimphuZone)
@@ -516,6 +526,43 @@ export class AdminComponent implements OnInit {
       this.map.fitBounds(dayThreePositiveMap.getBounds());
     })
 
+
+    var dayFourPositiveMap =L.geoJSON(null,  {
+      onEachFeature:  (feature, layer)=> {
+      layer.on('click',(e) =>{
+        var unitId = feature.properties.building_i;
+        this.buildingId = feature.properties.id;
+        this.showBuilding(this.buildingId);
+        this.toggleClearData();
+        layer.bindPopup(`Building ID : ${this.buildingId}`)
+
+        if(this.units !== undefined){
+          this.units = null;
+        }
+        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+          this.units = json.data;
+        });
+        
+
+        if(this.imgs !== undefined){
+          this.imgs = null
+        }
+        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+          this.imgs= json.data;
+        });
+        
+      })},
+    pointToLayer:  (feature, latlng) => { 
+      return L.circleMarker(latlng,geojsonMarkerOptions4);
+    }
+}).addTo(this.map);
+
+  fetch(dayFour)
+    .then(res => res.json())
+    .then(data => {
+      dayFourPositiveMap.addData(data);
+    })
+
 //     var dayThreeEveningMap =L.geoJSON(null,  {
 //       onEachFeature:  (feature, layer)=> {
 //       layer.on('click',(e) =>{
@@ -596,9 +643,10 @@ export class AdminComponent implements OnInit {
       };
 
       var overlayMaps = {
-        "22/12/20 Positive Cases" : dayThreePositiveMap,
-        "21/12/20 Positive Cases" : dayTwoPositiveMap,
-        "20/12/20 Positive Cases": postiveCaseMap,
+        "24/12/20 Positive Cases" : dayFourPositiveMap,
+        "23/12/20 Positive Cases" : dayThreePositiveMap,
+        "22/12/20 Positive Cases" : dayTwoPositiveMap,
+        "21/12/20 Positive Cases": postiveCaseMap,
         "Zone Map" : zoneMap
       };
 
