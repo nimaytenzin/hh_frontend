@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet.heat/dist/leaflet-heat.js'
 import { HttpClient } from '@angular/common/http';
 import { Data, Router } from '@angular/router';
 import { DataService } from '../service/data.service';
@@ -366,51 +367,12 @@ export class AdminComponent implements OnInit {
   }
 
   renderMap(dataservice: DataService){
-    var positiveCases = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/POSITIVE_CASES.geojson";
-    var dayTwo = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayTwo.geojson";
-    var dayThree = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayThree.geojson";
     var thimphuZone = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/ThimphuZonee.geojson";
-    var dayFour = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayFour.geojson";
+    var heatmapURL = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/heatMap.geojson"; //hsp to kml to geojson
 
+//marker Styles
 
-
-    var geojsonMarkerOptions = {
-      radius: 9,
-      fillColor: "rgb(247,202,164)",
-      color: "red",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 1,
-  };
-
-  var geojsonMarkerOptions2 ={
-    radius: 9,
-      fillColor: "rgb(247,153,117)",
-      color: "red",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 1,
-  }
-
-  var geojsonMarkerOptions3 ={
-    radius: 9,
-      fillColor: "rgb(188,57,33)",
-      color: "red",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 1,
-  }
-
-  
-  var geojsonMarkerOptions4 ={
-    radius: 9,
-      fillColor: "green",
-      color: "red",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 1,
-  }
-
+    
   function zoneStyle(feature) {
     return {
     fillColor:'white',
@@ -438,6 +400,22 @@ export class AdminComponent implements OnInit {
       minZoom: 9,
       layers: [sat]
     });
+  
+    //heatmap begin
+    var cases =[]
+    
+    fetch(heatmapURL)
+      .then(res => res.json())
+      .then(data => {
+        for(let i =0; i < data.features.length; i++){
+         cases.push([data.features[i].geometry.coordinates[1],data.features[i].geometry.coordinates[0],10])    
+        } 
+      })
+
+    var heatMap = L.heatLayer(cases, {radius: 30, gradient:{0.1: 'yellow', 1: 'red'}})
+
+ 
+    //heatmap end
 
     var zoneMap = L.geoJSON(null, { 
       onEachFeature:  (feature, layer)=> {
@@ -453,205 +431,59 @@ export class AdminComponent implements OnInit {
       })
 
 
+      var overlayMaps = {
+        "Zone Map" : zoneMap,
+        "Heat Map": heatMap
+      };
 
-    var dayTwoPositiveMap =L.geoJSON(null,  {
-      onEachFeature:  (feature, layer)=> {
-      layer.on('click',(e) =>{
-        var unitId = feature.properties.building_i;
-        this.buildingId = feature.properties.building_i;
-        this.showBuilding(this.buildingId);
-        this.toggleClearData();
-        layer.bindPopup(`Building ID : ${this.buildingId}`)
-
-        if(this.units !== undefined){
-          this.units = null;
-        }
-        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-          this.units = json.data;
-        });
-
-        if(this.imgs !== undefined){
-          this.imgs = null
-        }
-        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-          this.imgs= json.data;
-        });
+      var layer: L.GeoJSON[] = [];
+      
+      var url = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/positive";
+      fetch(url) .then(res => res.json()) .then(data => {
+          for(let i=0; i<data.length; i ++){
+            layer[i] = L.geoJSON(null,  {
+              onEachFeature:  (feature, layer)=> {
+              layer.on('click',(e) =>{
+                this.buildingId = feature.properties.id;
+                this.showBuilding(this.buildingId);
+                this.toggleClearData();
+                layer.bindPopup(`Building ID : ${this.buildingId}`)
         
-      })},
-    pointToLayer:  (feature, latlng) => { 
-      return L.circleMarker(latlng,geojsonMarkerOptions2);
-    }
-}).addTo(this.map);
-
-  fetch(dayTwo)
-    .then(res => res.json())
-    .then(data => {
-      dayTwoPositiveMap.addData(data);
-    })
-
-    var dayThreePositiveMap =L.geoJSON(null,  {
-      onEachFeature:  (feature, layer)=> {
-      layer.on('click',(e) =>{
-        var unitId = feature.properties.building_i;
-        this.buildingId = feature.properties.id;
-        this.showBuilding(this.buildingId);
-        this.toggleClearData();
-        layer.bindPopup(`Building ID : ${this.buildingId}`)
-
-        if(this.units !== undefined){
-          this.units = null;
-        }
-        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-          this.units = json.data;
-        });
-        
-
-        if(this.imgs !== undefined){
-          this.imgs = null
-        }
-        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-          this.imgs= json.data;
-        });
-        
-      })},
-    pointToLayer:  (feature, latlng) => { 
-      return L.circleMarker(latlng,geojsonMarkerOptions3);
-    }
-}).addTo(this.map);
-
-  fetch(dayThree)
-    .then(res => res.json())
-    .then(data => {
-      dayThreePositiveMap.addData(data);
-      this.map.fitBounds(dayThreePositiveMap.getBounds());
-    })
-
-
-    var dayFourPositiveMap =L.geoJSON(null,  {
-      onEachFeature:  (feature, layer)=> {
-      layer.on('click',(e) =>{
-        var unitId = feature.properties.building_i;
-        this.buildingId = feature.properties.id;
-        this.showBuilding(this.buildingId);
-        this.toggleClearData();
-        layer.bindPopup(`Building ID : ${this.buildingId}`)
-
-        if(this.units !== undefined){
-          this.units = null;
-        }
-        this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-          this.units = json.data;
-        });
-        
-
-        if(this.imgs !== undefined){
-          this.imgs = null
-        }
-        this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-          this.imgs= json.data;
-        });
-        
-      })},
-    pointToLayer:  (feature, latlng) => { 
-      return L.circleMarker(latlng,geojsonMarkerOptions4);
-    }
-}).addTo(this.map);
-
-  fetch(dayFour)
-    .then(res => res.json())
-    .then(data => {
-      dayFourPositiveMap.addData(data);
-    })
-
-//     var dayThreeEveningMap =L.geoJSON(null,  {
-//       onEachFeature:  (feature, layer)=> {
-//       layer.on('click',(e) =>{
-//         var unitId = feature.properties.building_i;
-//         this.buildingId = feature.properties.id;
-//         this.showBuilding(this.buildingId);
-//         layer.bindPopup(`Building ID : ${this.buildingId}`)
-
-//         if(this.units !== undefined){
-//           this.units = null;
-//         }
-//         this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-//           this.units = json.data;
-//         });
-        
-
-//         if(this.imgs !== undefined){
-//           this.imgs = null
-//         }
-//         this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-//           this.imgs= json.data;
-//         });
-        
-//       })},
-//     pointToLayer:  (feature, latlng) => { 
-//       return L.circleMarker(latlng,geojsonMarkerOptions3);
-//     }
-// }).addTo(this.map);
-
-
-// fetch(dayThreeEvening)
-// .then(res => res.json())
-// .then( data => {
-//   dayThreeEveningMap.addData(data);
-// })
-   
-
-    var postiveCaseMap = L.geoJSON(null, { 
-      onEachFeature:  (feature, layer)=> {
-        layer.on('click',(e) =>{
-          var unitId = feature.properties.id;
-          this.buildingId = feature.properties.id;
-          this.showBuilding(this.buildingId);
-          this.toggleClearData();
-          layer.bindPopup(`Building ID : ${this.buildingId}`)
-
-          if(this.units !== undefined){
-            this.units = null;
-          }
-          this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
-            this.units = json.data;
-          });
-
-          if(this.imgs !== undefined){
-            this.imgs = null
-          }
-          this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
-            this.imgs= json.data;
-          });
-          
-        })},
-      pointToLayer:  (feature, latlng) => { 
-        return L.circleMarker(latlng,geojsonMarkerOptions);
-      }
-  }).addTo(this.map);
-
-
-    fetch(positiveCases)
-      .then(res => res.json())
-      .then( data => {
-        postiveCaseMap.addData(data);
+                      if(this.units !== undefined){
+                        this.units = null;
+                      }
+                      this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
+                        this.units = json.data;
+                      });
+            
+                      if(this.imgs !== undefined){
+                        this.imgs = null
+                      }
+                      this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
+                        this.imgs= json.data;
+                      });
+              })},
+                pointToLayer:  (feature, latlng) => { 
+                  return L.circleMarker(latlng,data[i].style);
+                }
+            })           
+              fetch(data[i].dataUrl)
+                .then(res => res.json())
+                .then(data => {
+                  layer[i].addData(data).addTo(this.map)
+                })
+              overlayMaps[data[i].name] = layer[i]
+          }        
+      
+          L.control.layers(baseMaps,overlayMaps).addTo(this.map);
       })
-
-    
+      
       var baseMaps = {
         "Satellite Image": sat,
         "OSM base map": osm 
       };
-
-      var overlayMaps = {
-        "24/12/20 Positive Cases" : dayFourPositiveMap,
-        "23/12/20 Positive Cases" : dayThreePositiveMap,
-        "22/12/20 Positive Cases" : dayTwoPositiveMap,
-        "21/12/20 Positive Cases": postiveCaseMap,
-        "Zone Map" : zoneMap
-      };
-
-      
-    L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+    
+    // L.control.layers(baseMaps, overlayMaps).addTo(this.map);
   
     this.map.on('locationerror',(err)=>{
           if (err.code === 0) {
@@ -706,7 +538,6 @@ export class AdminComponent implements OnInit {
   }
 
   zoneSearch() {
-    // const zoneId = sessionStorage.getItem('zoneId');
     if (this.zoneForm.valid) {
       const zoneId = this.zoneForm.get('subZoneControl').value;
       console.log(zoneId)
