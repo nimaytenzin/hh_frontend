@@ -60,7 +60,7 @@
       </mat-form-field>
       <mat-form-field class="justifier">
         <mat-label>Super Zone</mat-label>
-        <mat-select #zone formControlName="zoneControl" name="zone" (selectionChange)="getSubzoneList(zone.value)" required>
+        <mat-select #zone formControlName="zoneControl" name="zone" (selectionChange)="getSubzoneList(zone.value)" >
           <mat-option *ngFor="let zone of zones" [value]="zone.id">
             {{zone.name}}
           </mat-option>
@@ -68,13 +68,13 @@
       </mat-form-field>
       <mat-form-field class="justifier">
         <mat-label>Zone</mat-label>
-        <mat-select formControlName="subZoneControl" name="subZone" required>
+        <mat-select formControlName="subZoneControl" name="subZone" >
           <mat-option *ngFor="let subZone of subZones" [value]="subZone.id">
             {{subZone.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-flat-button color="primary" (click)= "zoneSearch()" style="width : 100%;">Go To Sub Zone</button>
+      <button mat-flat-button color="primary" (click)= "zoneSearch()" style="width : 100%;">Go To Selected</button>
     </form>
 
  
