@@ -265,6 +265,8 @@ export class AdminComponent implements OnInit {
 
   ];
 
+  setViewValue: boolean;
+
 
   constructor(
     private http: HttpClient,
@@ -279,12 +281,14 @@ export class AdminComponent implements OnInit {
     this.buildingInfo = null;
     this.selectZone = false;
     this.clearData = false;
+    this.setViewValue = true;
   }
 
   ngOnInit() {
    
     this.getDzongkhagList();
     this.reactiveForm();
+
 
     const zoneId = sessionStorage.getItem('zoneId');
     const subZoneId = sessionStorage.getItem('subZoneId');
@@ -362,7 +366,11 @@ export class AdminComponent implements OnInit {
   }
 
   getMyLocation(){
-    this.map.locate({setView:true,watch:true,enableHighAccuracy:true});
+    this.map.locate({setView:this.setViewValue,watch:true,enableHighAccuracy:true});
+    if(this.setViewValue === true){
+      this.setViewValue =false
+    }
+    
   }
 
   renderMap(dataservice: DataService){
@@ -537,25 +545,65 @@ export class AdminComponent implements OnInit {
   }
 
   zoneSearch() {
-    if (this.zoneForm.valid) {
       const zoneId = this.zoneForm.get('subZoneControl').value;
+      const dzongkhagId = this.zoneForm.get('dzongkhagControl').value;
       console.log(zoneId)
-      this.http.get(`/assets/geojson/conv_T${zoneId}.geojson`).subscribe((json:any)=>{
-        if(this.bound !== undefined){
-          this.map.removeLayer(this.bound)
-          this.bound = null;
-        }
-        this.bound= L.geoJSON(json,{
-          style: (feature)=>{
-            return {
-              color:"red",
-              fillOpacity:0
-            }
-          }
-        }).addTo(this.map).bringToBack();
-        this.map.fitBounds(this.bound.getBounds());
-        
-      })
+
+      /**
+       * this.http.get(`/assets/geojson/${zoneId}.geojson`)
+       * 
+       * 1) Define shape file with that links to corresponding id to the dzongkhags
+       * 2) Export as Shapefiles 
+       * 3) Export as Geojson and then upload to assets
+       * 4) If the first get request for subzone is returned with an error of 404
+       * 5) it will trigger the get request for dzongkhag and shows the boundary and bounds
+       */
+
+      this.http.get(`/assets/geojson/conv_T${zoneId}.geojson`)     
+              .subscribe((response:any)=>{
+                if(this.bound !== undefined){
+                  this.map.removeLayer(this.bound)
+                  this.bound = null;
+                }
+                this.bound= L.geoJSON(response,{
+                  style: (feature)=>{
+                    return {
+                      color:"red",
+                      fillOpacity:0
+                    }
+                  }
+                }).addTo(this.map)
+                this.map.fitBounds(this.bound.getBounds());
+              },
+              (error) => {
+                  if(error){
+                    this.http.get(`/assets/geojson/${dzongkhagId}.geojson`)
+                        .subscribe(
+                          (res: any) =>{
+                            if(this.bound !== undefined){
+                              this.map.removeLayer(this.bound)
+                              this.bound = null;
+                            }
+                            this.bound = L.geoJSON(res, {
+                              style: (feature) =>{
+                                return {
+                                  color: "yellow",
+                                  fillOpacity: 0
+                                }
+                              }
+                            }).addTo(this.map)
+                            this.map.fitBounds(this.bound.getBounds())
+                          }
+                        )
+                  }
+              }
+              
+              )
+
+
+
+
+              //end zone zoom to bound
       this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
     
         this.json = json;
@@ -569,18 +617,15 @@ export class AdminComponent implements OnInit {
         }
 
         this.buildingGeojson = L.geoJSON(this.json, {
-         
-          onEachFeature: (feature, layer) => {
+                   onEachFeature: (feature, layer) => {
               layer.on('click', (e) => {
                 this.buildingId = feature.properties.structure_id;
                 this.showBuilding(this.buildingId);
                 this.toggleClearData();
                 this.resident = null;
-  
                 this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
                   this.units = json.data;
                 });
-  
                 this.http.get(`${this.API_URL}/get-img/${this.buildingId}`).subscribe((json: any) => {
                   this.imgs= json.data;
                 });
@@ -601,14 +646,13 @@ export class AdminComponent implements OnInit {
               }
             }
           });
-          this.map.addLayer(this.buildingGeojson);
-
+          this.map.addLayer(this.buildingGeojson)
       });
-
-
-    }
-    
+ 
   }
+
+  //zone Search End
+
   
   showResident(unitid){
     this.resident = null;
@@ -650,18 +694,22 @@ export class AdminComponent implements OnInit {
   getDzongkhagList() {
     this.dataService.getDzongkhags().subscribe(response => {
       this.dzongkhags = response.data;
+
+      console.log(response.data)
     });
   }
 
   getZoneList(dzongkhagId) {
     this.dataService.getZones(dzongkhagId).subscribe(response => {
       this.zones = response.data;
+      console.log(response.data)
     });
   }
 
   getSubzoneList(zoneId) {
     this.dataService.getSubZones(zoneId).subscribe(response => {
       this.subZones = response.data;
+      console.log(response.data)
     });
   }
 
