@@ -74,7 +74,8 @@ export class AdminComponent implements OnInit {
   searchedId: any;
   selectZone:boolean;
   clearData:boolean;
-
+  showSuperZone= false;
+  showSubZone = false;
   residentialUnits = [];
   
   zoneForm: FormGroup;
@@ -297,11 +298,11 @@ export class AdminComponent implements OnInit {
     this.getZoneList(dzongkhagId);
     this.getSubzoneList(zoneId);
     this.renderMap(this.dataService);
+
   }
 
   submit(){
     let result = this.searchForm.get("searchBuilding").value;
-    console.log(result);
     this.dataService.getStructure(result).subscribe(resp=>{
       let structure = resp;
       this.zoomToSearched(structure)
@@ -331,9 +332,9 @@ export class AdminComponent implements OnInit {
       this.searchmarker = L.geoJSON(<GeoJSON.Point>responseJson, {
         onEachFeature: (feature, layer) => {
             layer.on('click', (e) => {
+              this.clearData = true;
               this.buildingId = feature.properties.structure_id;
               this.showBuilding(this.buildingId);
-              this.toggleClearData();
               this.resident = null;
 
               this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
@@ -375,9 +376,17 @@ export class AdminComponent implements OnInit {
 
   renderMap(dataservice: DataService){
     var thimphuZone = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/ThimphuZonee.geojson";
-    var heatmapURL = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/heatMap.geojson"; //hsp to kml to geojson
+    // var heatmapURL = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/heatMap.geojson"; //hsp to kml to geojson
 
 //marker Styles
+var nationalCovidMarker = {
+  radius: 5,
+  fillColor: "rgb(247,247,0)",
+  color: "rgb(247,247,0)",
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 0.7
+};
 
     
   function zoneStyle(feature) {
@@ -438,22 +447,35 @@ export class AdminComponent implements OnInit {
       })
 
 
+      var NationalCase = L.geoJSON(null,  {
+            pointToLayer:  (feature, latlng) => { 
+            return L.circleMarker(latlng,nationalCovidMarker);
+          }
+      }) 
+
+      fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/nationalCase.geojson")
+        .then(res => res.json())
+        .then(data => {
+          NationalCase.addData(data)
+        })
+
       var overlayMaps = {
         "Zone Map" : zoneMap,
-        // "Heat Map": heatMap
+        "National Covid Case": NationalCase
       };
 
       var layer: L.GeoJSON[] = [];
       
       var url = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/positive";
-      fetch(url) .then(res => res.json()) .then(data => {
+
+      fetch(url).then(res => res.json()).then(data => {
           for(let i=0; i<data.length; i ++){
             layer[i] = L.geoJSON(null,  {
               onEachFeature:  (feature, layer)=> {
               layer.on('click',(e) =>{
                 this.buildingId = feature.properties.id;
                 this.showBuilding(this.buildingId);
-                this.toggleClearData();
+                this.clearData = true;
                 layer.bindPopup(`Building ID : ${this.buildingId}`)
         
                       if(this.units !== undefined){
@@ -544,21 +566,21 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  changeDiff($event){
+    this.showSubZone = false;
+    this.showSuperZone = false;
+
+    if($event.value=== 21){
+      this.showSubZone= true;
+      this.showSuperZone = true;
+    }
+  }
+
   zoneSearch() {
       const zoneId = this.zoneForm.get('subZoneControl').value;
       const dzongkhagId = this.zoneForm.get('dzongkhagControl').value;
-      console.log(zoneId)
-
-      /**
-       * this.http.get(`/assets/geojson/${zoneId}.geojson`)
-       * 
-       * 1) Define shape file with that links to corresponding id to the dzongkhags
-       * 2) Export as Shapefiles 
-       * 3) Export as Geojson and then upload to assets
-       * 4) If the first get request for subzone is returned with an error of 404
-       * 5) it will trigger the get request for dzongkhag and shows the boundary and bounds
-       */
-
+      
+ 
       this.http.get(`/assets/geojson/conv_T${zoneId}.geojson`)     
               .subscribe((response:any)=>{
                 if(this.bound !== undefined){
@@ -621,7 +643,7 @@ export class AdminComponent implements OnInit {
               layer.on('click', (e) => {
                 this.buildingId = feature.properties.structure_id;
                 this.showBuilding(this.buildingId);
-                this.toggleClearData();
+                this.clearData = true;
                 this.resident = null;
                 this.http.get(`${this.API_URL}/getunits/${this.buildingId}`).subscribe((json: any) => {
                   this.units = json.data;
@@ -658,7 +680,6 @@ export class AdminComponent implements OnInit {
     this.resident = null;
     this.dataService.getResident(unitid).subscribe(resp=>{
       this.resident = resp.data;
-      console.log(this.resident);
     });
   }
 
@@ -694,27 +715,25 @@ export class AdminComponent implements OnInit {
   getDzongkhagList() {
     this.dataService.getDzongkhags().subscribe(response => {
       this.dzongkhags = response.data;
-
-      console.log(response.data)
     });
   }
 
   getZoneList(dzongkhagId) {
     this.dataService.getZones(dzongkhagId).subscribe(response => {
       this.zones = response.data;
-      console.log(response.data)
     });
   }
 
   getSubzoneList(zoneId) {
     this.dataService.getSubZones(zoneId).subscribe(response => {
       this.subZones = response.data;
-      console.log(response.data)
     });
   }
 
   reset(){
-    this.toggleClearData();
+    this.zoneForm.reset();
+    this.selectZone = false;
+
     this.buildingInfo = null; 
     this.units = null;
     this.imgs = null;
@@ -735,6 +754,7 @@ export class AdminComponent implements OnInit {
   }
 
   showSelectZone(){
+  
     if(this.selectZone === false){
       this.selectZone = true
     }else{
