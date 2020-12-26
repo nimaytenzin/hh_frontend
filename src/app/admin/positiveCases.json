@@ -1,85 +1,31 @@
+ 
+
 [
-    {
-        "name": "25/20/2020 Day 5 Evening",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayFiveEvening.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,153,117)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    },
-    {
-        "name": "25/20/2020 Day 5",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayFive.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,153,117)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    },
-    {
-        "name": "24/20/2020 Day 4 Evening",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayFourEvening.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,18,40)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    },
-    {
-        "name": "24/20/2020 Day 4 ",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayFour.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,18,40)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    },
-    {
-        "name": "23/20/2020 Day 3",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayThree.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,18,40)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    },
-    {
-        "name": "22/20/2020 Day 2",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dayTwo.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,153,117)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    },
-    {
-        "name": "21/20/2020 Day 1",
-        "dataUrl" : "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/POSITIVE_CASES.geojson",
-        "style" : {
-            "radius": 5,
-            "fillColor": "rgb(247,202,164)",
-            "color": "red",
-            "weight": 1,
-            "opacity": 1,
-            "fillOpacity": 1
-        }
-    }]
+   {
+       "labels":  ["Thimphu", "Paro", "Haa", "Punakha", "WangdiPhodrang", "Trongsa", "Bumthang", "Dagana"]
+   },
+   {
+       "date":"21/12/20",
+       "data":[20,0,0,2,0,0,0,0]
+   },
+   {
+    "date":"22/12/20",
+    "data":[7,3,0,0,0,0,0,0]
+},
+{
+    "date":"23/12/20",
+    "data":[6,15,0,2,0,0,1,0]
+},
+{
+    "date":"24/12/20",
+    "data":[17,2,0,0,1,0,1,0]
+},
+{
+    "date":"25/12/20",
+    "data":[30,1,1,0,0,1,2,0]
+},
+{
+    "date":"26/12/20",
+    "data":[4,10,0,2,0,0,0,1]
+}  
+]
