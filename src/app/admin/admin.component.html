@@ -38,27 +38,25 @@
 
         <div style="display: flex; flex-direction: row; justify-content: space-between;">
           <button mat-flat-button color="primary" (click)="submit()" style="width : 10%;"><mat-icon appearance="none">search</mat-icon></button>
+          <button  mat-flat-button color="primary" style="width:fit-content;" (click) = reset(); >Clear  | <mat-icon appearance="none">cached</mat-icon></button>
           <button mat-flat-button color="primary" (click)=showSelectZone();>Select Zone</button>
         </div>
         
       </form>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-      <button  mat-flat-button color="primary" style="width:fit-content;" (click) = reset();  *ngIf="clearData">Clear  | <mat-icon appearance="none">cached</mat-icon></button>
-      </div>
       <br>
     <form [formGroup]="zoneForm" *ngIf="selectZone">
       
       <mat-form-field class="justifier">
         <mat-label>Dzongkhag</mat-label>
-        <mat-select #dzongkhag formControlName="dzongkhagControl" name="dzongkhag" (selectionChange)="getZoneList(dzongkhag.value)" required>
+        <mat-select #dzongkhag formControlName="dzongkhagControl" name="dzongkhag" (selectionChange)="getZoneList(dzongkhag.value)" (selectionChange) = "changeDiff($event)" required>
           <mat-option *ngFor="let dzongkhag of dzongkhags" [value]="dzongkhag.id">
             {{dzongkhag.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="justifier">
+      <mat-form-field class="justifier" *ngIf="showSuperZone" >
         <mat-label>Super Zone</mat-label>
         <mat-select #zone formControlName="zoneControl" name="zone" (selectionChange)="getSubzoneList(zone.value)" >
           <mat-option *ngFor="let zone of zones" [value]="zone.id">
@@ -66,7 +64,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="justifier">
+      <mat-form-field class="justifier" *ngIf="showSubZone">
         <mat-label>Zone</mat-label>
         <mat-select formControlName="subZoneControl" name="subZone" >
           <mat-option *ngFor="let subZone of subZones" [value]="subZone.id">
@@ -164,10 +162,6 @@
         <tr>
           <th>Famile Income</th>
           <td>{{this.resident[0]['familyIncome']}}</td>
-        </tr>
-        <tr>
-          <th>Contact Number</th>
-          <td>{{this.resident[0]['contactNumberHead']}}</td>
         </tr>
         <tr>
           <th>Contact Number</th>
