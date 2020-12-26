@@ -401,7 +401,7 @@ var nationalCovidMarker = {
   }
 
    
-    var sat = L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
+    var sat = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       minZoom: 9,
     });
