@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as L from 'leaflet';
+import * as Chart from 'chart.js';
 import 'leaflet.heat';
 import { HttpClient } from '@angular/common/http';
 import { Data, Router } from '@angular/router';
@@ -67,6 +68,14 @@ interface IdName{
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  //chart js
+  canvas1: any;
+  ctx1: any;
+  canvas2: any;
+  ctx2: any;
+
+
+  //chart js
   API_URL =environment.API_URL;
   BASE_URL = environment.BASE_URL;
   searchForm: FormGroup;
@@ -107,6 +116,7 @@ export class AdminComponent implements OnInit {
   resident: any;
   showattic= false;
   residentAttic=[];
+  showCaseDetails = false;
 
   map: L.Map;
 
@@ -289,7 +299,8 @@ export class AdminComponent implements OnInit {
    
     this.getDzongkhagList();
     this.reactiveForm();
-
+    this.renderChart();
+    this.casesByDzongkhag();
 
     const zoneId = sessionStorage.getItem('zoneId');
     const subZoneId = sessionStorage.getItem('subZoneId');
@@ -298,8 +309,149 @@ export class AdminComponent implements OnInit {
     this.getZoneList(dzongkhagId);
     this.getSubzoneList(zoneId);
     this.renderMap(this.dataService);
+    Chart.defaults.global.legend.display = false;
 
   }
+
+  renderChart(){
+
+    this.canvas1 = document.getElementById('myChart');
+    this.ctx1 = this.canvas1.getContext('2d');
+    var dates =[];
+    var cases =[];
+
+    fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dailyCovidCase")
+        .then(res => res.json())
+        .then(data => {
+          for(let i =0; i<data.length; i++){
+            dates.push(data[i].date)
+            cases.push(data[i].cases)
+          }
+          const myChart = new Chart(this.ctx1, {
+            type: 'line',
+            data: {
+            labels: dates,
+            datasets: [{
+                  data: cases,
+                  backgroundColor:"transparent",
+                  borderColor:"rgb(63,81,181)",
+                  pointRadius: 5,
+                  pointHoverRadius: 10,
+                  pointHitRadius: 30,
+                  pointBorderWidth: 2,
+            }]
+            },
+        
+            options: {
+              title: {
+                    display: true,
+                    text: 'Daily Covid Cases'
+                },
+              lengend:{
+                display: false
+             },
+             scales: {
+              xAxes: [{
+                  gridLines: {
+                      display:false
+                  }
+              }],
+              yAxes: [{
+                  gridLines: {
+                      display:false
+                  }   
+              }]
+          }
+            }
+        
+            });  
+          
+        })
+    
+  }
+
+  casesByDzongkhag(){
+    this.canvas2 = document.getElementById('casesByDzongkhag');
+    this.ctx2 = this.canvas2.getContext('2d');
+      // var dzongkhagCase =[];
+    // var labels1 =[];
+    // const charts = new Chart(this.ctx2, {
+    //   type: 'line',
+    //   labels:["Thimphu", "Paro", "Haa", "Punakha", "Wangdiphodrang", "Trongsa", "Bumthang", "Dagana"],
+    //   data: [{
+    //     data: [20, 31, 1, 2, 1, 1, 4, 2],
+    //     borderColor:"blue",
+    //     backgroundColor: ['red','red','red','red','red','blue','red','red']
+    //   }]     
+    // }); //chart end 
+
+    // fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dzongkhagCase")
+    //     .then(res => res.json())
+    //     .then(data =>{
+    //       for(let i =0; i<data.length; i++){
+    //         labels1.push(data[i].dzongkhag)
+    //         dzongkhagCase.push(data[i].cases)
+    //       }
+
+            
+
+    //       console.log(dzongkhagCase);
+    //       console.log(labels1)
+    //     })
+    fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dzongkhagCase") 
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          var dataLabels = [];
+          var dataData= [];
+          var backColor =[];
+          for(let i = 0; i< data.length; i ++){
+            dataData.push(data[i].cases)
+            dataLabels.push(data[i].dzongkhag)
+            backColor.push(data[i].background)
+
+          }
+          console.log(dataData);
+          console.log(backColor)
+          var myChart = new Chart(this.ctx2, {
+            type: 'bar',
+            data: {
+              labels: dataLabels,
+              datasets: [{
+                label: 'cases',
+                data: dataData,
+                backgroundColor: backColor,
+                borderWidth: 1
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Cases By Dzongkhag'
+            },
+              lengend:{
+                display: false
+            },
+            scales: {
+              xAxes: [{
+                  gridLines: {
+                      display:false
+                  }
+              }],
+              yAxes: [{
+                  gridLines: {
+                      display:false
+                  }   
+              }]
+      }
+            }
+          });
+        })
+          
+              
+        
+  }
+
 
   submit(){
     let result = this.searchForm.get("searchBuilding").value;
@@ -475,6 +627,7 @@ var nationalCovidMarker = {
               layer.on('click',(e) =>{
                 this.buildingId = feature.properties.id;
                 this.showBuilding(this.buildingId);
+                this.showCaseDetails = true;
                 this.clearData = true;
                 layer.bindPopup(`Building ID : ${this.buildingId}`)
         
@@ -621,8 +774,6 @@ var nationalCovidMarker = {
               }
               
               )
-
-
 
 
               //end zone zoom to bound
