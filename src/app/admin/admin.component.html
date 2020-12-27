@@ -31,7 +31,7 @@
   <div class = "scroll" >
 
     <div>
-      <h4 style="text-align: center;">Covid Summary</h4>
+      <h4 style="text-align: center;">Covid Summary Since 2nd Lockdown</h4>
       <canvas id="myChart" width="620px " height="200px"></canvas>
       <canvas id="casesByDzongkhag" width="620px " height="300px"></canvas>
     </div>
@@ -82,22 +82,6 @@
       </mat-form-field>
       <button mat-flat-button color="primary" (click)= "zoneSearch()" style="width : 100%;">Go To Selected</button>
     </form>
-
-    <!-- <div *ngIf="showCaseDetails">
-      <table style = "width:100%;">
-        <tr>
-          <th>Number of Cases</th>
-          <td>{{buildingId}}</td>
-        </tr>
-        <tr>
-          <th>Number of household</th>
-          <td>{{buildingInfo.BuildingName}}</td>
-        </tr>
-        </table>
-    </div> -->
-
-  
-
  
     <div *ngIf="buildingInfo">
       <h3>Details</h3>
@@ -163,16 +147,6 @@
       </table>
 
       
-
-      <!-- <mat-list-item *ngFor="let unit of units">
-        <div >Unit Number : <b>{{unit.unitNumber}}</b> | Unit use: <b>{{unit.unitUse}}</b> | Unit Name: <b>{{unit.unitName}}</b> 
-          <b>Contact Number: {{unit.contact}}</b>
-           <a *ngIf="unit.unitUse === 'Residential'" (click)="showResident(unit.id)">Click Here for details</a>
-        </div>
-      </mat-list-item> -->
-      <!-- <mat-list-item *ngfor="let img of imgs">
-        <img src="{{img.uri}}">
-      </mat-list-item> -->
     </div>
     <br><br>
     <div *ngIf="resident">
