@@ -373,31 +373,7 @@ export class AdminComponent implements OnInit {
   casesByDzongkhag(){
     this.canvas2 = document.getElementById('casesByDzongkhag');
     this.ctx2 = this.canvas2.getContext('2d');
-      // var dzongkhagCase =[];
-    // var labels1 =[];
-    // const charts = new Chart(this.ctx2, {
-    //   type: 'line',
-    //   labels:["Thimphu", "Paro", "Haa", "Punakha", "Wangdiphodrang", "Trongsa", "Bumthang", "Dagana"],
-    //   data: [{
-    //     data: [20, 31, 1, 2, 1, 1, 4, 2],
-    //     borderColor:"blue",
-    //     backgroundColor: ['red','red','red','red','red','blue','red','red']
-    //   }]     
-    // }); //chart end 
-
-    // fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dzongkhagCase")
-    //     .then(res => res.json())
-    //     .then(data =>{
-    //       for(let i =0; i<data.length; i++){
-    //         labels1.push(data[i].dzongkhag)
-    //         dzongkhagCase.push(data[i].cases)
-    //       }
-
-            
-
-    //       console.log(dzongkhagCase);
-    //       console.log(labels1)
-    //     })
+  
     fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dzongkhagCase") 
         .then(res => res.json())
         .then(data => {
@@ -553,7 +529,7 @@ var nationalCovidMarker = {
   }
 
    
-    var sat = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
+    var sat = L.tileLayer('http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       minZoom: 9,
     });
@@ -569,22 +545,6 @@ var nationalCovidMarker = {
       layers: [sat]
     });
   
-    //heatmap begin
-    // var cases =[]
-    
-    // fetch(heatmapURL)
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     for(let i =0; i < data.features.length; i++){
-    //      cases.push([data.features[i].geometry.coordinates[1],data.features[i].geometry.coordinates[0],10])    
-    //     } 
-    //   })
-
-    // var heatMap = L.heatLayer(cases, {radius: 30, gradient:{0.1: 'yellow', 1: 'red'}})
-
- 
-    //heatmap end
-
     var zoneMap = L.geoJSON(null, { 
       onEachFeature:  (feature, layer)=> {
         layer.on('click',(e) =>{
@@ -664,8 +624,7 @@ var nationalCovidMarker = {
         "Satellite Image": sat,
         "OSM base map": osm 
       };
-    
-    // L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+  
   
     this.map.on('locationerror',(err)=>{
           if (err.code === 0) {
@@ -774,7 +733,6 @@ var nationalCovidMarker = {
               }
               
               )
-
 
               //end zone zoom to bound
       this.http.get(`${this.API_URL}/get-str/${zoneId}`).subscribe((json: any) => {
