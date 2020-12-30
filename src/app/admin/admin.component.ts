@@ -74,6 +74,9 @@ export class AdminComponent implements OnInit {
   canvas2: any;
   ctx2: any;
 
+  totalCases = 201;
+  totalHotspotBuilding = 56;
+
 
   //chart js
   API_URL =environment.API_URL;
@@ -377,7 +380,6 @@ export class AdminComponent implements OnInit {
     fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/dzongkhagCase") 
         .then(res => res.json())
         .then(data => {
-          console.log(data)
           var dataLabels = [];
           var dataData= [];
           var backColor =[];
@@ -387,8 +389,7 @@ export class AdminComponent implements OnInit {
             backColor.push(data[i].background)
 
           }
-          console.log(dataData);
-          console.log(backColor)
+        
           var myChart = new Chart(this.ctx2, {
             type: 'bar',
             data: {
@@ -401,6 +402,20 @@ export class AdminComponent implements OnInit {
               }]
             },
             options: {
+              responsive: true,
+
+              onAnimationComplete: function () {
+                  this.ctx2.font = this.scale.font;
+                  this.ctx2.fillStyle = this.scale.textColor
+                  this.ctx2.textAlign = "center";
+                  this.ctx2.textBaseline = "bottom";
+
+                  this.datasets.forEach(function (data) {
+                      this.data.points.forEach(function (points) {
+                        this.ctx2.fillText(points.value, points.x, points.y - 10);
+                      });
+                  })
+              },
               title: {
                 display: true,
                 text: 'Cases By Dzongkhag'
