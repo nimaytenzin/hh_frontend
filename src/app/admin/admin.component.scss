@@ -52,14 +52,17 @@
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 1000px) {
  .main{
    flex-direction: column;
    margin: 6px;
  }
  .map-container{
-   width: 100%;
-   height:75vh
+   width: 95%;
+   height:60vh
+ }
+ .nationCase{
+   flex-direction: column;
  }
  .scroll{
    display: flex;
@@ -69,5 +72,8 @@
  }
  .seem{
    margin-top: 3px;
+ }
+ .fg{
+   flex-direction: column;
  }
 }
