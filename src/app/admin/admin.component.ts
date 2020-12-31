@@ -74,8 +74,8 @@ export class AdminComponent implements OnInit {
   canvas2: any;
   ctx2: any;
 
-  totalCases = 201;
-  totalHotspotBuilding = 56;
+  totalCases: number;
+  totalHotspotBuilding: number;
 
 
   //chart js
@@ -304,6 +304,7 @@ export class AdminComponent implements OnInit {
     this.reactiveForm();
     this.renderChart();
     this.casesByDzongkhag();
+    this.caseOverview();
 
     const zoneId = sessionStorage.getItem('zoneId');
     const subZoneId = sessionStorage.getItem('subZoneId');
@@ -314,6 +315,16 @@ export class AdminComponent implements OnInit {
     this.renderMap(this.dataService);
     Chart.defaults.global.legend.display = false;
 
+  }
+
+  caseOverview(){
+    fetch("https://raw.githubusercontent.com/nimaytenzin/cdrs/main/caseDetails")
+          .then(res => res.json())
+          .then(data => {
+            this.totalCases = data.totalCases;
+            this.totalHotspotBuilding = data.buildings;
+
+          })
   }
 
   renderChart(){
