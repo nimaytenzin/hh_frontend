@@ -323,7 +323,6 @@ export class AdminComponent implements OnInit {
           .then(data => {
             this.totalCases = data.totalCases;
             this.totalHotspotBuilding = data.buildings;
-
           })
   }
 
