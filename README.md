@@ -1,6 +1,6 @@
 # Zhichar Data collection app and dashboard
 
-A project for data collection and display for COVID-19 efforts
+A data collection application with Dashboard adaptable for display of spatial information. Currently it is being used for display of COVID-19 spread in Bhutan Spatially
 
 ## Development server
 
