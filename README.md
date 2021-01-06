@@ -1,6 +1,6 @@
-# Covidoutpass
+# Zhichar Data collection app and dashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
+A data collection application with Dashboard adaptable for display of spatial information. Currently it is being used for display of COVID-19 spread in Bhutan Spatially
 
 ## Development server
 
