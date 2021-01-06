@@ -2,6 +2,7 @@
   <div class="map-container">
     <div class="map-frame">
       <div id="map">
+        
         <div class="leaflet-bottom leaflet-right">
             <button style="
             width: 42px;
@@ -32,16 +33,37 @@
     <h3 style="text-align: center;">National Covid Cases Summary | after December 20,2020</h3>
    <div  class= "nationCase" style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin: 0;">
     <div  class= "fg" style="padding-left: 10px; display: flex; flex-direction: row;">
-     
-      <mat-card>
-        <p style="font-size: small;">Total Cases</p>
-         <h1 style="color: rgb(63,81,181); font-weight: bolder;">{{totalCases}}</h1>
-       </mat-card>
-       <mat-card>  
-         <p style="font-size: small;">Total HotSpot Building</p>
-         <h1 style="color: red; font-weight: bolder;">{{totalHotspotBuilding}}</h1>
-       </mat-card>
-    </div>
+
+      <div style="display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: row; padding: 0;" >
+            <img src="../../assets/bhutan.png" alt="" width="100px" height="auto">       
+          <mat-card style="align-items: center; justify-content: center;padding-bottom: 0;">
+            <p style="font-size: small;">National: Total Cases</p>
+             <h1 style="color: rgb(63,81,181); font-weight: bolder;">{{totalCases}}</h1>
+           </mat-card>
+           <mat-card style="align-items: center; justify-content: center;padding-bottom: 0;">  
+             <p style="font-size: small;">Total HotSpot Building</p>
+             <h1 style="color: red; font-weight: bolder;">{{totalHotspotBuilding}}</h1>
+           </mat-card>
+           <h2 class="lol">National</h2>
+        </div>
+        <hr>
+        <div style="display: flex; flex-direction: row;">
+         
+            <img src="../../assets/thimphu.png" alt="" width="100px">
+          
+          <mat-card style="align-items: center; justify-content: center;padding-top: 2px;">
+            <p style="font-size: small;">Thimphu: Total Cases</p>
+             <h1 style="color: rgb(63,81,181); font-weight: bolder;">{{thimphuCases}}</h1>
+           </mat-card>
+           <mat-card style="align-items: center; justify-content: center;padding-top: 2px;">  
+             <p style="font-size: small;">Total HotSpot Building</p>
+             <h1 style="color: red; font-weight: bolder;">{{thimphuBuildings}}</h1>
+           </mat-card>
+           <h2 class="lol">Thimphu</h2>
+        </div>
+      </div>
+      </div>
       
    </div>
     <div>

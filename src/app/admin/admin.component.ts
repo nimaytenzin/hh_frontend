@@ -76,6 +76,8 @@ export class AdminComponent implements OnInit {
 
   totalCases: number;
   totalHotspotBuilding: number;
+  thimphuBuildings:number;
+  thimphuCases:number;
 
 
   //chart js
@@ -323,6 +325,8 @@ export class AdminComponent implements OnInit {
           .then(data => {
             this.totalCases = data.totalCases;
             this.totalHotspotBuilding = data.buildings;
+            this.thimphuBuildings = data.thimphuBuildings;
+            this.thimphuCases = data.thimphuCases;
           })
   }
 
@@ -532,50 +536,53 @@ export class AdminComponent implements OnInit {
     // var heatmapURL = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/heatMap.geojson"; //hsp to kml to geojson
 
 //marker Styles
-var nationalCovidMarker = {
-  radius: 5,
-  fillColor: "rgb(247,247,0)",
-  color: "rgb(247,247,0)",
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 0.7
-};
+      var nationalCovidMarker = {
+        radius: 5,
+        fillColor: "rgb(247,247,0)",
+        color: "rgb(247,247,0)",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.7
+      };
 
-    
-  function zoneStyle(feature) {
-    return {
-    fillColor:'white',
-    weight: 2,
-    opacity: 1,
-    color: 'yellow',
-    dashArray: '3',
-    fillOpacity: 0
-   };
-  }
+          
+        function zoneStyle(feature) {
+          return {
+          fillColor:'white',
+          weight: 2,
+          opacity: 1,
+          color: 'yellow',
+          dashArray: '3',
+          fillOpacity: 0
+        };
+        }
 
    
-    var sat = L.tileLayer('http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
-      maxZoom: 20,
-      minZoom: 9,
-    });
-    var osm = L.tileLayer('https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png', {
-      maxZoom: 20,
-      minZoom: 9,
-    });
-    this.map = L.map('map',{
-      center:[27.4712,89.64191],
-      zoom: 13,
-      maxZoom: 20,
-      minZoom: 9,
-      layers: [sat]
-    });
-  
-    var zoneMap = L.geoJSON(null, { 
-      onEachFeature:  (feature, layer)=> {
-        layer.on('click',(e) =>{
-          layer.bindPopup(`${feature.properties.Zone}`)
-        })},style:zoneStyle
-  })
+        var sat = L.tileLayer('http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          minZoom: 9,
+        });
+        var osm = L.tileLayer('https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png', {
+          maxZoom: 20,
+          minZoom: 9,
+        });
+        this.map = L.map('map',{
+          center:[27.4712,89.64191],
+          zoom: 13,
+          maxZoom: 20,
+          minZoom: 9,
+          layers: [sat]
+        });
+      
+        var zoneMap = L.geoJSON(null, { 
+          onEachFeature:  (feature, layer)=> {
+            
+            layer.on('click',(e) =>{
+              layer.bindPopup(`${feature.properties.Zone}`)
+            })},style:zoneStyle
+      })
+
+      
 
     fetch(thimphuZone)
       .then(res => res.json())
