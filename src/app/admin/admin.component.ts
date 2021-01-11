@@ -602,8 +602,6 @@ export class AdminComponent implements OnInit {
        
 
 
-      
-
     fetch(thimphuZone)
       .then(res => res.json())
       .then( data => {
