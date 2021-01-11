@@ -541,9 +541,9 @@ export class AdminComponent implements OnInit {
       };
 
       var myStyle = {
-        "color": "#ff7800",
-        "weight": 5,
-        "opacity": 0.65
+        "color": "#444DF8",
+        "weight": 3,
+        "opacity": 1
     };
 
           
@@ -598,7 +598,11 @@ export class AdminComponent implements OnInit {
          style:broadZones  
         })
 
-        const thimphuGateMap = L.geoJSON(null)
+        var thimphuGateMap = L.geoJSON(null,  {
+          pointToLayer:  (feature, latlng) => { 
+          return L.circleMarker(latlng,myStyle);
+        }
+    }) 
        
 
 
