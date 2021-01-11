@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as L from 'leaflet';
 import * as Chart from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import 'leaflet.heat';
 import { HttpClient } from '@angular/common/http';
 import { Data, Router } from '@angular/router';
@@ -301,7 +302,7 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+    Chart.plugins.unregister(ChartDataLabels);
     this.getDzongkhagList();
     this.reactiveForm();
     this.renderChart();
@@ -358,8 +359,9 @@ export class AdminComponent implements OnInit {
                   pointBorderWidth: 2,
             }]
             },
-        
+           
             options: {
+              
               title: {
                     display: true,
                     text: 'Daily Covid Cases'
@@ -408,6 +410,7 @@ export class AdminComponent implements OnInit {
             type: 'bar',
             data: {
               labels: dataLabels,
+              
               datasets: [{
                 label: 'cases',
                 data: dataData,
@@ -415,21 +418,10 @@ export class AdminComponent implements OnInit {
                 borderWidth: 1
               }]
             },
+            plugins: [ChartDataLabels],
             options: {
               responsive: true,
 
-              onAnimationComplete: function () {
-                  this.ctx2.font = this.scale.font;
-                  this.ctx2.fillStyle = this.scale.textColor
-                  this.ctx2.textAlign = "center";
-                  this.ctx2.textBaseline = "bottom";
-
-                  this.datasets.forEach(function (data) {
-                      this.data.points.forEach(function (points) {
-                        this.ctx2.fillText(points.value, points.x, points.y - 10);
-                      });
-                  })
-              },
               title: {
                 display: true,
                 text: 'Cases By Dzongkhag'
@@ -535,6 +527,9 @@ export class AdminComponent implements OnInit {
     var thimphuZone = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/ThimphuZonee.geojson";
     // var heatmapURL = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/heatMap.geojson"; //hsp to kml to geojson
 
+    var relaxedZoneUrl = "https://raw.githubusercontent.com/nimaytenzin/cdrs/main/relaxationZone.geojson";
+    var thimphuGateUrl ="https://raw.githubusercontent.com/nimaytenzin/cdrs/main/gates.geojson";
+
 //marker Styles
       var nationalCovidMarker = {
         radius: 5,
@@ -545,6 +540,12 @@ export class AdminComponent implements OnInit {
         fillOpacity: 0.7
       };
 
+      var myStyle = {
+        "color": "#ff7800",
+        "weight": 5,
+        "opacity": 0.65
+    };
+
           
         function zoneStyle(feature) {
           return {
@@ -554,6 +555,17 @@ export class AdminComponent implements OnInit {
           color: 'yellow',
           dashArray: '3',
           fillOpacity: 0
+        };
+        }
+
+        function broadZones(feature) {
+          return {
+          fillColor:'white',
+          weight: 2,
+          opacity: 1,
+          color: 'yellow',
+          dashArray: '3',
+          fillOpacity: 0.3
         };
         }
 
@@ -574,20 +586,38 @@ export class AdminComponent implements OnInit {
           layers: [sat]
         });
       
-        var zoneMap = L.geoJSON(null, { 
+        const zoneMap = L.geoJSON(null, { 
           onEachFeature:  (feature, layer)=> {
             
             layer.on('click',(e) =>{
               layer.bindPopup(`${feature.properties.Zone}`)
-            })},style:zoneStyle
-      })
+            })},style:zoneStyle      
+        })
 
-      
+        const relaxedZoneMap = L.geoJSON(null,{
+         style:broadZones  
+        })
+
+        const thimphuGateMap = L.geoJSON(null)
+       
+
 
     fetch(thimphuZone)
       .then(res => res.json())
       .then( data => {
         zoneMap.addData(data);
+      })
+
+    fetch(relaxedZoneUrl)
+      .then(res => res.json())
+      .then(data => {
+        relaxedZoneMap.addData(data)
+      })
+
+      fetch(thimphuGateUrl)
+        .then(res => res.json())
+        .then(data => {
+          thimphuGateMap.addData(data)
       })
 
 
@@ -604,8 +634,10 @@ export class AdminComponent implements OnInit {
         })
 
       var overlayMaps = {
-        "Zone Map" : zoneMap,
-        "National Covid Case": NationalCase
+        "Broad Zone": relaxedZoneMap,
+        "Gates": thimphuGateMap,
+        "National Covid Case": NationalCase,
+        "Zone Map" : zoneMap
       };
 
       var layer: L.GeoJSON[] = [];
