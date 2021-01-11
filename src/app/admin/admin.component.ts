@@ -540,10 +540,10 @@ export class AdminComponent implements OnInit {
         fillOpacity: 0.7
       };
 
-      var myStyle = {
-        "color": "#ff7800",
-        "weight": 5,
-        "opacity": 0.65
+     var myStyle = {
+        "color": "#444DF8",
+        "weight": 3,
+        "opacity": 1
     };
 
           
@@ -600,7 +600,7 @@ export class AdminComponent implements OnInit {
 
         const thimphuGateMap = L.geoJSON(null, {
             pointToLayer:  (feature, latlng) => { 
-            return L.circleMarker(latlng,nationalCovidMarker);
+            return L.circleMarker(latlng,myStyle);
           })
        
 
