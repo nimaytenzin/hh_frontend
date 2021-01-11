@@ -598,7 +598,10 @@ export class AdminComponent implements OnInit {
          style:broadZones  
         })
 
-        const thimphuGateMap = L.geoJSON(null)
+        const thimphuGateMap = L.geoJSON(null, {
+            pointToLayer:  (feature, latlng) => { 
+            return L.circleMarker(latlng,nationalCovidMarker);
+          })
        
 
 
