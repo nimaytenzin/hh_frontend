@@ -563,9 +563,9 @@ export class AdminComponent implements OnInit {
           fillColor:'white',
           weight: 2,
           opacity: 1,
-          color: 'yellow',
+          color: 'red',
           dashArray: '3',
-          fillOpacity: 0.3
+          fillOpacity: 0
         };
         }
 
