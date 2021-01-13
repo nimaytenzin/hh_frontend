@@ -540,6 +540,8 @@ export class AdminComponent implements OnInit {
         fillOpacity: 0.7
       };
 
+
+  
      var myStyle = {
         "color": "#444DF8",
         "weight": 3,
@@ -563,9 +565,9 @@ export class AdminComponent implements OnInit {
           fillColor:'white',
           weight: 2,
           opacity: 1,
-          color: 'yellow',
+          color: 'red',
           dashArray: '3',
-          fillOpacity: 0.3
+          fillOpacity: 0
         };
         }
 
@@ -598,11 +600,14 @@ export class AdminComponent implements OnInit {
          style:broadZones  
         })
 
-        const thimphuGateMap = L.geoJSON(null, {
-            pointToLayer:  (feature, latlng) => { 
-            return L.circleMarker(latlng,myStyle);
-          })
-       
+
+        var thimphuGateMap = L.geoJSON(null,  {
+          pointToLayer:  (feature, latlng) => { 
+          return L.circleMarker(latlng,myStyle);
+        }
+    }) 
+
+           
 
 
     fetch(thimphuZone)
