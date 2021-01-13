@@ -540,7 +540,9 @@ export class AdminComponent implements OnInit {
         fillOpacity: 0.7
       };
 
-      var myStyle = {
+
+  
+     var myStyle = {
         "color": "#444DF8",
         "weight": 3,
         "opacity": 1
@@ -598,12 +600,14 @@ export class AdminComponent implements OnInit {
          style:broadZones  
         })
 
+
         var thimphuGateMap = L.geoJSON(null,  {
           pointToLayer:  (feature, latlng) => { 
           return L.circleMarker(latlng,myStyle);
         }
     }) 
-       
+
+           
 
 
     fetch(thimphuZone)
