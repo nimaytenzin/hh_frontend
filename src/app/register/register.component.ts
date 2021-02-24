@@ -10,6 +10,31 @@ interface OwnershipType {
   name: string;
 }
 
+export class Building{
+    structure_id: number;
+    block_no: string;
+    building_owner: string;
+    cidOwner: string;
+    contactOwner: number;
+    constYear: number;
+    floors: number;
+    attic: boolean;
+    basement: boolean
+    buildingStyle:string;
+    structureType: string;i
+    materialType: string;
+    roofMaterial: string;
+    sewerTreatment: string;
+    wasteCollection: string;
+    wasteCollectionFrequency: string;
+    waterSupply: string;
+    buildingUse: string;
+    residentialUnits: number;
+    commercialUnits: number;
+    officeUnits: number;
+}
+
+
 export class School{
   structure_id:number;
   user_id:number;
@@ -32,39 +57,21 @@ export class Institution{
   instituteVehicle:string;
 }
 
-export class Building{
-    structure_id: number;
-    nameOfTheBuilding:string;
-    buildingOwnership:string;
-    nameOfTheBuildingOwner:string;
-    contactNumberBuilding:string;
-    approvedDrawing:string;
-    occupancyCertificate:string;
-    associativePosition:string;
-    existancyStatus: string;
-    yearOfConstruction:string;
-    yearOfRenovation:string;
-    numberOfFloors:string;
-    attic:string;
-    stilt:string;
-    jamthog:string;
-    basement:string;
-    buildingStyle:string;
-    structureType:string;
-    materialType:string;
-    roofType:string;
-    roofingMaterial:string;
-    emergencyExit:string;
-    lift:string;
-    sewerTreatment:string;
-    wasteCollection:string;
-    dryWasteCollection:string;
-    wetWasteCollection:string;
-    waterSupply:string;
-    buildingUse:string;
-    parking:string;
-    buildingRemarksstring:String;
-    user_id:number;
+
+
+interface DropDownOptions {
+  id: string;
+  name: string;
+}
+
+interface BooleanDropdown {
+  name: string;
+  value:boolean
+}
+
+interface Floor{
+  name:string;
+  value:number
 }
 
 interface AssociativePosition {
@@ -173,6 +180,94 @@ export class RegisterComponent implements OnInit {
   displayInstitutionForm=false;
   
   //i have added from here
+
+
+  buildingStyles: DropDownOptions[]=[
+    {id:'1', name:"Contemporary"},
+    {id:'2', name:"Traditional"},
+    {id:'3', name:"Composite"}
+  ]
+  structureTypes :DropDownOptions[]=[
+    {id:'1', name:"Framed"},
+    {id:'2', name:"Load Bearing"},
+    {id:'3', name:"Composite"},
+    {id:'4', name:"Others"}
+  ]
+
+  materialTypes: DropDownOptions[]=[
+    {id:'1', name:"Brick Masonry"},
+    {id:'2', name:"ACC Block"},
+    {id:'3', name:"Rammed Earth"},
+    {id:'4', name:"Steel"},
+    {id:'5', name:"Concrete Block"},
+    {id:'6', name:"Stabilized Mud Block"},
+    {id:'7', name:"Stone Masonry"},
+    {id:'8', name:"Reinforced Concrete"},
+    {id:'9', name:"Timbers"},
+    {id:'10', name:"Others"}
+  ]
+
+  roofingMaterials: DropDownOptions[]=[
+    {id:'1', name:"CGI"},
+    {id:'2', name:"Fibre Glass"},
+    {id:'3', name:"Slate"},
+    {id:'4', name:"Tiles"},
+    {id:'5', name:"Wooden Shingles"},
+    {id:'6', name:"Others"}
+  ]
+
+  sewerTreatmentOptions: DropDownOptions[]=[
+    {id:'1', name:"Individual Septic Tank"},
+    {id:'2', name:"Communal Septic Tank"},
+    {id:'3', name:"Sewerage"},
+    {id:'5', name:"Others"}
+
+  ]
+
+  floors:Floor[]=[
+    {name:'G', value:1},
+    {name:'G+1', value:2},
+    {name:'G+2', value:3},
+    {name:'G+3', value:4},
+    {name:'G+4', value:5},
+    {name:'G+5', value:6},
+    {name:'G+6', value:7},
+    {name:'G+7', value:8}
+  ]
+
+  wasteCollectionOptions:DropDownOptions[]=[
+    {id:'1', name:"Thromde"},
+    {id:'2', name:"Dzongkhag"},
+    {id:'2', name:"Private"},
+    {id:'3', name:"Individual"}
+  ];
+
+  waterSupplyOptions:DropDownOptions[]=[
+    {id:'1', name:"Thromde"},
+    {id:'2', name:"Rural Water Supply"},
+    {id:'3', name:"Private Individual"},
+    {id:'4', name:"Private Community"},
+    {id:'5', name:"Others"}
+  ];
+
+  buildingUses:DropDownOptions[]=[
+    {id:'1', name:"Residential"},
+    {id:'2', name:"Commercial"},
+    {id:'3', name:"Mixed Use"},
+    {id:'4', name:"Office"}
+  ]
+
+  atticOptions:BooleanDropdown[]=[
+    { name: "Yes",value:true},
+    { name: "No",value:false}
+  ]
+
+  basementOptions:BooleanDropdown[]=[
+    { name: "Yes",value:true},
+    { name: "No",value:false}
+  ]
+
+
   
   buildingOwnership:OwnershipType[]=[
     {id:'1', name:"Singly Owned"},
@@ -290,13 +385,7 @@ export class RegisterComponent implements OnInit {
     {id:'5', name:"Others"},
 
   ];
-  wasteCollection:WasteCollection[]=[
-    {id:'1', name:"Thromde"},
-    {id:'2', name:"Dzongkhag"},
-    {id:'2', name:"Private Company"},
-    {id:'3', name:"Individual"},
 
-  ];
    buildingUse: BuildingUse[] = [
     {id:'1', name:"Residential"},
     {id:'2', name:"Commercial"},
@@ -384,96 +473,96 @@ export class RegisterComponent implements OnInit {
 
    reactiveForms() {
     this.buildingForm = this.fb.group({
-      buildingOwnershipControl:[],
-      nameOfTheBuildingControl:[],
-
-      nameOwnerControl:[],
-
-      contactNumberBuildingControl:[],
-      approvedDrawingsControl:[],
-      occupancyCertificateControl:[],
-      associativePositionControl:[],
-      existancyStatusControl:[],
-      yearOfConstructionControl:[],
-      yearOfRenovationControl:[],
-      numberOfFloorsControl:[],
-      atticControl:[],
-      stiltControl:[],
-      jamthogControl:[],
-      basementControl:[],
-      buildingStyleControl:[],
-      structureTypeControl:[],
-      roofTypeControl:[],
-      roofingMaterialControl:[],
-      emergencyExitControl:[],
-      liftControl:[],
-      sewerTreatmentControl:[],
-      wasteCollectionControl:[],
-      dryWasteCollectionControl:[],
-      wetWasteCollectionControl:[],
-      waterSupplyControl:[],
-      buildingUseControl:[],
-      parkingControl:[],
-      buildingRemarksControl:[],
-      });
-    this.schoolForm = this.fb.group({
-        schoolNameControl:[],
-        schoolEstablishmentYearControl:[],
-        schoolStaffMaleControl:[],
-        schoolStaffFemaleControl:[],
-        studentsMaleControl:[],
-        studentsFemaleControl:[],
-        vehicleNumberControl:[]
-        });
-    this.institutionForm = this.fb.group({
-      instituteNameControl:[],
-      instituteEstablishmentYearControl:[],
-      institueStaffMaleControl:[],
-      instituteStaffFemaleControl:[],
-      instituteVehicleControl:[],
+      blockNumber:[],
+      nameOfBuildingOwner:[],
+      cidOwner:[],
+      contactOwner:[],
+      buildingUse:[],
+      constructionYear:[],
+      numberOfFloors:[],
+      attic:[],
+      basement:[],
+      buildingStyle:[],
+      structureType:[],
+      materialType:[],
+      roofingMaterial:[],
+      sewerTreatment:[],
+      wasteCollection:[],
+      wasteCollectionFrequency:[],
+      waterSupply:[],
+      residentialUnits:[],
+      commercialUnits:[],
+      officeUnits:[]
       });
   }
 
 
   submit(){
 
+
+
     this.registerBuilding();
     // this.router.navigate(['dashboard',this.buildingId]);
-
+    console.log(this.building)
   }
   registerBuilding(){
-    this.building.structure_id =Number(sessionStorage.getItem('buildingId'));
-    this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
-    this.building.buildingOwnership=this.buildingForm.get('buildingOwnershipControl').value;
 
-    this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOwnerControl').value;
-    this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuildingControl').value;
-    this.building.approvedDrawing=this.buildingForm.get('approvedDrawingsControl').value;
+    this.building.structure_id = Number(sessionStorage.getItem('buildingId'));
+    this.building.block_no = this.buildingForm.get('blockNumber').value;
+    this.building.building_owner = this.buildingForm.get('nameOfBuildingOwner').value;
+    this.building.cidOwner = this.buildingForm.get('cidOwner').value;
+    this.building.cidOwner = this.buildingForm.get('cidOwner').value;
+    this.building.buildingUse = this.buildingForm.get('buildingUse').value;
+    this.building.constYear = this.buildingForm.get('constructionYear').value;
+    this.building.floors = this.buildingForm.get('numberOfFloors').value;
+    this.building.attic = this.buildingForm.get('attic').value;
+    this.building.basement = this.buildingForm.get('basement').value;
+    this.building.buildingStyle = this.buildingForm.get('buildingStyle').value;
+    this.building.structureType = this.buildingForm.get('structureType').value;
+    this.building.materialType = this.buildingForm.get('materialType').value;
+    this.building.roofMaterial = this.buildingForm.get('roofingMaterial').value;
+    this.building.sewerTreatment = this.buildingForm.get('sewerTreatment').value;
+    //buildingOwnership
+    this.building.wasteCollection = this.buildingForm.get('wasteCollection').value
+    this.building.wasteCollectionFrequency = this.buildingForm.get('wasteCollectionFrequency').value
+    this.building.waterSupply = this.buildingForm.get('waterSupply').value
+    this.building.residentialUnits = this.buildingForm.get('residentialUnits').value
+    this.building.commercialUnits = this.buildingForm.get('commercialUnits').value
+    this.building.officeUnits = this.buildingForm.get('officeUnits').value
 
-    this.building.occupancyCertificate=this.buildingForm.get('occupancyCertificateControl').value;
-    this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
-    this.building.existancyStatus=this.buildingForm.get('existancyStatusControl').value;
-    this.building.yearOfConstruction=this.buildingForm.get('yearOfConstructionControl').value;
-    this.building.yearOfRenovation=this.buildingForm.get('yearOfRenovationControl').value;
-    this.building.numberOfFloors=this.buildingForm.get('numberOfFloorsControl').value;
-    this.building.attic=this.buildingForm.get('atticControl').value;
-    this.building.stilt=this.buildingForm.get('stiltControl').value;
-    this.building.jamthog=this.buildingForm.get('atticControl').value;
-    this.building.basement=this.buildingForm.get('jamthogControl').value;
-    this.building.buildingStyle=this.buildingForm.get('buildingStyleControl').value;
-    this.building.structureType=this.buildingForm.get('structureTypeControl').value;
-    this.building.roofType=this.buildingForm.get('roofTypeControl').value;
-    this.building.roofingMaterial=this.buildingForm.get('roofingMaterialControl').value;
-    this.building.emergencyExit=this.buildingForm.get('emergencyExitControl').value;
-    this.building.lift=this.buildingForm.get('liftControl').value;
-    this.building.sewerTreatment=this.buildingForm.get('sewerTreatmentControl').value;
-    this.building.wasteCollection=this.buildingForm.get('wasteCollectionControl').value;
-    this.building.dryWasteCollection=this.buildingForm.get('dryWasteCollectionControl').value;
-    this.building.wetWasteCollection=this.buildingForm.get('wetWasteCollectionControl').value;
-    this.building.buildingUse=this.buildingForm.get('buildingUseControl').value;
-    this.building.parking=this.buildingForm.get('parkingControl').value;
-    this.building.buildingRemarksstring=this.buildingForm.get('buildingRemarksControl').value;
-    this.building.user_id = Number(sessionStorage.getItem('userId'));
+
+    // this.building.structure_id =Number(sessionStorage.getItem('buildingId'));
+    // this.building.nameOfTheBuilding=this.buildingForm.get('nameOfTheBuildingControl').value;
+    // this.building.buildingOwnership=this.buildingForm.get('buildingOwnershipControl').value;
+
+    // this.building.nameOfTheBuildingOwner=this.buildingForm.get('nameOwnerControl').value;
+    // this.building.contactNumberBuilding=this.buildingForm.get('contactNumberBuildingControl').value;
+    // this.building.approvedDrawing=this.buildingForm.get('approvedDrawingsControl').value;
+
+    // this.building.occupancyCertificate=this.buildingForm.get('occupancyCertificateControl').value;
+    // this.building.associativePosition=this.buildingForm.get('associativePositionControl').value;
+    // this.building.existancyStatus=this.buildingForm.get('existancyStatusControl').value;
+    // this.building.yearOfConstruction=this.buildingForm.get('yearOfConstructionControl').value;
+    // this.building.yearOfRenovation=this.buildingForm.get('yearOfRenovationControl').value;
+    // this.building.numberOfFloors=this.buildingForm.get('numberOfFloorsControl').value;
+    // this.building.attic=this.buildingForm.get('atticControl').value;
+    // this.building.stilt=this.buildingForm.get('stiltControl').value;
+    // this.building.jamthog=this.buildingForm.get('atticControl').value;
+    // this.building.basement=this.buildingForm.get('jamthogControl').value;
+    // this.building.buildingStyle=this.buildingForm.get('buildingStyleControl').value;
+    // this.building.structureType=this.buildingForm.get('structureTypeControl').value;
+    // this.building.roofType=this.buildingForm.get('roofTypeControl').value;
+    // this.building.roofingMaterial=this.buildingForm.get('roofingMaterialControl').value;
+    // this.building.emergencyExit=this.buildingForm.get('emergencyExitControl').value;
+    // this.building.lift=this.buildingForm.get('liftControl').value;
+    // this.building.sewerTreatment=this.buildingForm.get('sewerTreatmentControl').value;
+    // this.building.wasteCollection=this.buildingForm.get('wasteCollectionControl').value;
+    // this.building.dryWasteCollection=this.buildingForm.get('dryWasteCollectionControl').value;
+    // this.building.wetWasteCollection=this.buildingForm.get('wetWasteCollectionControl').value;
+    // this.building.buildingUse=this.buildingForm.get('buildingUseControl').value;
+    // this.building.parking=this.buildingForm.get('parkingControl').value;
+    // this.building.buildingRemarksstring=this.buildingForm.get('buildingRemarksControl').value;
+    // this.building.user_id = Number(sessionStorage.getItem('userId'));
 
     this.dataService.postBuilding(this.building).subscribe(response=>{
       console.log(response.status);

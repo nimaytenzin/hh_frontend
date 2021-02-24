@@ -9,6 +9,7 @@ import { ErrorComponent } from './error/error.component';
 import { SelectZoneComponent } from './select-zone/select-zone.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterAtmComponent } from './register-atm/register-atm.component';
+import { MatTableModule } from '@angular/material/table'
 import {
   MatButtonModule,
   MatFormFieldModule,
@@ -36,7 +37,8 @@ import { CameraComponent } from './camera/camera.component';
 import {WebcamModule} from 'ngx-webcam';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { AdminComponent } from './admin/admin.component';
-
+import { DataTableComponent} from './DataTable/data-table/data-table.component'
+import { DialogBoxComponent } from './DataTable/dialog-box/dialog-box.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +56,8 @@ import { AdminComponent } from './admin/admin.component';
     UploadImageComponent,
     RegisterAtmComponent,
     AdminComponent,
+    DataTableComponent,
+    DialogBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -77,13 +81,14 @@ import { AdminComponent } from './admin/admin.component';
     LayoutModule,
     MatListModule,
     MatCheckboxModule,
-    WebcamModule
+    WebcamModule,
+    MatTableModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [ ConfirmDialogComponent]
+  entryComponents: [ ConfirmDialogComponent, DialogBoxComponent]
 })
 export class AppModule { }

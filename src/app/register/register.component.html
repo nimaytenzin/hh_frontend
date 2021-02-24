@@ -10,300 +10,147 @@
        <form [formGroup]="buildingForm">
                
         <mat-form-field class="justifier">
+          <mat-label>Block Number</mat-label>
+          <input matInput type="text"  formControlName="blockNumber" >
+        </mat-form-field>
 
-          <mat-label>Name of the Building(optional)</mat-label>
-          <input matInput type="text" name="nameOfTheBuilding" formControlName="nameOfTheBuildingControl" >
-
+        <h4>Building Owner Details</h4>
+        <mat-form-field class="justifier">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="nameOfBuildingOwner" >
         </mat-form-field>
 
         <mat-form-field class="justifier">
-          <mat-label>Ownership Type</mat-label>
-
-          <mat-select name="buildingOwnership" formControlName="buildingOwnershipControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let ownership of buildingOwnership" [value]="ownership.id">
-              {{ownership.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Name of the Building Owner</mat-label>
-
-          <input matInput type="text" name="nameOfTheBuildingOwner" formControlName="nameOwnerControl"  [readonly]="disableForm" >
-
+          <mat-label>CID</mat-label>
+          <input matInput type="text"  formControlName="cidOwner" >
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Contact Number</mat-label>
-
-          <input matInput type="text" name="contactNumberBuilding" formControlName="contactNumberBuildingControl"  [readonly]="disableForm" >
-
+          <input matInput type="number" name="contactOwner" formControlName="contactOwner" >
         </mat-form-field>
+
+        <h4>Building Details</h4>
 
         <mat-form-field class="justifier">
-          <mat-label>Approved Drawings</mat-label>
-
-          <mat-select name="approvedDrawing" formControlName="approvedDrawingsControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let item of approvedDrawing" [value]="item.id">
-              {{item.name}}
+          <mat-label>Building Use</mat-label>
+          <mat-select name="buildingOwnership" formControlName="buildingUse" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of buildingUses" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Occupancy Certificate</mat-label>
-
-          <mat-select name="occupancyCertificate" formControlName="occupancyCertificateControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let item of occupancyCertificate" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-
-
-
-        <mat-form-field class="justifier">
-          <mat-label>Associative Position</mat-label>
-
-          <mat-select name="associativePosition" formControlName="associativePositionControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let associativePosition of associativePosition" [value]="associativePosition.id">
-              {{associativePosition.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Existancy Status</mat-label>
-
-          <mat-select name="existancyStatus" formControlName="existancyStatusControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let existancyStatus of existancyStatus" [value]="existancyStatus.id">
-              {{existancyStatus.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
 
         <mat-form-field class="justifier">
           <mat-label>Year of Construction</mat-label>
-
-          <input matInput type="text" name="yearOfConstruction" formControlName="yearOfConstructionControl"  [readonly]="disableForm" >
-
+          <input matInput type="number" name="nameOfTheBuilding" formControlName="constructionYear" >
         </mat-form-field>
-
         <mat-form-field class="justifier">
-          <mat-label>Year of Renovation</mat-label>
-
-          <input matInput type="text" name="yearOfRenovation" formControlName="yearOfRenovationControl"  [readonly]="disableForm" >
-
-        </mat-form-field>
-                
-        <mat-form-field class="justifier">
-          <mat-label>Basement</mat-label>
-
-          <mat-select name="basement" formControlName="basementControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let basement of basement" [value]="basement.id">
-              {{basement.name}}
+          <mat-label>Number of Floors</mat-label>
+          <mat-select name="buildingOwnership" formControlName="numberOfFloors" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of floors" [value]="option.value">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Stilt</mat-label>
-
-          <mat-select name="stilt" formControlName="stiltControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let item of stilt" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
+        </mat-form-field>  
 
         <mat-form-field class="justifier">
           <mat-label>Attic</mat-label>
-
-          <mat-select name="attic" formControlName="atticControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let item of attic" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-
-        <mat-form-field class="justifier">
-          <mat-label>Jamthog</mat-label>
-
-          <mat-select name="jamthog" formControlName="jamthogControl" [readonly]="disableForm" >
-            <mat-option *ngFor="let item of jamthog" [value]="item.id">
-              {{item.name}}
+          <mat-select name="buildingOwnership" formControlName="attic" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of atticOptions" [value]="option.value">
+              {{option.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="justifier">
-          <mat-label>Number of Floors</mat-label>
-          <mat-select name="numberOfFloors" formControlName="numberOfFloorsControl" [readonly]="disableForm" >
-            <mat-option *ngFor="let floors of numberOfFloors" [value]="floors.id">
-              {{floors.name}}
+          <mat-label>Basement</mat-label>
+          <mat-select name="buildingOwnership" formControlName="basement" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of basementOptions" [value]="option.value">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-
-                
+        </mat-form-field>     
         
         <mat-form-field class="justifier">
-          <mat-label>Building style</mat-label>
-
-          <mat-select name="buildingStyle" formControlName="buildingStyleControl"[readonly]="disableForm" >
-
-            <mat-option *ngFor="let buildingStyle of buildingStyle" [value]="buildingStyle.id">
-              {{buildingStyle.name}}
+          <mat-label>Building Style</mat-label>
+          <mat-select name="buildingOwnership" formControlName="buildingStyle" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of buildingStyles" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
 
         <mat-form-field class="justifier">
           <mat-label>Structure Type</mat-label>
-
-          <mat-select name="structureType" formControlName="structureTypeControl"[readonly]="disableForm" >
-
-            <mat-option *ngFor="let structureType of structureType" [value]="structureType.id">
-              {{structureType.name}}
+          <mat-select name="buildingOwnership" formControlName="structureType" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of structureTypes" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
 
         <mat-form-field class="justifier">
-
           <mat-label>Material Type</mat-label>
-          <mat-select  multiple (selectionChange)="selectMaterial($event)">
-            <mat-option *ngFor="let item of materialType" [value]="item.name">{{item.name}}</mat-option>
-
-          </mat-select>
-        </mat-form-field>
-  
-
-        <mat-form-field class="justifier">
-          <mat-label>Roof Type</mat-label>
-
-          <mat-select name="roofType" formControlName="roofTypeControl"[readonly]="disableForm" >
-
-            <mat-option *ngFor="let roofType of roofType" [value]="roofType.id">
-              {{roofType.name}}
-            </mat-option>
+          <mat-select  multiple (selectionChange)="selectMaterial($event)" formControlName="materialType">
+            <mat-option *ngFor="let option of materialTypes" [value]="option.name">{{option.name}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="justifier">
           <mat-label>Roofing Material</mat-label>
-
-          <mat-select name="roofingMaterial" formControlName="roofingMaterialControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let roofingMaterial of roofingMaterial" [value]="roofingMaterial.id">
-              {{roofingMaterial.name}}
+          <mat-select name="buildingOwnership" formControlName="roofingMaterial" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of roofingMaterials" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-
-
-        <mat-form-field class="justifier">
-          <mat-label>Emergency exit(fire)</mat-label>
-
-          <mat-select name="emergencyExit" formControlName="emergencyExitControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let emergencyExit of emergencyExit" [value]="emergencyExit.id">
-              {{emergencyExit.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Lift</mat-label>
-
-          <mat-select name="lift" formControlName="liftControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let lift of lift" [value]="lift.id">
-              {{lift.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
 
         <mat-form-field class="justifier">
           <mat-label>Sewer Treatment</mat-label>
-
-          <mat-select name="sewerTreatment" formControlName="sewerTreatmentControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let sewerTreatment of sewerTreatment" [value]="sewerTreatment.id">
-              {{sewerTreatment.name}}
+          <mat-select name="buildingOwnership" formControlName="sewerTreatment" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of sewerTreatmentOptions" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
 
         <mat-form-field class="justifier">
-          <mat-label>Waste collection</mat-label>
-
-          <mat-select name="wasteCollection" formControlName="wasteCollectionControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let wasteCollection of wasteCollection" [value]="wasteCollection.id">
-              {{wasteCollection.name}}
+          <mat-label>Waste Collection</mat-label>
+          <mat-select name="buildingOwnership" formControlName="wasteCollection" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of wasteCollectionOptions" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
+
 
         <mat-form-field class="justifier">
-          <mat-label>Dry Waste Collection in a week</mat-label>
-
-          <input matInput type="text" name="dryWasteCollection" formControlName="dryWasteCollectionControl"  [readonly]="disableForm" >
-
+          <mat-label>Waste Collection Frequency</mat-label>
+          <input matInput type="number" name="nameOfTheBuilding" formControlName="wasteCollectionFrequency" >
         </mat-form-field>
 
-        <mat-form-field class="justifier">
-          <mat-label>Wet Waste Collection in a week</mat-label>
-
-          <input matInput type="text" name="wetWasteCollection" formControlName="wetWasteCollectionControl"  [readonly]="disableForm" >
-
-        </mat-form-field>
-
-        
         <mat-form-field class="justifier">
           <mat-label>Water Supply</mat-label>
-
-          <mat-select  multiple (selectionChange)="selectWatersupply($event)">
-            <mat-option *ngFor="let item of waterSupply" [value]="item.name">{{item.name}}</mat-option>
-
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="justifier">
-          <mat-label>Buiding Use</mat-label>
-
-          <mat-select name="buildingUse" (selectionChange) = "changeDiff($event)"formControlName="buildingUseControl" [readonly]="disableForm" >
-
-            <mat-option *ngFor="let buildingUse of buildingUse" [value]="buildingUse.id">
-              {{buildingUse.name}}
+          <mat-select name="buildingOwnership" formControlName="waterSupply" [readonly]="disableForm" >
+            <mat-option *ngFor="let option of waterSupplyOptions" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field>  
 
+        <h4>Unit Counts</h4>
         <mat-form-field class="justifier">
-          <mat-label>Number of Onsite Parkings</mat-label>
-
-          <input matInput type="text" name="parking" formControlName="parkingControl"  [readonly]="disableForm" >
-
+          <mat-label>Residential Units</mat-label>
+          <input matInput type="number" name="nameOfTheBuilding" formControlName="residentialUnits" >
         </mat-form-field>
-
         <mat-form-field class="justifier">
-          <mat-label>Remarks</mat-label>
-
-          <input matInput type="text" name="buildingRemarks" formControlName="buildingRemarksControl"  [readonly]="disableForm" >
-
+          <mat-label>Commercial Units</mat-label>
+          <input matInput type="number" name="nameOfTheBuilding" formControlName="commercialUnits" >
+        </mat-form-field>
+        <mat-form-field class="justifier">
+          <mat-label>Office Units</mat-label>
+          <input matInput type="number" name="nameOfTheBuilding" formControlName="officeUnits" >
         </mat-form-field>
                    
     </form>
@@ -311,110 +158,6 @@
     <!-- End of Building Form-->
 
 
-
- <!-- Start of School Form-->  
- <form [formGroup]="schoolForm" *ngIf="displaySchoolForm">
-   <h4>School Form</h4>
-  <mat-form-field class="justifier">
-    <mat-label>Name of School</mat-label>
-
-    <input matInput type="text" name="schoolName" formControlName="schoolNameControl"  [readonly]="disableForm" >
-
-  </mat-form-field>
-
-  <mat-form-field class="justifier">
-    <mat-label>Year of Establishment</mat-label>
-
-    <input matInput type="text" name="schoolEstablishmentYear" formControlName="schoolEstablishmentYearControl"  [readonly]="disableForm" >
-
-  </mat-form-field>
-  
-  <div>
-  <mat-form-field class="justifier">
-    <mat-label>Number of Staffs Male</mat-label>
-
-    <input matInput type="text" name="schoolStaffMale" formControlName="schoolStaffMaleControl"  [readonly]="disableForm" >
-
-  </mat-form-field>
-
-  <mat-form-field class="justifier">
-    <mat-label>Number of Staffs Female</mat-label>
-
-    <input matInput type="text" name="schoolStaffFemale" formControlName="schoolStaffFemaleControl"  [readonly]="disableForm" >
-
-  </mat-form-field>
-</div>
-
-  <div>
-  <mat-form-field class="justifier">
-    <mat-label>Number of Students Male</mat-label>
-
-    <input matInput type="text" name="studentsMale" formControlName="studentsMaleControl"  [readonly]="disableForm" >
-
-  </mat-form-field>
-
-  <mat-form-field class="justifier">
-    <mat-label>Number of Students Female</mat-label>
-
-    <input matInput type="text" name="studentsFemale" formControlName="studentsFemaleControl"  [readonly]="disableForm" >
-
-  </mat-form-field>
-</div>
-  
-<mat-form-field class="justifier">
-    <mat-label>Number of Vehicles</mat-label>
-
-    <input matInput type="text" name="schoolVehicleNumber" formControlName="vehicleNumberControl"  [readonly]="disableForm" >
-
-</mat-form-field>
-
-</form>
-<!-- End of School Form-->
-
-     <!-- Start of Institution Form-->  
-    <form [formGroup]="institutionForm" *ngIf="displayInstitutionForm">
-
-    <h4>Institution Form</h4>
-      <mat-form-field class="justifier">
-        <mat-label>Name of Institution</mat-label>
-
-        <input matInput type="text" name="instituteName" formControlName="instituteNameControl"  [readonly]="disableForm" >
-
-      </mat-form-field>
-
-      <mat-form-field class="justifier">
-        <mat-label>Year of Establishment</mat-label>
-
-        <input matInput type="text" name="instituteEstablishmentYear" formControlName="instituteEstablishmentYearControl"  [readonly]="disableForm" >
-
-      </mat-form-field>
-
-      <mat-form-field class="justifier">
-        <mat-label>Number of Staffs Male</mat-label>
-
-        <input matInput type="text" name="instituteStaffMale" formControlName="institueStaffMaleControl"  [readonly]="disableForm" >
-
-      </mat-form-field>
-
-      <mat-form-field class="justifier">
-        <mat-label>Number of Staffs Female</mat-label>
-
-        <input matInput type="text" name="instituteStaffFemale" formControlName="instituteStaffFemaleControl"  [readonly]="disableForm" >
-
-      </mat-form-field>
-
-      
-      <mat-form-field class="justifier">
-        <mat-label>Number of vehicle</mat-label>
-
-        <input matInput type="text" name="instituteVehicle" formControlName="instituteVehicleControl"  [readonly]="disableForm" >
-
-      </mat-form-field>
-
-    </form>
-    <!-- End of Institution Form-->
-
-    
 
     </div>
     <div class="form-footer">
